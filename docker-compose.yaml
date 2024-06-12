@@ -1,0 +1,59 @@
+version: '3.2'
+
+services:
+    piston_api:
+        image: ghcr.io/engineer-man/piston
+        container_name: piston_api
+        restart: always
+        ports:
+            - 2000:2000
+        volumes:
+            - ./data/piston/packages:/piston/packages
+        tmpfs:
+            - /piston/jobs:exec,uid=1000,gid=1000,mode=711
+            - /tmp:exec
+        environment:
+            - PISTON_COMPILE_TIMEOUT=-1
+            - PISTON_RUN_TIMEOUT=-1
+            - PISTON_COMPILE_MEMORY_LIMIT=-1
+            - PISTON_RUN_MEMORY_LIMIT=-1
+            - PISTON_OUTPUT_MAX_SIZE=4086
+
+    express_server:
+        container_name: express_server
+        build: ./express_server
+        develop:
+            watch:
+              - action: sync
+                path: ./server/src
+                target: /server/src
+                ignore:
+                    - node_modules
+              - action: rebuild
+                path: package.json
+        ports:
+            - 8000:8000
+        environment:
+            - EXPRESS_PORT=8000
+            - EXPRESS_HOST=127.0.0.1
+            - EXPRESS_SESSION=8LRX L' Estasi dell'Oro
+
+    client:
+        container_name: client
+        build: ./client
+        develop:
+            watch:
+              - action: sync
+                path: ./client
+                target: /client
+                ignore:
+                    - node_modules
+              - action: rebuild
+                path: package.json
+        ports:
+            - 8001:8001
+        environment:
+            - VITE_EXPRESS_CODE_EXECUTE=http://127.0.0.1:8000/execute
+            - VITE_REACT_URL=http://127.0.0.1:8001
+            - VITE_REACT_HOST=127.0.0.1
+            - VITE_REACT_PORT=8001
