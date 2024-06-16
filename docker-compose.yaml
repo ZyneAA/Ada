@@ -1,5 +1,3 @@
-version: '3.2'
-
 services:
     piston_api:
         image: ghcr.io/engineer-man/piston
@@ -21,6 +19,7 @@ services:
 
     express_server:
         container_name: express_server
+        restart: always
         build: ./express_server
         develop:
             watch:
@@ -41,6 +40,7 @@ services:
     client:
         container_name: client
         build: ./client
+        restart: always
         develop:
             watch:
               - action: sync
@@ -57,3 +57,20 @@ services:
             - VITE_REACT_URL=http://127.0.0.1:8001
             - VITE_REACT_HOST=127.0.0.1
             - VITE_REACT_PORT=8001
+
+    mysql:
+        image: mysql:latest
+        container_name: mysql_databse
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: adapassword
+            MYSQL_DATABASE: ada
+            MYSQL_USER: user
+            MYSQL_PASSWORD: adapassword
+        ports:
+            - 3306:3306
+        volumes:
+            - mysql-data:/var/lib/mysql
+
+volumes:
+    mysql-data:
