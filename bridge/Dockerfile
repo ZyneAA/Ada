@@ -1,6 +1,6 @@
-FROM node:22-alpine
+FROM node:20
 
-WORKDIR /express_server
+WORKDIR /bridge
 
 COPY ["package.json", "package-lock.json", "./"]
 COPY . .
@@ -8,4 +8,4 @@ RUN npm install
 
 EXPOSE 8000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]

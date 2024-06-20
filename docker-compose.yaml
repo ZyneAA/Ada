@@ -2,7 +2,7 @@ services:
     piston_api:
         image: ghcr.io/engineer-man/piston
         container_name: piston_api
-        restart: always
+        restart: no
         ports:
             - 2000:2000
         volumes:
@@ -17,15 +17,15 @@ services:
             - PISTON_RUN_MEMORY_LIMIT=-1
             - PISTON_OUTPUT_MAX_SIZE=4086
 
-    express_server:
-        container_name: express_server
-        restart: always
-        build: ./express_server
+    bridge:
+        container_name: bridge
+        restart: no
+        build: ./bridge
         develop:
             watch:
               - action: sync
-                path: ./server/src
-                target: /server/src
+                path: ./bridge
+                target: /bridge
                 ignore:
                     - node_modules
               - action: rebuild
@@ -40,7 +40,7 @@ services:
     client:
         container_name: client
         build: ./client
-        restart: always
+        restart: no
         develop:
             watch:
               - action: sync
@@ -61,12 +61,12 @@ services:
     mysql:
         image: mysql:latest
         container_name: mysql_databse
-        restart: always
+        restart: no
         environment:
-            MYSQL_ROOT_PASSWORD: adapassword
-            MYSQL_DATABASE: ada
-            MYSQL_USER: user
-            MYSQL_PASSWORD: adapassword
+            - MYSQL_ROOT_PASSWORD=adapassword
+            - MYSQL_DATABASE=ada
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=adapassword
         ports:
             - 3306:3306
         volumes:

@@ -1,5 +1,10 @@
 import express from "express"
 
+import config from "./middlewares/config.mjs"
+
+// Routes
+import router from "./routes/router.mjs"
+
 const app = express()
 
 app.get(
@@ -10,6 +15,9 @@ app.get(
     }
 
 )
+
+app.use(config)
+app.use(router)
 
 app.listen(
 
