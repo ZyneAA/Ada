@@ -3,21 +3,14 @@ import axios from "axios"
 
 const router = Router()
 
-router.post(
+router.get(
 
-    "/birdge/v1/execute",
+    "/birdge/v1/runtimes",
     async(req, res) => {
 
-        const{
-            body
-        } = req
-
-        const payload = body.payload
-
         try{
-            const response = await axios.post(
-                "http://piston_api:2000/api/v2/execute",
-                payload
+            const response = await axios.get(
+                "http://piston_api:2000/api/v2/runtimes",
             )
             res.status(200).json(response.data)
         }

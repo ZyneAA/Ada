@@ -16,14 +16,15 @@ app.get(
 
 )
 
+app.use(express.json())
+
 app.use(config)
 app.use(router)
 
 app.listen(
 
-    process.env.EXPRESS_PORT, 
-    process.env.EXPRESS_URL, () => {
-        console.log(`Listening on ${process.env.EXPRESS_HOST}:${process.env.EXPRESS_PORT}`)
+    process.env.BRIDGE_PORT, () => {
+        console.log(`Listening on port ${process.env.BRIDGE_PORT}`)
     }
 
 )

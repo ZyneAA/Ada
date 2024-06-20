@@ -33,8 +33,7 @@ services:
         ports:
             - 8000:8000
         environment:
-            - EXPRESS_PORT=8000
-            - EXPRESS_HOST=127.0.0.1
+            - BRIDGE_PORT=8000
             - EXPRESS_SESSION=8LRX L' Estasi dell'Oro
 
     client:
