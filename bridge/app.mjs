@@ -9,9 +9,9 @@ const app = express()
 
 app.get(
     
-    "/",
+    "/birdge/v1",
     async(req, res) => {
-        res.status(200).json("OK")
+        res.status(200).json("bridge OK")
     }
 
 )
