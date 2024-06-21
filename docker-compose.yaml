@@ -51,11 +51,6 @@ services:
                 path: package.json
         ports:
             - 8001:8001
-        environment:
-            - VITE_EXPRESS_CODE_EXECUTE=http://127.0.0.1:8000/execute
-            - VITE_REACT_URL=http://127.0.0.1:8001
-            - VITE_REACT_HOST=127.0.0.1
-            - VITE_REACT_PORT=8001
 
     mysql:
         image: mysql:latest

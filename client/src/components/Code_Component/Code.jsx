@@ -36,21 +36,21 @@ const Code = () => {
 
     const [Einput, set_Einput] = useState("")
 
-    useEffect(() => {
-        const get_session = async() => {
-            try{
-                const response = await axios.get(
-                    "http://192.168.99.163:8000/",
-                    {withCredentials: true}
-                )
-                // console.log(response.data)
-            }
-            catch(err){
-                console.log(err)
-            }  
-        }
-        get_session()            
-    }, [])
+    // useEffect(() => {
+    //     const get_session = async() => {
+    //         try{
+    //             const response = await axios.get(
+    //                 "http://192.168.99.163:8000/",
+    //                 {withCredentials: true}
+    //             )
+    //             // console.log(response.data)
+    //         }
+    //         catch(err){
+    //             console.log(err)
+    //         }  
+    //     }
+    //     get_session()            
+    // }, [])
     
     const save_file = () => {
         if(!files_display.current.includes(file_no.current)){
@@ -96,11 +96,29 @@ const Code = () => {
         set_Einput(value.getValue())
     }
 
-    const run = async(how) => {    
+    const run = async(how) => {  
+
+        const payload = {
+            "language": "js",
+            "version": "20.11.1",
+            "files": [
+                {
+                    "name": "code.js",
+                    "content": Einput
+                }
+            ],
+            "stdin": "",
+            "args": [],
+            "compile_timeout": 10000,
+            "run_timeout": 3000,
+            "compile_memory_limit": -1,
+            "run_memory_limit": -1
+        }
+
         try{
             const response = await axios.post(
-                "http://127.0.0.1:8000/execute",
-                {code: Einput},
+                "http://localhost:8000/birdge/v1/execute",
+                {"payload": payload},
                 {withCredentials: true}
             )
 
@@ -129,7 +147,7 @@ const Code = () => {
     }
 
     const T_get_value = async(value) => {
-        if(value === "python" || value === "py"){
+        if(value === "python" || value === "py" || value === "node"){
             run("CLI")
         }
         else{

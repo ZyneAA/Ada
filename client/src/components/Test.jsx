@@ -1,17 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResizableBox, Resizable } from "react-resizable";
+import axios from "axios"
 import "../css/Test.css"
 
 const Test = () => {
 
-    const [width, set_witdh] = useState(300)
-    const [height, set_height] = useState(200)
+    const [ok, set_ok] = useState("")
+
+    useEffect(async() => {
+
+        try{
+            const response = await axios.get(
+                ""
+            )
+        }
+        catch(err) {
+
+        }
+
+    }, [])
 
     return(
         <div>
             <ResizableBox className="box" width={200} height={200} >
-            <span className="text">Tets</span>
-          </ResizableBox>
+                
+            </ResizableBox>
         </div>
     )
 }

@@ -75,8 +75,8 @@ const Monaco = (props) => {
                 theme='vs-dark'
                 height="100%" 
                 width="100%"
-                language="python" 
-                loading="Hehe"
+                language="javascript" 
+                loading="Loading"
                 onMount={editor_mount}
                 options={{
                     selectOnLineNumbers: true,
