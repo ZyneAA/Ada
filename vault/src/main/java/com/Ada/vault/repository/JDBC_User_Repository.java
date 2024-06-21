@@ -4,6 +4,7 @@ import com.Ada.vault.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -19,9 +20,9 @@ public class JDBC_User_Repository implements User_Repository {
     public void add(User user) {
 
          jdbc_template.update(
-                "INSERT INTO users (username) values(?)",
-                user.get_username()
-        );
+                "INSERT INTO users (username, email, password) values(?, ?, ?)",
+                user.get_username(), user.get_email(), user.get_password()
+         );
 
          return;
 
@@ -32,7 +33,7 @@ public class JDBC_User_Repository implements User_Repository {
 
         jdbc_template.update(
                 "DELETE FROM users WHERE id = ?",
-                user.get_id()
+                user.get_user_id()
         );
 
         return;
@@ -55,8 +56,10 @@ public class JDBC_User_Repository implements User_Repository {
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 
             User user = new User();
-            user.set_id(rs.getLong("id"));
+            user.set_user_id(rs.getLong("user_id"));
             user.set_username(rs.getString("username"));
+            user.set_email(rs.getString("email"));
+            user.set_password(rs.getString("password"));
 
             return user;
 

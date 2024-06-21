@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 public class User_Controller {
 
@@ -14,20 +16,18 @@ public class User_Controller {
     private User_Service user_service;
 
     @PostMapping(path = "/vault/add_user")
-    public ResponseEntity<User> add_user(@RequestBody User user) {
+    public CompletableFuture<ResponseEntity<User>>add_user(@RequestBody User user) {
 
-        User save_user = user_service.add_user(user);
-
-        return new ResponseEntity<>(save_user, HttpStatus.CREATED);
+        return user_service.add_user(user)
+                .thenApply(saved_user -> ResponseEntity.status(HttpStatus.CREATED).body(saved_user));
 
     }
 
     @PostMapping(path = "/vault/find_user_by_username")
-    public ResponseEntity<User> find_user_by_username(@RequestBody User user) {
+    public CompletableFuture<ResponseEntity<String>> find_user_by_username(@RequestBody User user) {
 
-        User get_user = user_service.find_user_by_username(user.get_username());
-
-        return new ResponseEntity<>(get_user, HttpStatus.FOUND);
+        return user_service.find_user_by_username(user.get_username())
+                .thenApply(get_user -> ResponseEntity.status(HttpStatus.FOUND).body(get_user));
 
     }
 

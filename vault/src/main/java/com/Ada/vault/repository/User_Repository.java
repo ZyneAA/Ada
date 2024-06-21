@@ -8,4 +8,6 @@ public interface User_Repository {
 
     void delete(User user);
 
+    User find_user_by_username(String username);
+
 }
