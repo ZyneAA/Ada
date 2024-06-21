@@ -165,7 +165,7 @@ const Code = () => {
     return(
         <div className="flex flex-col h-dvh py-10">
             <div className="flex flex-row justify-centers pb-2 px-10 gap-2 h-full">
-                <div className="w-3/12 overflow-auto h-full rounded-md" style={{backgroundColor: "#1c1e25"}}>
+                <div className="flex-initial w-3/12 overflow-auto h-full rounded-md" style={{backgroundColor: "#1c1e25"}}>
                     <div className="flex justify-center items-center h-full">
                         <p className="text-white p-1">Dummy</p>    
                     </div>
@@ -177,20 +177,18 @@ const Code = () => {
                             <Code_Mirror E_parent_callback={E_get_value}/>
                         </div>
                         :
-                        <div className="rounded-md p-2 w-full h-full" style={{backgroundColor: "#1c1e25"}}>
+                        <div className="rounded-md p-2 w-full h-full resize-x overflow-auto" style={{backgroundColor: "#1c1e25"}}>
                             <Monaco 
                                 E_parent_callback={E_get_value} 
                                 E_parent_save={E_save} 
-                                // width={km_width} 
-                                // height={km_height}
                             />
-                        </div>                     
+                        </div>                                       
                     }     
                 </div> 
             </div>  
             <br></br>
-            <div className="flex jitems-center justify-center">
-                <div>
+            <div className="flex jitems-center justify-center px-10">
+                <div className="w-full">
                     <Xterm T_parent_callback={T_get_value} output={output}/>
                 </div>            
             </div>               

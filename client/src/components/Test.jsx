@@ -22,7 +22,7 @@ const Test = () => {
 
     return(
         <div>
-            <ResizableBox className="box" width={200} height={200} >
+            <ResizableBox className="box" width={200} height={200}>
                 
             </ResizableBox>
         </div>

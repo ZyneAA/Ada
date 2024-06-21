@@ -72,7 +72,7 @@ const Xterm = (props) => {
     }
 
   return (
-    <div>
+    <div className="w-full">
         {
         isMobile?
         <div style={{width: "100vw"}}>
@@ -83,7 +83,7 @@ const Xterm = (props) => {
             </div>
         </div>
         :
-        <div style={{width: "95vw" }}>
+        <div className="w-full">
             <div ref={terminal_ref} className="rounded-t-md overflow-hidden"/>
             <div className="flex flex-row w-full rounded-b-md border border-slate-800 bg-slate-700">
                 <label htmlFor="t_input" className="text-white px-3 p-1"> {'>'} </label>
