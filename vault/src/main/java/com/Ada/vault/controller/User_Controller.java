@@ -8,24 +8,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vault/users")
 public class User_Controller {
 
     @Autowired
     private User_Service user_service;
 
-    @PostMapping()
+    @PostMapping(path = "/vault/add_user")
     public ResponseEntity<User> add_user(@RequestBody User user) {
 
         User save_user = user_service.add_user(user);
+
         return new ResponseEntity<>(save_user, HttpStatus.CREATED);
 
     }
 
-    @GetMapping()
-    public String OK() {
+    @PostMapping(path = "/vault/find_user_by_username")
+    public ResponseEntity<User> find_user_by_username(@RequestBody User user) {
 
-        return "OK";
+        User get_user = user_service.find_user_by_username(user.get_username());
+
+        return new ResponseEntity<>(get_user, HttpStatus.FOUND);
 
     }
 

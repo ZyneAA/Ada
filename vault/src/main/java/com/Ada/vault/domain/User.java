@@ -15,6 +15,18 @@ public class User {
     private Long id;
     private String username;
 
+    public void set_id(Long id) {
+
+        this.id = id;
+
+    }
+
+    public void set_username(String username) {
+
+        this.username = username;
+
+    }
+
     public Long get_id() {
 
         return this.id;
