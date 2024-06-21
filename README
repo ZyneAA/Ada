@@ -1,0 +1,2 @@
+docker compose -p ada up --build
+docker compose -p ada up 

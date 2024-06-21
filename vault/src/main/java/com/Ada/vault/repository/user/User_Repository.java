@@ -1,4 +1,4 @@
-package com.Ada.vault.repository;
+package com.Ada.vault.repository.user;
 
 import com.Ada.vault.domain.User;
 
@@ -9,5 +9,7 @@ public interface User_Repository {
     void delete(User user);
 
     User find_user_by_username(String username);
+
+    User find_user_by_user_id(Long id);
 
 }
