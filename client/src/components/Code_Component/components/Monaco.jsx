@@ -73,8 +73,8 @@ const Monaco = (props) => {
             <Editor 
                 onChange={send}
                 theme='vs-dark'
-                height="60vh" 
-                width="90vw"
+                height="100%" 
+                width="100%"
                 language="python" 
                 loading="Hehe"
                 onMount={editor_mount}

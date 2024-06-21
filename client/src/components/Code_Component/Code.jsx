@@ -145,30 +145,21 @@ const Code = () => {
     }
     
     return(
-        <div>
-            <div className="flex flex-row justify-centers py-10">
-                {/* <div className="w-1/12 overflow-auto h-80 px-2">
-                    {
-                        files_display.current.length === 0 ?
-                        <div>
-                            <p className="text-white">Press + icon to save</p>
-                        </div>       
-                        :
-                        files_display.current.map(number => 
-                            <li key={number} className="text-white py-2">
-                                <button className="border border-white rounded-lg px-4" onClick={(e) => change(e)}>{number}</button>
-                            </li>
-                        )                        
-                    }  
-                </div> */}
-                <div className="flex flex-col items-center justify-center w-full"> 
+        <div className="flex flex-col h-dvh py-10">
+            <div className="flex flex-row justify-centers pb-2 px-10 gap-2 h-full">
+                <div className="w-3/12 overflow-auto h-full rounded-md" style={{backgroundColor: "#1c1e25"}}>
+                    <div className="flex justify-center items-center h-full">
+                        <p className="text-white p-1">Dummy</p>    
+                    </div>
+                </div>
+                <div className="flex flex-col items-center justify-center w-full h-full"> 
                     {
                         isMobile?
                         <div>
                             <Code_Mirror E_parent_callback={E_get_value}/>
                         </div>
                         :
-                        <div className="bg-black rounded-md p-2">
+                        <div className="rounded-md p-2 w-full h-full" style={{backgroundColor: "#1c1e25"}}>
                             <Monaco 
                                 E_parent_callback={E_get_value} 
                                 E_parent_save={E_save} 
@@ -177,12 +168,14 @@ const Code = () => {
                             />
                         </div>                     
                     }     
-                    <br></br>
-                    <div className="">
-                        <Xterm T_parent_callback={T_get_value} output={output}/>
-                    </div>    
                 </div> 
-            </div>                
+            </div>  
+            <br></br>
+            <div className="flex jitems-center justify-center">
+                <div>
+                    <Xterm T_parent_callback={T_get_value} output={output}/>
+                </div>            
+            </div>               
         </div>       
     )
 
