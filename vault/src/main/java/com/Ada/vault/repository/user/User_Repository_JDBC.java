@@ -1,7 +1,10 @@
 package com.Ada.vault.repository.user;
 
 import com.Ada.vault.domain.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,48 +18,51 @@ public class User_Repository_JDBC implements User_Repository {
     @Autowired
     JdbcTemplate jdbc_template;
 
+    // private static final Logger logger = LoggerFactory.getLogger(User_Repository_JDBC.class);
+
     @Override
     public void add(User user) {
 
-         jdbc_template.update(
+         this.jdbc_template.update(
                 "INSERT INTO users (username, email, password) values(?, ?, ?)",
                 user.get_username(), user.get_email(), user.get_password()
          );
 
-         return;
 
     }
 
     @Override
-    public void delete(User user) {
+    public void delete_user_by_username(String username) {
 
-        jdbc_template.update(
+        this.jdbc_template.update(
                 "DELETE FROM users WHERE id = ?",
-                user.get_user_id()
+                username
         );
-
-        return;
 
     }
 
     @Override
     public User find_user_by_username(String username) {
 
-        return jdbc_template.queryForObject(
-                "SELECT * FROM users WHERE username = ?",
-                new Object[]{username},
-                new User_Row_Mapper()
-        );
+        try {
+            return this.jdbc_template.queryForObject(
+                    "SELECT * FROM users WHERE username = ?",
+                    new User_Row_Mapper(),
+                    username);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
 
     }
 
     @Override
     public User find_user_by_user_id(Long id) {
 
-        return jdbc_template.queryForObject(
+        return this.jdbc_template.queryForObject(
                 "SELECT * FROM users WHERE username = ?",
-                new Object[]{id},
-                new User_Row_Mapper()
+                new User_Row_Mapper(),
+                id
         );
 
     }

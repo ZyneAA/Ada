@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -24,19 +25,20 @@ public class User_Controller {
 
     }
 
-    @PostMapping(path = "/vault/find_user_by_username")
-    public CompletableFuture<ResponseEntity<String>> find_user_by_username(@RequestBody User user) {
+    @GetMapping(path = "/vault/find_user_by_username")
+    public CompletableFuture<ResponseEntity<User>> find_user_by_username(@RequestParam String username) {
 
-        return user_service.find_user_by_username(user.get_username())
-                .thenApply(get_user -> ResponseEntity.status(HttpStatus.FOUND).body(get_user));
+        return user_service.find_user_by_username(username)
+                .thenApply(user -> ResponseEntity.status(HttpStatus.OK).body(Objects.requireNonNullElseGet(user, User::new)));
 
     }
 
     @PostMapping(path = "/vault/update_user_settings")
-    public CompletableFuture<ResponseEntity<User_Settings>> find_user_by_username(@RequestBody User_Settings user_settings) {
+    public CompletableFuture<ResponseEntity<User_Settings>> update_user_settings(@RequestBody User_Settings user_settings) {
 
         return user_service.update_user_settings(user_settings)
-                .thenApply(updated_user_settings -> ResponseEntity.status(HttpStatus.OK).body(updated_user_settings));
+                .thenApply(updated_user_settings -> ResponseEntity.status(HttpStatus.OK).body(updated_user_settings))
+                .exceptionally(_ -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new User_Settings()));
 
     }
 

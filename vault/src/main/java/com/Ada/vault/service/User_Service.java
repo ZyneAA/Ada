@@ -7,7 +7,6 @@ import com.Ada.vault.repository.user_setting.User_Settings_Repository_JDBC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -32,11 +31,11 @@ public class User_Service {
     }
 
     @Async
-    public CompletableFuture<String> find_user_by_username(String username) {
+    public CompletableFuture<User> find_user_by_username(String username) {
 
         User get_user = user_repository_jdbc.find_user_by_username(username);
 
-        return CompletableFuture.completedFuture(get_user.get_username());
+        return CompletableFuture.completedFuture(get_user);
 
     }
 

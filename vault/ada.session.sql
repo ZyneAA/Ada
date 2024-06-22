@@ -26,6 +26,9 @@ SELECT * FROM user_settings;
 DELETE FROM users;
 
 --@block
+DELETE FROM user_settings;
+
+--@block
 DROP TABLE users;
 
 --@block

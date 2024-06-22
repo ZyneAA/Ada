@@ -1,4 +1,5 @@
 services:
+
     piston_api:
         image: ghcr.io/engineer-man/piston
         container_name: piston_api
@@ -24,11 +25,29 @@ services:
         ports:
             - 8080:8080
         environment:
-            - db_url=jdbc:mysql://mysql:3306/ada
-            - db_user=user
-            - db_password=adapassword
+            - DB_URL=jdbc:mysql://mysql:3306/ada
+            - DB_USERr=user
+            - DB_PASSWORD=adapassword
         depends_on:
             - mysql
+
+    labyrinth:
+        container_name: labyrinth
+        restart: no
+        build: ./labyrinth
+        develop:
+            watch:
+              - action: sync
+                path: ./labyrinth
+                target: /labyrinth
+                ignore:
+                    - node_modules
+              - action: rebuild
+                path: package.json
+        ports:
+            - 8002:8002
+        environment:
+            - LABYRINTH_PORT=8002
 
     bridge:
         container_name: bridge
@@ -47,7 +66,9 @@ services:
             - 8000:8000
         environment:
             - BRIDGE_PORT=8000
-            - EXPRESS_SESSION=8LRX L' Estasi dell'Oro
+            - BRIDGE_SECRET=L' Estasi dell'Oro
+            - BRIDGE_COOKIE_PARSER=XLR8
+            # - EXPRESS_SESSION=8LRX L' Estasi dell'Oro
 
     client:
         container_name: client

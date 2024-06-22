@@ -1,5 +1,7 @@
 import express from "express"
 import cors from "cors"
+import session from "express-session"
+import cookie_parser from "cookie-parser"
 
 import config from "./middlewares/config.mjs"
 
@@ -7,7 +9,22 @@ import config from "./middlewares/config.mjs"
 import router from "./routes/router.mjs"
 
 const app = express()
-
+app.use(
+    session(
+        {
+            secret: process.env.BRIDGE_SECRET,
+            saveUninitialized: false,
+            resave: false,
+            cookie: {
+                maxAge: 86400000 * 7, // 7 day 
+                httpOnly: false
+            },
+            // store: session_store
+        }
+    )
+)
+app.use(cookie_parser(process.env.BRIDGE_COOKIE_PARSER))
+app.use(express.json())
 app.use(express.json())
 app.use(cors({ 
     origin:[
