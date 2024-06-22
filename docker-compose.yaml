@@ -17,6 +17,19 @@ services:
             - PISTON_RUN_MEMORY_LIMIT=-1
             - PISTON_OUTPUT_MAX_SIZE=4086
 
+    vault:
+        container_name: vault
+        restart: no
+        build: ./vault
+        ports:
+            - 8080:8080
+        environment:
+            - db_url=jdbc:mysql://mysql:3306/ada
+            - db_user=user
+            - db_password=adapassword
+        depends_on:
+            - mysql
+
     bridge:
         container_name: bridge
         restart: no
@@ -54,7 +67,7 @@ services:
 
     mysql:
         image: mysql:latest
-        container_name: mysql_databse
+        container_name: mysql
         restart: no
         environment:
             - MYSQL_ROOT_PASSWORD=adapassword
