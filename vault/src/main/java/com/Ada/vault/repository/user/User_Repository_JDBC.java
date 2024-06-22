@@ -1,17 +1,16 @@
-package com.Ada.vault.repository;
+package com.Ada.vault.repository.user;
 
 import com.Ada.vault.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JDBC_User_Repository implements User_Repository {
+public class User_Repository_JDBC implements User_Repository {
 
     @Autowired
     JdbcTemplate jdbc_template;
@@ -40,11 +39,23 @@ public class JDBC_User_Repository implements User_Repository {
 
     }
 
+    @Override
     public User find_user_by_username(String username) {
 
         return jdbc_template.queryForObject(
                 "SELECT * FROM users WHERE username = ?",
                 new Object[]{username},
+                new User_Row_Mapper()
+        );
+
+    }
+
+    @Override
+    public User find_user_by_user_id(Long id) {
+
+        return jdbc_template.queryForObject(
+                "SELECT * FROM users WHERE username = ?",
+                new Object[]{id},
                 new User_Row_Mapper()
         );
 

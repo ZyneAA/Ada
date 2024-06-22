@@ -8,11 +8,11 @@ CREATE TABLE users(
 
 --@block
 CREATE TABLE user_settings(
-    setting_id INT PRIMARY KEY,
-    fn VARCHAR(255) NOT NULL,
-    ln VARCHAR(255) NOT NULL,
+    fn VARCHAR(255),
+    ln VARCHAR(255),
     status_1 VARCHAR(255),
     status_2 VARCHAR(255),
+    user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -20,7 +20,13 @@ CREATE TABLE user_settings(
 SELECT * FROM users;
 
 --@block
+SELECT * FROM user_settings;
+
+--@block
 DELETE FROM users;
 
 --@block
 DROP TABLE users;
+
+--@block
+DROP TABLE user_settings;
