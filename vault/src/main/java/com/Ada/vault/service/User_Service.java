@@ -40,6 +40,15 @@ public class User_Service {
     }
 
     @Async
+    public CompletableFuture<User> find_user_by_id(Long id) {
+
+        User get_user = user_repository_jdbc.find_user_by_user_id(id);
+
+        return CompletableFuture.completedFuture(get_user);
+
+    }
+
+    @Async
     public CompletableFuture<User_Settings> update_user_settings(User_Settings user_settings) {
 
         user_settings_repository_jdbc.update_user_settings(user_settings);

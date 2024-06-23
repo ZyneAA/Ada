@@ -14,10 +14,7 @@ router.get(
             ) 
 
             req.session.visited = true
-            respone.data.session = req.session
-            respone.data.sessionID = req.sessionID
-
-            res.status(200).json(respone.data)
+            res.sendStatus(200)
         }
         catch(err) {
             res.status(400).json(err)

@@ -37,7 +37,6 @@ router.get(
     async(req, res) => {
 
         const username = req.query.username
-        console.log(username)
 
         try{
             const respone = await axios.get(

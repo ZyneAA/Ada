@@ -16,7 +16,9 @@ services:
             - PISTON_RUN_TIMEOUT=-1
             - PISTON_COMPILE_MEMORY_LIMIT=-1
             - PISTON_RUN_MEMORY_LIMIT=-1
-            - PISTON_OUTPUT_MAX_SIZE=4086
+            - PISTON_OUTPUT_MAX_SIZE=4086 
+        networks:
+            - omega
 
     vault:
         container_name: vault
@@ -30,6 +32,8 @@ services:
             - DB_PASSWORD=adapassword
         depends_on:
             - mysql
+        networks:
+            - omega
 
     labyrinth:
         container_name: labyrinth
@@ -48,6 +52,8 @@ services:
             - 8002:8002
         environment:
             - LABYRINTH_PORT=8002
+        networks:
+            - omega
 
     bridge:
         container_name: bridge
@@ -68,7 +74,9 @@ services:
             - BRIDGE_PORT=8000
             - BRIDGE_SECRET=L' Estasi dell'Oro
             - BRIDGE_COOKIE_PARSER=XLR8
-            # - EXPRESS_SESSION=8LRX L' Estasi dell'Oro
+        networks:
+            - alpha
+            - omega
 
     client:
         container_name: client
@@ -85,6 +93,8 @@ services:
                 path: package.json
         ports:
             - 8001:8001
+        networks:
+            - alpha
 
     mysql:
         image: mysql:latest
@@ -99,6 +109,14 @@ services:
             - 3306:3306
         volumes:
             - mysql-data:/var/lib/mysql
+        networks:
+            - omega
 
 volumes:
     mysql-data:
+
+networks:
+    alpha:
+        driver: bridge
+    omega:
+        driver: bridge

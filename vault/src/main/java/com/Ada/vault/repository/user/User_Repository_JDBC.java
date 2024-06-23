@@ -48,7 +48,8 @@ public class User_Repository_JDBC implements User_Repository {
             return this.jdbc_template.queryForObject(
                     "SELECT * FROM users WHERE username = ?",
                     new User_Row_Mapper(),
-                    username);
+                    username
+            );
         }
         catch(EmptyResultDataAccessException e) {
             return null;
@@ -59,11 +60,16 @@ public class User_Repository_JDBC implements User_Repository {
     @Override
     public User find_user_by_user_id(Long id) {
 
-        return this.jdbc_template.queryForObject(
-                "SELECT * FROM users WHERE username = ?",
-                new User_Row_Mapper(),
-                id
-        );
+        try{
+            return this.jdbc_template.queryForObject(
+                    "SELECT * FROM users WHERE user_id = ?",
+                    new User_Row_Mapper(),
+                    id
+            );
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
 
     }
 

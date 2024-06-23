@@ -33,6 +33,14 @@ public class User_Controller {
 
     }
 
+    @GetMapping(path = "/vault/find_user_by_id")
+    public CompletableFuture<ResponseEntity<User>> find_user_by_id(@RequestParam Long id) {
+
+        return user_service.find_user_by_id(id)
+                .thenApply(user -> ResponseEntity.status(HttpStatus.OK).body(Objects.requireNonNullElseGet(user, User::new)));
+
+    }
+
     @PostMapping(path = "/vault/update_user_settings")
     public CompletableFuture<ResponseEntity<User_Settings>> update_user_settings(@RequestBody User_Settings user_settings) {
 

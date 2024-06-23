@@ -17,7 +17,17 @@ CREATE TABLE user_settings(
 );
 
 --@block
+CREATE TABLE sessoins(
+    session_id VARCHAR(255),
+    expire VARCHAR(255),
+    data VARCHAR(255)
+);
+
+--@block
 SELECT * FROM users;
+
+--@block
+SELECT * FROM sessions;
 
 --@block
 SELECT * FROM user_settings;
