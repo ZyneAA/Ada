@@ -1,34 +1,12 @@
 import { Router } from "express"
+import user_db from "../../db/repository/user_db.mjs"
 import axios from "axios"
-import hash from "../../util/hash_password.mjs"
-import user_db from "../../db/user_db.mjs"
 
 const router = Router()
 
-router.post(
-
-    "/labyrinth/register_user",
-    async(req, res) => {
-
-        const {
-            body
-        } = req
-
-        try{
-            const respone = await user_db.add_user(body.username, body.email, body.password)
-            res.status(201).json(respone)
-        }
-        catch(err){
-            res.status(400).json(err)
-        }
-
-    }
-
-)
-
 router.get(
 
-    "/labyrinth/check_user_exist_by_username",
+    "/check_user_exist_by_username",
     async(req, res) => {
 
         const username = req.query.username
@@ -47,7 +25,7 @@ router.get(
 
 router.get(
 
-    "/labyrinth/check_user_exist_by_id",
+    "/check_user_exist_by_id",
     async(req, res) => {
 
         const id = req.query.id

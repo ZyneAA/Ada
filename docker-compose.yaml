@@ -52,6 +52,8 @@ services:
             - 8002:8002
         environment:
             - LABYRINTH_PORT=8002
+            - LABYRINTH_SECRET=L' Estasi dell'Oro
+            - LABYRINTH_COOKIE_PARSER=XLR8
         networks:
             - omega
 
@@ -72,8 +74,6 @@ services:
             - 8000:8000
         environment:
             - BRIDGE_PORT=8000
-            - BRIDGE_SECRET=L' Estasi dell'Oro
-            - BRIDGE_COOKIE_PARSER=XLR8
         networks:
             - alpha
             - omega

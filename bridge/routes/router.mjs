@@ -1,11 +1,9 @@
 import { Router } from "express";
-import misc from "./code_execution/misc.mjs"
-import execute from "./code_execution/execute.mjs"
-import sessions from "./sessions/sessions.mjs";
-import user from "./user/user.mjs"
+import misc from "./piston/misc.mjs"
+import execute from "./piston/execute.mjs"
 
 const router = Router()
 
-router.use([misc, execute, sessions, user])
+router.use([misc, execute])
 
 export default router

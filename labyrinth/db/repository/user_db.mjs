@@ -1,5 +1,5 @@
 import axios from "axios"
-import hash from "../util/hash_password.mjs"
+import hash from "../../util/hash_password.mjs"
 
 const find_user_by_username = async(username) => {
 

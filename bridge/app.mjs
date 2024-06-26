@@ -1,42 +1,36 @@
 import express from "express"
 import cors from "cors"
-import session from "express-session"
-import cookie_parser from "cookie-parser"
-import MySQLStore from "express-mysql-session"
+import { createProxyMiddleware } from "http-proxy-middleware"
 
 import config from "./middlewares/config.mjs"
-import pool from "./db/pool.mjs"
 
 // Routes
 import router from "./routes/router.mjs"
 
 const app = express()
 
-const session_store = new (MySQLStore(session))({
-        clearExpired: true,
-        checkExpirationInterval: 3600000,
-        expiration: 86400000 * 7, //  7 days
-        createDatabaseTable: true,
-    }, 
-    pool
-)
-
+// Proxy to labyrinth service
 app.use(
-    session(
-        {
-            secret: process.env.BRIDGE_SECRET,
-            saveUninitialized: false,
-            resave: false,
-            cookie: {
-                maxAge: 86400000 * 7, // 7 day 
-                httpOnly: false
-            },
-            store: session_store
-        }
-    )
+    "/birdge/v1/labyrinth", createProxyMiddleware({
+        target: "http://labyrinth:8002",
+        changeOrigin: true,
+        onProxyReq: (proxy_req, req, res) => {
+            const cookies = req.headers.cookie
+            if (cookies) {
+                proxy_req.setHeader("cookie", cookies)
+            }
+        },
+        onProxyRes: (proxy_req, req, res) => {
+            const setCookieHeader = proxy_req.headers["set-cookie"];
+            if (setCookieHeader) {
+                res.setHeader("set-cookie", setCookieHeader);
+            }
+        },
+        pathRewrite: {
+            "^/labyrinth": "",
+        },
+    })
 )
-app.use(cookie_parser(process.env.BRIDGE_COOKIE_PARSER))
-app.use(express.json())
 app.use(express.json())
 app.use(cors({ 
     origin:[

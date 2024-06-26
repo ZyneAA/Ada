@@ -17,9 +17,9 @@ CREATE TABLE user_settings(
 );
 
 --@block
-CREATE TABLE sessoins(
-    session_id VARCHAR(255),
-    expire VARCHAR(255),
+CREATE TABLE sessions(
+    session_id VARCHAR(255) UNIQUE,
+    expires VARCHAR(255),
     data VARCHAR(255)
 );
 
@@ -39,7 +39,13 @@ DELETE FROM users;
 DELETE FROM user_settings;
 
 --@block
+DELETE FROM sessions;
+
+--@block
 DROP TABLE users;
+
+--@block
+DROP TABLE sessions;
 
 --@block
 DROP TABLE user_settings;
