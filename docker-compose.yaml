@@ -27,13 +27,15 @@ services:
         ports:
             - 8080:8080
         environment:
-            - DB_URL=jdbc:mysql://mysql:3306/ada
-            - DB_USERr=user
-            - DB_PASSWORD=adapassword
+            DB_URL: jdbc:mysql://mysql:3306/ada
+            DB_USER: user
+            DB_PASSWORD: /run/secrets/DB_PASSWORD
         depends_on:
             - mysql
         networks:
             - omega
+        secrets:
+            - DB_PASSWORD
 
     labyrinth:
         container_name: labyrinth
@@ -51,11 +53,14 @@ services:
         ports:
             - 8002:8002
         environment:
-            - LABYRINTH_PORT=8002
-            - LABYRINTH_SECRET=L' Estasi dell'Oro
-            - LABYRINTH_COOKIE_PARSER=XLR8
+            LABYRINTH_PORT: 8002
+            LABYRINTH_SECRET: /run/secrets/LABYRINTH_SECRET
+            LABYRINTH_COOKIE_PARSER: /run/secrets/LABYRINTH_COOKIE_PARSER
         networks:
             - omega
+        secrets:
+            - LABYRINTH_SECRET
+            - LABYRINTH_COOKIE_PARSER
 
     bridge:
         container_name: bridge
@@ -101,16 +106,18 @@ services:
         container_name: mysql
         restart: no
         environment:
-            - MYSQL_ROOT_PASSWORD=adapassword
-            - MYSQL_DATABASE=ada
-            - MYSQL_USER=user
-            - MYSQL_PASSWORD=adapassword
+            MYSQL_ROOT_PASSWORD: /run/secrets/DB_PASSWORD
+            MYSQL_DATABASE: ada
+            MYSQL_USER: user
+            MYSQL_PASSWORD: /run/secrets/DB_PASSWORD
         ports:
             - 3306:3306
         volumes:
             - mysql-data:/var/lib/mysql
         networks:
             - omega
+        secrets:
+            - DB_PASSWORD
 
 volumes:
     mysql-data:
@@ -120,3 +127,11 @@ networks:
         driver: bridge
     omega:
         driver: bridge
+
+secrets:
+    DB_PASSWORD:
+        file: ./secrets/DB_PASSWORD.txt
+    LABYRINTH_SECRET:
+        file: ./secrets/LABYRINTH_SECRET.txt
+    LABYRINTH_COOKIE_PARSER:
+        file: ./secrets/LABYRINTH_COOKIE_PARSER.txt
