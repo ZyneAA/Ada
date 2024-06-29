@@ -13,7 +13,7 @@ const Login = () => {
                         Welcome Back
                         </h1>
                         <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10 pt-2 font-space">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ullam tempora. Non veritatis laborum consequatur excepturi asperiores, esse qui architecto, voluptatibus, aliquam neque aperiam! Sed accusantium repellat aut iure quae.
+                        Lorem111s ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ullam tempora. Non veritatis laborum consequatur excepturi asperiores, esse qui architecto, voluptatibus, aliquam neque aperiam! Sed accusantium repellat aut iure quae.
                         </p>
                     </div>
                     <div className="flex h-max xl:w-1/2 justify-center z-30">

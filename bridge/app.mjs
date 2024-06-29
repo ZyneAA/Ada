@@ -9,29 +9,6 @@ import router from "./routes/router.mjs"
 
 const app = express()
 
-// Proxy to labyrinth service
-app.use(
-    "/birdge/v1/labyrinth", createProxyMiddleware({
-        target: "http://labyrinth:8002",
-        changeOrigin: true,
-        onProxyReq: (proxy_req, req, res) => {
-            const cookies = req.headers.cookie
-            if (cookies) {
-                proxy_req.setHeader("cookie", cookies)
-            }
-        },
-        onProxyRes: (proxy_req, req, res) => {
-            const setCookieHeader = proxy_req.headers["set-cookie"];
-            if (setCookieHeader) {
-                res.setHeader("set-cookie", setCookieHeader);
-            }
-        },
-        pathRewrite: {
-            "^/labyrinth": "",
-        },
-    })
-)
-app.use(express.json())
 app.use(cors({ 
     origin:[
         "http://172.0.0.1:8001",
@@ -41,6 +18,17 @@ app.use(cors({
     ],
     credentials: true
 }))
+// Proxy to labyrinth service
+app.use(
+    "/birdge/v1/labyrinth", createProxyMiddleware({
+        target: "http://labyrinth:8002",
+        changeOrigin: true,
+        pathRewrite: {
+            "^/labyrinth": "",
+        },
+    })
+)
+app.use(express.json())
 app.use(config)
 app.use(router)
 

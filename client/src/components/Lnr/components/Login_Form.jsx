@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import React, { useState } from "react"
 import axios from "axios"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Login_Form = (props) => {
 
@@ -22,11 +22,11 @@ const Login_Form = (props) => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8000/birdge/v1/labyrinth/", 
+                "http://localhost:8000/birdge/v1/labyrinth/auth/local", 
                 {"username": username, "password": password},
                 {withCredentials: true}
             )
-            navigate('/code')
+            navigate("/code")
         } 
         catch (err) {
             console.error(err);
@@ -36,7 +36,7 @@ const Login_Form = (props) => {
     return(<div>
 
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input backdrop-blur-sm bg-slate-300/5 border border-slate-800">
-            <h1 className="text-gray-50 text-3xl font-space">Login with your registered account</h1>
+            <h1 className="text-gray-50 text-3xl font-space pb-8">Login with your registered account</h1>
                 <motion.input 
                     whileHover={{
                         scale: 1.05
