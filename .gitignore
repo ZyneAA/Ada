@@ -1,4 +1,5 @@
 data/
+.DS_STORE
 .piston_env
 node_modules
 .vscode/
