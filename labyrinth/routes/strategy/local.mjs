@@ -6,6 +6,7 @@ import user_db from "../../db/repository/user_db.mjs"
 export default passport.use(
 
     new Strategy( 
+
         async(username, password, done) => {
 
             try{
@@ -15,21 +16,22 @@ export default passport.use(
 
                 if(!hash.compare_password(password, user.password)) throw new Error("Bad Credentials")
 
-                console.log("hererer")
-
-                done(null, user)
+                done(null, user.user_id)
             }
             catch(err){
                 done(err, null)
             }
 
         }
+
     )
 
 )
 
 passport.serializeUser(async(user, done) => {
-    done(null, user.user_id)
+
+    done(null, user)
+
 })
 
 passport.deserializeUser(async(user_id, done) => {

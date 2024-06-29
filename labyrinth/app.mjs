@@ -4,10 +4,17 @@ import session from "express-session"
 import cookie_parser from "cookie-parser"
 import MySQLStore from "express-mysql-session"
 import passport from "passport"
+import get_secret from "./util/get_secret.mjs"
 
 import router from "./routes/router.mjs"
 import pool from "./db/pool.mjs"
+
+// Authentication strategy
 import "./routes/strategy/local.mjs"
+import "./routes/strategy/github.mjs"
+
+const LABYRINTH_SECRET = get_secret(process.env.LABYRINTH_SECRET)
+const LABYRINTH_COOKIE_PARSER = get_secret(process.env.LABYRINTH_COOKIE_PARSER)
 
 const app = express()
 app.set("trust proxy", 1)
@@ -32,9 +39,9 @@ const session_store = new (MySQLStore(session))({
 app.use(
     session(
         {
-            secret: process.env.LABYRINTH_SECRET,
+            secret: LABYRINTH_SECRET,
             saveUninitialized: false,
-            resave: true,
+            resave: false,
             rolling: false,
             cookie: {
                 sameSite: "none",
@@ -45,7 +52,7 @@ app.use(
         }
     )
 )
-app.use(cookie_parser(process.env.LABYRINTH_COOKIE_PARSER))
+app.use(cookie_parser(LABYRINTH_COOKIE_PARSER))
 app.use(express.json())
 app.use(passport.initialize())
 app.use(passport.session())
@@ -62,7 +69,7 @@ app.get(
             )
 
             const ok = {"response": respone.data}
-            res.status(200).json(ok)
+            res.status(200).json([ok, o])
         }
         catch(err) {
             res.status(200).json(err)
@@ -75,6 +82,7 @@ app.get(
 app.listen(
 
     process.env.LABYRINTH_PORT, () => {
+    
         console.log(`Listening on port ${process.env.LABYRINTH_PORT}`)
 
     }

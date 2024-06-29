@@ -20,7 +20,7 @@ app.use(cors({
 }))
 // Proxy to labyrinth service
 app.use(
-    "/birdge/v1/labyrinth", createProxyMiddleware({
+    "/bridge/v1/labyrinth", createProxyMiddleware({
         target: "http://labyrinth:8002",
         changeOrigin: true,
         pathRewrite: {

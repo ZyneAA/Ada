@@ -1,7 +1,8 @@
 import { motion } from "framer-motion"
 import React, { useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
+import { AiFillGithub } from "react-icons/ai"
 
 const Login_Form = (props) => {
 
@@ -18,11 +19,11 @@ const Login_Form = (props) => {
         set_password(e.target.value)
     }
 
-    const send_credentials = async() => {
+    const local_auth = async() => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8000/birdge/v1/labyrinth/auth/local", 
+                "http://localhost:8000/bridge/v1/labyrinth/auth/local", 
                 {"username": username, "password": password},
                 {withCredentials: true}
             )
@@ -31,12 +32,29 @@ const Login_Form = (props) => {
         catch (err) {
             console.error(err);
         }
+
+    }
+
+    const git_auth = async() => {
+
+        // try {
+        //     const response = await axios.get(
+        //         "http://localhost:8000/bridge/v1/labyrinth/auth/github", 
+        //         {},
+        //         {withCredentials: true}
+        //     )
+        // } 
+        // catch (err) {
+        //     console.error(err);
+        // }
+        window.location.href = "http://localhost:8000/bridge/v1/labyrinth/auth/github"
+
     }
 
     return(<div>
 
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input backdrop-blur-sm bg-slate-300/5 border border-slate-800">
-            <h1 className="text-gray-50 text-3xl font-space pb-8">Login with your registered account</h1>
+            <h1 className="text-white text-3xl font-space pb-8">Login with your registered account</h1>
                 <motion.input 
                     whileHover={{
                         scale: 1.05
@@ -68,13 +86,41 @@ const Login_Form = (props) => {
                             bg-[length:200%_100%] px-10 font-medium text-slate-400 
                             transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 
                             focus:ring-offset-2 focus:ring-offset-slate-50"
-                        onClick={() => send_credentials()}
+                        onClick={() => local_auth()}
 
-                        whileHover={{scale: 1.1, borderColor: "#3573e6"}}
-                        transition={{type: "spring"}}
+                        whileHover={{
+                            scale: 1.1, 
+                            borderColor: "#3573e6"
+                        }}
+                        transition={{
+                            type: "spring"
+                        }}
                     >
                         Login
                     </motion.button>
+                    <div className="flex justify-center items-center">
+                        <motion.div 
+                                className="pt-4"
+                                initial={{
+                                    y: -10,
+                                    opacity: 0
+                                }}
+                                animate={{
+                                    y: 0,
+                                    opacity: 1
+                                }}
+                                whileHover={{
+                                    scale: 1.3,
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    duration: 1
+                                }}
+                                onClick={git_auth}
+                            >
+                                <AiFillGithub color="white" size="35"/>
+                        </motion.div>
+                    </div>
                 </div>
                 <div>
                     <a href="/lnr">

@@ -29,7 +29,7 @@ services:
         environment:
             DB_URL: jdbc:mysql://mysql:3306/ada
             DB_USER: user
-            DB_PASSWORD: /run/secrets/DB_PASSWORD
+            DB_PASSWORD: adapassword
         depends_on:
             - mysql
         networks:
@@ -56,11 +56,16 @@ services:
             LABYRINTH_PORT: 8002
             LABYRINTH_SECRET: /run/secrets/LABYRINTH_SECRET
             LABYRINTH_COOKIE_PARSER: /run/secrets/LABYRINTH_COOKIE_PARSER
+            GIT_CLIENT_ID: /run/secrets/GIT_CLIENT_ID
+            GIT_CLIENT_SECRET: /run/secrets/GIT_CLIENT_SECRET
+            GIT_CALLBACK_URL: http://localhost:8000/bridge/v1/labyrinth/auth/github/callback
         networks:
             - omega
         secrets:
             - LABYRINTH_SECRET
             - LABYRINTH_COOKIE_PARSER
+            - GIT_CLIENT_ID
+            - GIT_CLIENT_SECRET
 
     bridge:
         container_name: bridge
@@ -135,3 +140,9 @@ secrets:
         file: ./secrets/LABYRINTH_SECRET.txt
     LABYRINTH_COOKIE_PARSER:
         file: ./secrets/LABYRINTH_COOKIE_PARSER.txt
+    VAULT_PASSWORD:
+        file: ./secrets/VAULT_PASSWORD.txt
+    GIT_CLIENT_ID:
+        file: ./secrets/GIT_CLIENT_ID.txt
+    GIT_CLIENT_SECRET:
+        file: ./secrets/GIT_CLIENT_SECRET.txt
