@@ -11,7 +11,8 @@ const Test = () => {
 
         try{
             const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_session"
+                "http://localhost:8000/bridge/v1/labyrinth/get_session",
+                {withCredentials: true}
             )
             set_ok(response.data)
             console.log(response.data)
