@@ -15,7 +15,8 @@ export default passport.use(
 
             try{
                 console.log(profile)
-                done(null, profile.id)
+                profile.accessToken = accessToken
+                done(null, {"username": profile.username, "id": profile.id, "access_token": profile.accessToken})
             }
             catch(err){
                 done(err, null)
@@ -33,7 +34,7 @@ passport.serializeUser(async(user, done) => {
 
 })
 
-passport.deserializeUser(async(user_id, done) => {
+passport.deserializeUser(async(user, done) => {
 
     done(null, user)
 

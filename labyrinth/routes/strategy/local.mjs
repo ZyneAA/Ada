@@ -16,7 +16,7 @@ export default passport.use(
 
                 if(!hash.compare_password(password, user.password)) throw new Error("Bad Credentials")
 
-                done(null, user.user_id)
+                done(null, user)
             }
             catch(err){
                 done(err, null)
@@ -30,7 +30,7 @@ export default passport.use(
 
 passport.serializeUser(async(user, done) => {
 
-    done(null, user)
+    done(null, user.user_id)
 
 })
 

@@ -6,9 +6,10 @@ import github_callback from "./git/git_callback..mjs"
 import session from "./session/session.mjs"
 import register from "./lnr/register.mjs"
 import test from "./test/test.mjs"
+import repo from "./git/repo.mjs"
 
 const router = Router()
 
-router.use([user, auth_local, auth_github, github_callback, session, register, test])
+router.use([user, auth_local, auth_github, github_callback, repo, session, register, test])
 
 export default router

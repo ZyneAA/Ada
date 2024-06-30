@@ -19,7 +19,7 @@ router.get(
     "/get_session",
     async(req, res) => {
 
-        console.log(req)
+        console.log(req.session)
         res.status(200).json([req.session, req.sessionID])
 
     }

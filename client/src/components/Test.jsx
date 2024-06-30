@@ -10,8 +10,9 @@ const Test = () => {
     const session = async() => {
 
         try{
+            console.log("cscs")
             const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_session",
+                "http://localhost:8000/bridge/v1/labyrinth/get_repos",
                 {withCredentials: true}
             )
             set_ok(response.data)
