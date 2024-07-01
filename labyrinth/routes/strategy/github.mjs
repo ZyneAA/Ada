@@ -16,7 +16,7 @@ export default passport.use(
             try{
                 console.log(profile)
                 profile.accessToken = accessToken
-                done(null, {"username": profile.username, "id": profile.id, "access_token": profile.accessToken})
+                done(null, {"git_username": profile.username, "id": profile.id, "access_token": profile.accessToken})
             }
             catch(err){
                 done(err, null)

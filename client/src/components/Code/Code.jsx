@@ -1,10 +1,10 @@
-import Xterm from "./components/Xterm";
+import Xterm from "./components/Xterm"
 import axios from "axios"
 import Monaco from "./components/Monaco"
 import Code_Mirror from "./components/Code_Mirror"
-import { isMobile } from 'react-device-detect';
-import { ResizableBox } from "react-resizable";
-import { useEffect, useRef, useState } from "react";
+import { isMobile } from "react-device-detect"
+import Files from "./components/Files"
+import { useEffect, useRef, useState } from "react"
 
 import "../../css/Test.css"
 
@@ -166,9 +166,7 @@ const Code = () => {
         <div className="flex flex-col h-dvh py-10">
             <div className="flex flex-row justify-centers pb-2 px-10 gap-2 h-full">
                 <div className="flex-initial w-3/12 overflow-auto h-full rounded-md" style={{backgroundColor: "#1c1e25"}}>
-                    <div className="flex justify-center items-center h-full">
-                        <p className="text-white p-1">Dummy</p>    
-                    </div>
+                    <Files />
                 </div>
                 <div className="flex flex-col items-center justify-center w-full h-full"> 
                     {

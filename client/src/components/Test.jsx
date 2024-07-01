@@ -9,10 +9,62 @@ const Test = () => {
 
     const session = async() => {
 
+        // try{
+        //     const response = await axios.get(
+        //         "http://localhost:8000/bridge/v1/labyrinth/get_repos",
+        //         {withCredentials: true}
+        //     )
+        //     set_ok(response.data)
+        //     console.log(response.data)
+        // }
+        // catch(err) {
+        //     console.log(err)
+        // }
+
         try{
-            console.log("cscs")
             const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_repos",
+                "http://localhost:8000/bridge/v1/labyrinth/get_session",
+                {withCredentials: true}
+            )
+            set_ok(response.data)
+            console.log(response.data)
+        }
+        catch(err) {
+            console.log(err)
+        }
+
+        // try{
+        //     const response = await axios.post(
+        //         "http://localhost:8000/bridge/v1/labyrinth/create_file",
+        //         {
+        //             "folder": "test2/test3",
+        //             "filename": "test.js",
+        //             "content": "console.log('hello')"
+        //         },
+        //         {withCredentials: true}
+        //     )
+        //     set_ok(response.data)
+        //     console.log(response.data)
+        // }
+        // catch(err) {
+        //     console.log(err)
+        // }
+
+        // try{
+        //     const response = await axios.get(
+        //         "http://localhost:8000/bridge/v1/labyrinth/get_repo_contents",
+        //         {withCredentials: true}
+        //     )
+        //     set_ok(response.data)
+        //     console.log(response.data)
+        // }
+        // catch(err) {
+        //     console.log(err)
+        // }
+
+        try{
+            const response = await axios.get(
+                "http://localhost:8000/bridge/v1/labyrinth/get_folders",
                 {withCredentials: true}
             )
             set_ok(response.data)
