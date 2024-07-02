@@ -164,12 +164,12 @@ router.get(
 
 router.get(
 
-    "/get_repo_file",
+    "/get_repo_files",
     async(req, res) => {
 
         try{
             const git_username  = req.session.passport.user.git_username
-            const repo_name = `Ada`
+            const repo_name = `${git_username}-ada-folder`
             const token = req.session.passport.user.access_token
 
             const ref_response = await axios.get(
@@ -196,7 +196,7 @@ router.get(
 
             const file_paths = tree_response.data.tree.filter(item => item.type === "blob").map(item => item.path)
 
-            res.status(200).json(make_file(file_paths))
+            res.status(200).json(file_paths)
         }
         catch(err){
             console.log(err)

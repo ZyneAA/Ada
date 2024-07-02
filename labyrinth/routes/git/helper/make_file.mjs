@@ -25,7 +25,7 @@ const make_file = (paths) => {
 
     })
 
-  return result
+    return result
 
 }
 

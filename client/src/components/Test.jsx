@@ -7,6 +7,37 @@ const Test = () => {
 
     const [ok, set_ok] = useState(null)
 
+    const make_file = (paths) => {
+
+        const result = {}
+        let count = 0
+    
+        paths.forEach((path) => {
+    
+            const parts = path.split('/')
+            let current = result
+        
+            parts.forEach((part, index) => {
+    
+                if(index === parts.length - 1) {
+                    current[part] = paths[count]
+                    count++
+                } 
+                else {
+                    if(!current[part]) {
+                        current[part] = {}
+                    }
+                    current = current[part]
+                }
+    
+            })
+    
+        })
+    
+        return result
+    
+    }
+
     const session = async() => {
 
         // try{
@@ -76,10 +107,12 @@ const Test = () => {
 
         try{
             const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_repo_file",
+                "http://localhost:8000/bridge/v1/labyrinth/get_repo_files",
                 {withCredentials: true}
             )
-            console.log(response.data)
+
+            const file = make_file(response.data)
+            console.log(file)
         }
         catch(err) {
             console.log(err)
