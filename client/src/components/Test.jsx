@@ -62,12 +62,23 @@ const Test = () => {
         //     console.log(err)
         // }
 
+        // try{
+        //     const response = await axios.get(
+        //         "http://localhost:8000/bridge/v1/labyrinth/get_repo",
+        //         {withCredentials: true}
+        //     )
+        //     set_ok(response.data)
+        //     console.log(response.data)
+        // }
+        // catch(err) {
+        //     console.log(err)
+        // }
+
         try{
             const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_folders",
+                "http://localhost:8000/bridge/v1/labyrinth/get_repo_file",
                 {withCredentials: true}
             )
-            set_ok(response.data)
             console.log(response.data)
         }
         catch(err) {

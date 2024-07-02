@@ -9,7 +9,7 @@ const find_user_by_username = async(username) => {
         )      
         return respone.data
     }
-    catch(err){
+    catch(err) {
         return err
     }
 
@@ -23,7 +23,7 @@ const find_user_by_id = async(id) => {
         )      
         return respone.data
     }
-    catch(err){
+    catch(err) {
         return err
     }
 
@@ -37,14 +37,14 @@ const add_user = async(username, email, password) => {
             const respone = await axios.post(
                 "http://vault:8080/vault/add_user",
                 {
-                    "username": username,
-                    "email": email,
-                    "password": hashed_password
+                    username: username,
+                    email: email,
+                    password: hashed_password
                 }
             )
             return respone.data
         }
-        catch(err){
+        catch(err) {
             return err
         }
 
