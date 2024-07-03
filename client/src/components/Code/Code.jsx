@@ -14,7 +14,8 @@ import "../../css/Test.css"
 
 const Code = () => {
 
-    //Git file
+    // Git file
+    // git_file will be an array and has 3 items. The first one is the actual content, 2nd the file name and 3rd the file type
     const git_file = useRef(null)
 
     // Main text editor(monaco or code mirror)
@@ -63,7 +64,7 @@ const Code = () => {
         }
 
         // For Monaco
-        if(editor.current === null){
+        if(editor.current === null) {
             editor.current = value  // Get the main text editor
         }
         set_Einput(value.getValue())
@@ -77,7 +78,7 @@ const Code = () => {
             case "js": 
                 version = "20.11.1"
                 break
-                
+
             default :
                 break
 
@@ -88,7 +89,7 @@ const Code = () => {
             "version": version,
             "files": [
                 {
-                    "name": "code.js",
+                    "name": git_file.current[1],
                     "content": Einput
                 }
             ],
@@ -100,7 +101,7 @@ const Code = () => {
             "run_memory_limit": -1
         }
 
-        try{
+        try {
             const response = await axios.post(
                 "http://localhost:8000/birdge/v1/execute",
                 {"payload": payload},
@@ -110,8 +111,8 @@ const Code = () => {
             const stdout = response.data.run.output
             const arr = []
             let temp = ""
-            for(let i in stdout){
-                if(stdout[i] == "\n"){
+            for(let i in stdout) {
+                if(stdout[i] == "\n") {
                     arr.push(temp)
                     temp = ""
                 }
@@ -119,24 +120,24 @@ const Code = () => {
                     temp += stdout[i]
                 }
             }
-            if(how === "CLI"){
+            if(how === "CLI") {
                 set_output(arr)
                 return
             }   
             arr.unshift(["> Terminal will run the file accroding to the file type"])
             set_output(arr)         
         }
-        catch(err){
+        catch(err) {
             console.log(err)
         }
 
     }
 
     const T_get_value = async(value) => {
-        if(value === "python" || value === "py" || value === "node"){
+        if(value === "python" || value === "py" || value === "node") {
             run("CLI")
         }
-        else{
+        else {
             const arr = [`"${value}" ` + "Terminal doesn't recognize that command"]
             set_output(arr)
         }
