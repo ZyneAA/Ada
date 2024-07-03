@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import File_System from "./FIle_System"
 
-const Files = () => {
+const Files = (props) => {
 
     const [files, set_files] = useState({})
 
@@ -55,20 +55,18 @@ const Files = () => {
 
         }
 
-
-
         get_repo()
 
     }, [])
 
-    const get_file = async(e) => {
+    const get_file = async(path) => {
 
         try{
             const response = await axios.get(
-                `http://localhost:8000/bridge/v1/labyrinth/get_file?file_path=${e.target.innerText.substring(2)}`,
+                `http://localhost:8000/bridge/v1/labyrinth/get_file_content?file_path=${path[0]}`,
                 {withCredentials: true}
             )
-            console.log(response.data)
+            props.get_file_content([response.data, path[1]])
         }
         catch(err) {
             console.log(err)
@@ -83,16 +81,11 @@ const Files = () => {
                     <p className="text-white px-2">new file</p>
                 </div>
                 <div>
-                    <p className="text-white">new folder</p>
+                    <p className="text-white" onClick={get_file}>new folder</p>
                 </div>
             </div>
             <div className="flex flex-col justify-start items-start overflow-auto">
-                {/* {files.map((file, index) => (
-                    <button key={index} className="text-white px-3" onClick={(e) => get_file(e)}>
-                        {file.type === "dir" ? "> " : "\u00A0\u00A0"}{file.name}
-                    </button>           
-                ))} */}
-                <File_System data={files} />
+                <File_System data={files} selected_path={get_file} />
             </div>  
         </div>
     )

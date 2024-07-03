@@ -14,14 +14,8 @@ import "../../css/Test.css"
 
 const Code = () => {
 
-    //
-    const [km_width, set_km_width] = useState(800)
-    const [km_height, set_km_height] = useState(600)
-
-    // Use to mange file system
-    const file_no = useRef(1)
-    const files = useRef({})
-    const files_display = useRef([])
+    //Git file
+    const git_file = useRef(null)
 
     // Main text editor(monaco or code mirror)
     const editor = useRef(null)
@@ -36,44 +30,23 @@ const Code = () => {
 
     const [Einput, set_Einput] = useState("")
 
-    // useEffect(() => {
-    //     const get_session = async() => {
-    //         try{
-    //             const response = await axios.get(
-    //                 "http://192.168.99.163:8000/",
-    //                 {withCredentials: true}
-    //             )
-    //             // console.log(response.data)
-    //         }
-    //         catch(err){
-    //             console.log(err)
-    //         }  
-    //     }
-    //     get_session()            
-    // }, [])
+    const [e_lang, set_e_lang] = useState("")
     
-    const save_file = () => {
-        if(!files_display.current.includes(file_no.current)){
-            files_display.current.push(file_no.current)
-        }
-        console.log(file_no.current)
-        console.log(files.current)
-    }
+    const get_content = (value) => {
 
-    const new_file = () => {
-        if(editor.current === null || editor.current.getValue() === ""){
-            return
-        }
-        editor.current.setValue("")
-        files_display.current.push(file_no.current)
-        file_no.current += 1
-        set_Einput("")
-    }
+        git_file.current = value
 
-    // When new_file() is fired this hook will update the new file number's content
-    useEffect(() => {      
-        files.current[file_no.current] = Einput
-    }, [Einput])
+        // File type or extension
+        const lang = git_file.current[1].split('.')
+
+        // Add file type to git_file.current
+        git_file.current.push(lang.length > 1 ? lang.pop() : '')
+        set_e_lang(git_file.current[2])
+
+        // Setting the current editor value
+        editor.current.setValue(value[0])
+
+    }
 
     const E_save = (value) => {
         if(value){
@@ -98,9 +71,21 @@ const Code = () => {
 
     const run = async(how) => {  
 
+        let version = null
+        switch(git_file.current[2]) {
+
+            case "js": 
+                version = "20.11.1"
+                break
+                
+            default :
+                break
+
+        }
+
         const payload = {
-            "language": "js",
-            "version": "20.11.1",
+            "language": git_file.current[2],
+            "version": version,
             "files": [
                 {
                     "name": "code.js",
@@ -144,6 +129,7 @@ const Code = () => {
         catch(err){
             console.log(err)
         }
+
     }
 
     const T_get_value = async(value) => {
@@ -155,18 +141,12 @@ const Code = () => {
             set_output(arr)
         }
     }
-
-    // Change the value of editor according to the selected file
-    const change = (e) => {
-        const no = Number(e.target.textContent)
-        editor.current.setValue(files.current[no])
-    }
     
     return(
         <div className="flex flex-col h-dvh py-10">
             <div className="flex flex-row justify-centers pb-2 px-10 gap-2 h-full">
                 <div className="flex-initial w-3/12 overflow-auto h-full rounded-md" style={{backgroundColor: "#1c1e25"}}>
-                    <Files />
+                    <Files get_file_content={get_content}/>
                 </div>
                 <div className="flex flex-col items-center justify-center w-full h-full"> 
                     {
@@ -177,6 +157,7 @@ const Code = () => {
                         :
                         <div className="rounded-md p-2 w-full h-full resize-x overflow-auto" style={{backgroundColor: "#1c1e25"}}>
                             <Monaco 
+                                lang={e_lang}
                                 E_parent_callback={E_get_value} 
                                 E_parent_save={E_save} 
                             />

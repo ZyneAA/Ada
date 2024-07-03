@@ -3,7 +3,29 @@ import React, { useEffect, useRef, useState } from "react";
 
 const Monaco = (props) => {
 
+    const [e_lang, set_e_lang] = useState()
+
     const editor_ref = useRef()
+
+    useEffect(() => {
+
+        switch(props.lang) {
+
+            case "js":
+                set_e_lang("javascript")
+                break
+
+            case "py":
+                set_e_lang("python")
+                break
+
+            default :
+                break
+        
+        }
+        console.log(props.lang)
+
+    }, [props.lang])
 
     const send = (params) => {           
         if(params === true){
@@ -13,8 +35,10 @@ const Monaco = (props) => {
     }
 
     const editor_mount = (editor, monaco) => {
+        
         try{
             editor_ref.current = editor
+            props.E_parent_callback(editor_ref.current) 
 
             // Undoing the editor's text
             editor.trigger("keyboard", "undo")
@@ -75,7 +99,7 @@ const Monaco = (props) => {
                 theme='vs-dark'
                 height="100%" 
                 width="100%"
-                language="javascript" 
+                language={e_lang} 
                 loading="Loading"
                 onMount={editor_mount}
                 options={{

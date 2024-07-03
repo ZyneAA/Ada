@@ -1,15 +1,23 @@
 import React, { useState } from "react"
 
-const File_System = ({ data }) => {
+const File_System = ({ data, selected_path }) => {
 
 	const [open_folders, set_open_folders] = useState({});
 
   	const toggle_folder = (folder) => {
+
     	set_open_folders((prev_open_folders) => ({
 			...prev_open_folders,
 			[folder]: !prev_open_folders[folder],
     	}))
+
   	}
+
+	const send_path = (current_path) => {
+
+		selected_path(current_path)
+		
+	}
 
   	const render_tree = (node, path = '') => {
 
@@ -21,7 +29,7 @@ const File_System = ({ data }) => {
 				// This is a file
 				return (
 					<div key={current_path} className="pl-2">
-						<span className="text-white">{key}</span>
+						<span className="text-white cursor-pointer" onClick={() => send_path([current_path, key])}>{key}</span>
 					</div>
 				)
 			} 

@@ -140,6 +140,31 @@ router.get(
 
 router.get(
 
+    "/get_file_content",
+    async(req, res) => {
+
+        try{
+            const file_path = req.query.file_path
+            const git_username  = req.session.passport.user.git_username
+            const repo_name = `${git_username}-ada-folder`
+            const token = req.session.passport.user.access_token
+
+            const response = await get_repo_content(git_username, repo_name, file_path, token)
+
+            const content = Buffer.from(response.content, "base64").toString("utf8")
+
+            res.status(200).json(content)
+        }
+        catch(err){
+            console.log(err)
+        }
+
+    }
+
+)
+
+router.get(
+
     "/get_all_files",
     async(req, res) => {
 
