@@ -150,10 +150,9 @@ router.get(
             const token = req.session.passport.user.access_token
 
             const response = await get_repo_content(git_username, repo_name, file_path, token)
-
             const content = Buffer.from(response.content, "base64").toString("utf8")
 
-            res.status(200).json(content)
+            res.status(200).json([response, content])
         }
         catch(err){
             console.log(err)
@@ -203,7 +202,7 @@ router.get(
                     headers: {
                         Authorization: `token ${token}`,      
                         Accept: "application/vnd.github.v3+json",           
-                    },
+                    }
                 }
             )
 
@@ -212,10 +211,10 @@ router.get(
             const tree_response = await axios.get(
                 `https://api.github.com/repos/${git_username}/${repo_name}/git/trees/${commit_sha}?recursive=1`,
                 {
-                  headers: {
-                    Authorization: `token ${token}`,
-                    Accept: 'application/vnd.github.v3+json'
-                  }
+                    headers: {
+                        Authorization: `token ${token}`,
+                        Accept: 'application/vnd.github.v3+json'
+                    }
                 }
             )
 
@@ -225,6 +224,48 @@ router.get(
         }
         catch(err){
             console.log(err)
+        }
+
+    }
+
+)
+
+router.post(
+
+    "/put_file",
+    async(req, res) => {
+
+        const{
+            content,
+            sha
+        } = req.body
+
+        const file = Buffer.from(content).toString("base64")
+
+        try{
+            const file_path = req.query.file_path
+            const git_username  = req.session.passport.user.git_username
+            const repo_name = `${git_username}-ada-folder`
+            const token = req.session.passport.user.access_token
+
+            const response = await axios.put(
+                `https://api.github.com/repos/${git_username}/${repo_name}/contents/${file_path}`, 
+                {
+                    message: "Update File",
+                    content: file,
+                    sha: sha
+                }, 
+                {
+                    headers: {
+                        'Authorization': `token ${token}`
+                    }
+                }
+            )
+            console.log(response.data)
+            res.status(200).json(response.data)
+        }
+        catch(err){
+            return
         }
 
     }

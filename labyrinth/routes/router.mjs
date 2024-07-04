@@ -7,9 +7,10 @@ import session from "./session/session.mjs"
 import register from "./lnr/register.mjs"
 import test from "./test/test.mjs"
 import repo from "./git/repo.mjs"
+import youtube from "./youtube/youtube.mjs"
 
 const router = Router()
 
-router.use([user, auth_local, auth_github, github_callback, repo, session, register, test])
+router.use([user, auth_local, auth_github, github_callback, repo, session, register, test, youtube])
 
 export default router

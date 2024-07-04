@@ -77,7 +77,7 @@ const Xterm = (props) => {
         isMobile?
         <div style={{width: "100vw"}}>
             <div ref={terminal_ref} className="rounded-t-sm overflow-hidden"/>
-            <div className="flex flex-row w-full rounded-b-sm border border-slate-950 bg-slate-700 p-1">
+            <div className="flex flex-row w-full rounded-b-sm bg-slate-700 p-1">
                 <label htmlFor="t_input" className="text-white pr-3"> {'>'} </label>
                 <input id="t_input" className="outline-none w-full bg-slate-700 text-white text-sm" placeholder="Type something here" onKeyDown={termminal_input_func}/>
             </div>
@@ -85,7 +85,7 @@ const Xterm = (props) => {
         :
         <div className="w-full">
             <div ref={terminal_ref} className="rounded-t-md overflow-hidden"/>
-            <div className="flex flex-row w-full rounded-b-md border border-slate-800 bg-slate-700">
+            <div className="flex flex-row w-full rounded-b-md bg-slate-700">
                 <label htmlFor="t_input" className="text-white px-3 p-1"> {'>'} </label>
                 <input id="t_input" className="outline-none w-full bg-slate-700 text-white text-sm rounded-b-md" placeholder="Type something here" onKeyDown={termminal_input_func}/>
             </div>

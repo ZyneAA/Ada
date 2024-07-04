@@ -15,7 +15,11 @@ import "../../css/Test.css"
 const Code = () => {
 
     // Git file
-    // git_file will be an array and has 3 items. The first one is the actual content, 2nd the file name and 3rd the file type
+    // git_file will be an array and has 4 elements. 
+    // 1st -> the actual content
+    // 2nd -> path
+    // 3rd -> file name 
+    // 4th -> the file type
     const git_file = useRef(null)
 
     // Main text editor(monaco or code mirror)
@@ -38,14 +42,15 @@ const Code = () => {
         git_file.current = value
 
         // File type or extension
-        const lang = git_file.current[1].split('.')
+        const lang = git_file.current[2].split('.')
 
         // Add file type to git_file.current
         git_file.current.push(lang.length > 1 ? lang.pop() : '')
-        set_e_lang(git_file.current[2])
+        set_e_lang(git_file.current[3])
 
         // Setting the current editor value
         editor.current.setValue(value[0])
+        console.log(git_file.current)
 
     }
 
@@ -68,37 +73,38 @@ const Code = () => {
             editor.current = value  // Get the main text editor
         }
         set_Einput(value.getValue())
+        
     }
 
     const run = async(how) => {  
 
         let version = null
-        switch(git_file.current[2]) {
+        switch(git_file.current[3]) {
 
             case "js": 
                 version = "20.11.1"
                 break
 
-            default :
+            default:
                 break
 
         }
 
         const payload = {
-            "language": git_file.current[2],
-            "version": version,
-            "files": [
+            language: git_file.current[3],
+            version: version,
+            files: [
                 {
-                    "name": git_file.current[1],
-                    "content": Einput
+                    name: git_file.current[2],
+                    content: Einput
                 }
             ],
-            "stdin": "",
-            "args": [],
-            "compile_timeout": 10000,
-            "run_timeout": 3000,
-            "compile_memory_limit": -1,
-            "run_memory_limit": -1
+            stdin: "",
+            args: [],
+            compile_timeout: 10000,
+            run_timeout: 3000,
+            compile_memory_limit: -1,
+            run_memory_limit: -1
         }
 
         try {
@@ -146,8 +152,8 @@ const Code = () => {
     return(
         <div className="flex flex-col h-dvh py-10">
             <div className="flex flex-row justify-centers pb-2 px-10 gap-2 h-full">
-                <div className="flex-initial w-3/12 overflow-auto h-full rounded-md" style={{backgroundColor: "#1c1e25"}}>
-                    <Files get_file_content={get_content}/>
+                <div className="flex-initial w-3/12 overflow-auto h-full rounded-md border-2 border-slate-600" style={{backgroundColor: "#1c1e25"}}>
+                    <Files get_file_content={get_content} send_content={Einput}/>
                 </div>
                 <div className="flex flex-col items-center justify-center w-full h-full"> 
                     {
@@ -156,7 +162,7 @@ const Code = () => {
                             <Code_Mirror E_parent_callback={E_get_value}/>
                         </div>
                         :
-                        <div className="rounded-md p-2 w-full h-full resize-x overflow-auto" style={{backgroundColor: "#1c1e25"}}>
+                        <div className="rounded-md p-2 w-full h-full resize-x overflow-auto border-2 border-slate-600" style={{backgroundColor: "#1c1e25"}}>
                             <Monaco 
                                 lang={e_lang}
                                 E_parent_callback={E_get_value} 
@@ -168,7 +174,7 @@ const Code = () => {
             </div>  
             <br></br>
             <div className="flex jitems-center justify-center px-10">
-                <div className="w-full">
+                <div className="w-full border-2 border-slate-600 rounded-lg">
                     <Xterm T_parent_callback={T_get_value} output={output}/>
                 </div>            
             </div>               

@@ -58,6 +58,7 @@ services:
             LABYRINTH_COOKIE_PARSER: /run/secrets/LABYRINTH_COOKIE_PARSER
             GIT_CLIENT_ID: /run/secrets/GIT_CLIENT_ID
             GIT_CLIENT_SECRET: /run/secrets/GIT_CLIENT_SECRET
+            YOUTUBE_API_KEY: /run/secrets/YOUTUBE_API_KEY
             GIT_CALLBACK_URL: http://localhost:8000/bridge/v1/labyrinth/auth/github/callback
         networks:
             - omega
@@ -66,6 +67,7 @@ services:
             - LABYRINTH_COOKIE_PARSER
             - GIT_CLIENT_ID
             - GIT_CLIENT_SECRET
+            - YOUTUBE_API_KEY
 
     bridge:
         container_name: bridge
@@ -146,3 +148,5 @@ secrets:
         file: ./secrets/GIT_CLIENT_ID.txt
     GIT_CLIENT_SECRET:
         file: ./secrets/GIT_CLIENT_SECRET.txt
+    YOUTUBE_API_KEY:
+        file: ./secrets/YOUTUBE_API_KEY.txt

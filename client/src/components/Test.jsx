@@ -1,118 +1,59 @@
-import { useEffect, useState } from "react";
-import { ResizableBox, Resizable } from "react-resizable";
+import { useEffect, useState, useRef } from "react"
+import { ResizableBox, Resizable } from "react-resizable"
+import ReactPlayer from "react-player"
 import axios from "axios"
 import "../css/Test.css"
 
 const Test = () => {
 
-    const [ok, set_ok] = useState(null)
+    const [info, set_info] = useState([])
+    const [url, set_url] = useState(null)
+    const [name, set_name] = useState("")
+    const [playing, set_playing] = useState(true)
+    const [volume, set_volume] = useState(0.8)
+    const [played, set_played] = useState(0)
+    const player = useRef(null)
 
-    const make_file = (paths) => {
+    const get_name = (e) => {
 
-        const result = {}
-        let count = 0
-    
-        paths.forEach((path) => {
-    
-            const parts = path.split('/')
-            let current = result
-        
-            parts.forEach((part, index) => {
-    
-                if(index === parts.length - 1) {
-                    current[part] = paths[count]
-                    count++
-                } 
-                else {
-                    if(!current[part]) {
-                        current[part] = {}
-                    }
-                    current = current[part]
-                }
-    
-            })
-    
-        })
-    
-        return result
-    
+        set_name(e.target.value)
+
     }
 
-    const session = async() => {
+    const handle_pause = (state) => {
 
-        // try{
-        //     const response = await axios.get(
-        //         "http://localhost:8000/bridge/v1/labyrinth/get_repos",
-        //         {withCredentials: true}
-        //     )
-        //     set_ok(response.data)
-        //     console.log(response.data)
-        // }
-        // catch(err) {
-        //     console.log(err)
-        // }
+        set_playing(!playing)
 
-        try{
-            const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_session",
-                {withCredentials: true}
-            )
-            set_ok(response.data)
-            console.log(response.data)
-        }
-        catch(err) {
-            console.log(err)
-        }
+    }
 
-        // try{
-        //     const response = await axios.post(
-        //         "http://localhost:8000/bridge/v1/labyrinth/create_file",
-        //         {
-        //             "folder": "test2/test3",
-        //             "filename": "test.js",
-        //             "content": "console.log('hello')"
-        //         },
-        //         {withCredentials: true}
-        //     )
-        //     set_ok(response.data)
-        //     console.log(response.data)
-        // }
-        // catch(err) {
-        //     console.log(err)
-        // }
+    const handle_volume_change = (event) => {
 
-        // try{
-        //     const response = await axios.get(
-        //         "http://localhost:8000/bridge/v1/labyrinth/get_repo_contents",
-        //         {withCredentials: true}
-        //     )
-        //     set_ok(response.data)
-        //     console.log(response.data)
-        // }
-        // catch(err) {
-        //     console.log(err)
-        // }
+        set_volume(parseFloat(event.target.value))
 
-        // try{
-        //     const response = await axios.get(
-        //         "http://localhost:8000/bridge/v1/labyrinth/get_repo",
-        //         {withCredentials: true}
-        //     )
-        //     set_ok(response.data)
-        //     console.log(response.data)
-        // }
-        // catch(err) {
-        //     console.log(err)
-        // }
+    }
+
+    const handle_seek_change = (event) => {
+
+        set_played(parseFloat(event.target.value))
+        player.current.seekTo(parseFloat(event.target.value))
+
+    }
+
+    const handle_progress = (state) => {
+
+        set_played(state.played)
+
+    }
+
+    const search = async(e) => {
 
         try{
             const response = await axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/get_repo_files",
+                `http://localhost:8000/bridge/v1/labyrinth/get_video_info?name=${name}`,
                 {withCredentials: true}
             )
-
-            const file = make_file(response.data)
-            console.log(file)
+            set_info([response.data.snippet.title, response.data.snippet.channelTitle])
+            set_url(`https://www.youtube.com/watch?v=${response.data.id.videoId}`)
         }
         catch(err) {
             console.log(err)
@@ -122,8 +63,55 @@ const Test = () => {
 
     return(
         <div className=" justify-center flex items-center h-auto">
-            <ResizableBox className="box bg-white" width={200} height={200}>
-                <button onClick={session}>Tap</button>
+            <ResizableBox className="box bg-white " width={400} height={200}>
+                <div>
+                    <div className="py-4">
+                        <input
+                            className="border rounded-md p-2 outline-none"
+                            onChange={get_name}
+                            type="text"
+                            placeholder="Enter song name"
+                        />
+                        <button className="px-2" onClick={search}>Search</button>
+                    </div>                   
+                    {url && (
+                        <div style={{ display: 'none' }}>
+                            <ReactPlayer 
+                                ref={player}
+                                url={url} 
+                                playing={playing}
+                                volume={volume}
+                                onProgress={handle_progress}
+                                controls 
+                                width="0" 
+                                height="0" 
+                            />
+                        </div>
+                    )}
+                    <div className=" space-x-2">
+                        <button onClick={handle_pause}>
+                            {playing ? 'Pause' : 'Play'}
+                        </button>
+                        <input
+                            type="range"
+                            min={0}
+                            max={1}
+                            step="any"
+                            value={played}
+                            onChange={handle_seek_change}
+                        />
+                        <input
+                            type="range"
+                            min={0}
+                            max={1}
+                            step="any"
+                            value={volume}
+                            onChange={handle_volume_change}
+                        />
+                    </div>
+                    <p className="pt-4">{info[0]}</p>
+                    <p className="">{info[1]}</p>
+                </div>
             </ResizableBox>
         </div>
     )

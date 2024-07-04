@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 
-const File_System = ({ data, selected_path }) => {
+const File_System = ({ data, selected_path, selected_folder }) => {
 
 	const [open_folders, set_open_folders] = useState({});
 
   	const toggle_folder = (folder) => {
+
+		selected_folder(folder)
 
     	set_open_folders((prev_open_folders) => ({
 			...prev_open_folders,

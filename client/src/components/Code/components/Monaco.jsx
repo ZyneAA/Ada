@@ -19,7 +19,7 @@ const Monaco = (props) => {
                 set_e_lang("python")
                 break
 
-            default :
+            default:
                 break
         
         }
