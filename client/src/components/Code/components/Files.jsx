@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import File_System from "./FIle_System"
+import { LuFilePlus2 } from "react-icons/lu"
+import { SlReload } from "react-icons/sl"
 
 const Files = (props) => {
 
@@ -10,6 +12,7 @@ const Files = (props) => {
     const [sha, set_sha] = useState(null)
     const [pat, set_pat] = useState("")
     const [toggle, set_toggle] = useState(false)
+    const [file_created, set_file_created] = useState(0)
 
     const make_file = (paths) => {
 
@@ -76,7 +79,6 @@ const Files = (props) => {
                     "http://localhost:8000/bridge/v1/labyrinth/get_repo_files",
                     {withCredentials: true}
                 )
-                console.log(response.data)
                 set_files(make_file(response.data))
             }
             catch(err) {
@@ -110,6 +112,7 @@ const Files = (props) => {
     const handle_toggle = () => {
 
         set_toggle(!toggle)
+        set_file_created(0)
 
     }
 
@@ -137,8 +140,13 @@ const Files = (props) => {
                 },
                 {withCredentials: true}
             )
-            // set_toggle(!toggle)
-            console.log(response.data)
+            
+            if(response.data.commit.sha) {
+                set_file_created(1)
+            }
+            else {
+                set_file_created(2)
+            }
         }
         catch(err) {
             console.log(err)
@@ -147,8 +155,8 @@ const Files = (props) => {
     }
 
     return(
-        <div className="h-fit">
-            <div className="flex flex-row items-end justify-end pr-4 py-2">
+        <div className="h-full">
+            <div className="flex flex-row items-end justify-end pr-4 pb-2">
                 <div>
                     {toggle && (
                             <div className="w-auto fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-0 backdrop-blur-sm z-50">
@@ -170,17 +178,41 @@ const Files = (props) => {
                                             <button onClick={handle_toggle} className="text-white p-1 px-2 border rounded-xl">                                          
                                                 Cancle
                                             </button>
-                                        </div>                      
+                                        </div> 
+                                        <div className="py-4">
+                                            {
+                                                file_created === 1 ? 
+                                                <h2 className="text-green-600">File created</h2> :
+                                                file_created === 2 ? 
+                                                    <h2 className="text-red-600">Failed to create file</h2>
+                                                    :
+                                                    <></>
+                                            }
+                                        </div>                     
                                     </div>
                                 </div>
                             </div>
                         )
                     } 
-                    <p className="text-white px-2" onClick={handle_toggle}>new file</p>
                 </div>
             </div>
-            <div className="flex flex-col justify-start items-start overflow-auto">
-                <File_System data={files} selected_path={get_file} selected_folder={get_folder} />
+            <div className="flex flex-col">
+                <div className="flex flex-row pb-2 gap-7 px-2" style={{height: "10%"}}>
+                    <div style={{width: "20%"}} className="flex items-center">
+                        <p className="text-transparent bg-clip-text bg-gradient-to-b from-gray-200 to-gray-400">ADA</p> 
+                    </div>
+                    <div className="flex flex-row justify-end items-center gap-4" style={{width: "80%"}}>
+                        <div>
+                            <SlReload color="gray" size="20" />
+                        </div>
+                        <div>
+                            <LuFilePlus2 color="gray" size="20" onClick={handle_toggle} />
+                        </div>
+                    </div>
+                </div>                
+                <div style={{height: "90%"}}>
+                    <File_System data={files} selected_path={get_file} selected_folder={get_folder} />
+                </div>
             </div>  
         </div>
     )

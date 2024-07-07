@@ -9,3 +9,32 @@
     }
 
 }
+
+.resizable-box {
+    @apply resize-x;
+    min-width: 100px;
+    max-width: 500px;
+    min-height: 100px;
+    max-height: 500px;
+}
+
+.gutter {
+    background-color: #e2e8f0; /* Customize gutter color */
+    transition: background-color 0.25s ease;
+}
+  
+.gutter:hover {
+    background-color: #cbd5e1;
+}
+  
+.gutter.gutter-horizontal {
+    @apply bg-black;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: col-resize;
+}
+  
+.gutter.gutter-vertical {
+    @apply bg-black;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: row-resize;
+}

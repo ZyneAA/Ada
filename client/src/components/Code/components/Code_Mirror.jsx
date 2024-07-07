@@ -45,7 +45,9 @@ const Code_Mirror = (props) => {
     }, [])
 
     return(   
-        <CodeMirror height="300px" width="90vw" theme={okaidia} extensions={[python()]} onChange={send}/> 
+        <div className="h-full w-full">
+            <CodeMirror height="100%" width="100%" theme={okaidia} extensions={[python()]} onChange={send}/> 
+        </div>
     )
 
 }

@@ -13,20 +13,22 @@ export default {
   ],  
   theme: {
     extend: {
-      
-          "animation": {
-            shimmer: "shimmer 2s linear infinite"
+      backgroundColor: {
+        horizon: '#1c1e25', // Replace with your hash color value
+      },    
+      "animation": {
+        shimmer: "shimmer 2s linear infinite"
+      },
+      "keyframes": {
+        shimmer: {
+          from: {
+            "backgroundPosition": "0 0"
           },
-          "keyframes": {
-            shimmer: {
-              from: {
-                "backgroundPosition": "0 0"
-              },
-              to: {
-                "backgroundPosition": "-200% 0"
-              }
-            }
+          to: {
+            "backgroundPosition": "-200% 0"
           }
+        }
+      }
         
     },
   },  

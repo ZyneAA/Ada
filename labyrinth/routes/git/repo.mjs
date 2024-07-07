@@ -40,7 +40,15 @@ router.post(
         } = req.body
 
         try{
-            const file_path = `${folder}/${filename}`
+            let file_path = ""
+
+            if(folder === "") {
+                file_path = `${filename}`
+            }
+            else {
+                file_path = `${folder}/${filename}`
+            }
+
             const content_encoded = Buffer.from(content).toString("base64")
             const repo_name = `${req.session.passport.user.git_username}-ada-folder`
 

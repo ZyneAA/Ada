@@ -4,9 +4,13 @@ import Monaco from "./components/Monaco"
 import Code_Mirror from "./components/Code_Mirror"
 import { isMobile } from "react-device-detect"
 import Files from "./components/Files"
+import Split from "react-split"
 import { useEffect, useRef, useState } from "react"
+import Utility_Bar from "../Utility_Bar/Utility_Bar"
+import Chat from "./components/Chat"
+import Music from "./components/Music"
 
-import "../../css/Test.css"
+import "../../css/index.css"
 
 // TO DO
 // crtl+s save
@@ -36,6 +40,7 @@ const Code = () => {
     const [Einput, set_Einput] = useState("")
 
     const [e_lang, set_e_lang] = useState("")
+    const [open_chat, set_open_chat] = useState(false)
     
     const get_content = (value) => {
 
@@ -149,35 +154,60 @@ const Code = () => {
         }
     }
     
+    const chat_opener = (value) => {
+
+        set_open_chat(value)
+
+    }
+    
     return(
-        <div className="flex flex-col h-dvh py-10">
-            <div className="flex flex-row justify-centers pb-2 px-10 gap-2 h-full">
-                <div className="flex-initial w-3/12 overflow-auto h-full rounded-md border-2 border-slate-600" style={{backgroundColor: "#1c1e25"}}>
-                    <Files get_file_content={get_content} send_content={Einput}/>
-                </div>
-                <div className="flex flex-col items-center justify-center w-full h-full"> 
-                    {
-                        isMobile?
-                        <div>
-                            <Code_Mirror E_parent_callback={E_get_value}/>
-                        </div>
-                        :
-                        <div className="rounded-md p-2 w-full h-full resize-x overflow-auto border-2 border-slate-600" style={{backgroundColor: "#1c1e25"}}>
-                            <Monaco 
-                                lang={e_lang}
-                                E_parent_callback={E_get_value} 
-                                E_parent_save={E_save} 
-                            />
-                        </div>                                       
-                    }     
-                </div> 
-            </div>  
-            <br></br>
-            <div className="flex jitems-center justify-center px-10">
-                <div className="w-full border-2 border-slate-600 rounded-lg">
-                    <Xterm T_parent_callback={T_get_value} output={output}/>
-                </div>            
-            </div>               
+        <div className="flex flex-col h-screen">
+            <Chat is_open={open_chat} on_close={() => set_open_chat(!open_chat)} />
+            <Utility_Bar chat={chat_opener} />  
+            <div className="pb-10 h-full">
+                <Split
+                    className="flex flex-col h-full"
+                    minSize={0}
+                    sizes={[15, 70, 25]}
+                    direction="vertical"
+                    cursor="col-resize"
+                >
+                    <div className="flex items-center h-full pt-2" style={{height: "15%"}}>
+                        <Music />
+                    </div> 
+                    <div className="" style={{height: "60%"}}>
+                        <Split 
+                            className="flex flex-row h-full"
+                            minSize={0}
+                            sizes={[15, 85]}
+                            direction="horizontal"
+                            cursor="col-resize"
+                        >
+                            <div className="rounded-none py-2 w-full h-full overflow-auto" style={{backgroundColor: "#1c1e25"}}>
+                                <Files get_file_content={get_content} send_content={Einput}/>
+                            </div>
+                            <div className="rounded-none p-4 w-full h-full" style={{backgroundColor: "#1c1e25"}}> 
+                                {
+                                    isMobile?
+                                    <Code_Mirror 
+                                        E_parent_callback={E_get_value}
+                                    />
+                                    :
+                                    <Monaco 
+                                        lang={e_lang}
+                                        E_parent_callback={E_get_value} 
+                                        E_parent_save={E_save} 
+                                    />                                     
+                                }     
+                            </div>
+                        </Split> 
+                    </div>  
+                    {/* <br></br> */}
+                    <div className="h-full w-full" style={{backgroundColor: "#1c1e25"}}>
+                        <Xterm T_parent_callback={T_get_value} output={output}/>
+                    </div>  
+                </Split>
+            </div>        
         </div>       
     )
 

@@ -1,12 +1,17 @@
 import React, { useState } from "react"
+import { FaRegFile } from "react-icons/fa"
+import { FaRegFolder } from "react-icons/fa"
+import { MdArrowForwardIos } from "react-icons/md"
 
 const File_System = ({ data, selected_path, selected_folder }) => {
 
 	const [open_folders, set_open_folders] = useState({});
+	const [open, set_open] = useState(false)
 
   	const toggle_folder = (folder) => {
 
 		selected_folder(folder)
+		set_open(!open)
 
     	set_open_folders((prev_open_folders) => ({
 			...prev_open_folders,
@@ -21,7 +26,7 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 		
 	}
 
-  	const render_tree = (node, path = '') => {
+  	const render_tree = (node, path = "") => {
 
 		return Object.keys(node).map((key) => {
 			const value = node[key]
@@ -30,8 +35,9 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 			if (typeof value === "string") {
 				// This is a file
 				return (
-					<div key={current_path} className="pl-2">
-						<span className="text-white cursor-pointer" onClick={() => send_path([current_path, key])}>{key}</span>
+					<div key={current_path} className="flex flex-row items-center pl-6 cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-gray-400 to-gray-500">
+						<FaRegFile color="gray" size="18" />
+						<p onClick={() => send_path([current_path, key])}>{key}</p>
 					</div>
 				)
 			} 
@@ -40,10 +46,12 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 				return (
 					<div key={current_path} className="pl-2">
 						<div
-							className="cursor-pointer text-white"
+							className="flex flex-row items-center cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-gray-400 to-gray-500"
 							onClick={() => toggle_folder(current_path)}
 						>
-							{"> "}{key}
+							<MdArrowForwardIos color="gray" size="15" />
+							<FaRegFolder color="gray" size="18"/>
+							<p className="pl-1">{key}</p>
 						</div>
 						{open_folders[current_path] && (
 							<div className="pl-2">{render_tree(value, current_path)}</div>

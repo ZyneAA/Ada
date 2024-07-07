@@ -3,6 +3,7 @@ import { ResizableBox, Resizable } from "react-resizable"
 import ReactPlayer from "react-player"
 import axios from "axios"
 import "../css/Test.css"
+import Xterm from "./Code/components/Xterm"
 
 const Test = () => {
 
@@ -62,57 +63,8 @@ const Test = () => {
     }
 
     return(
-        <div className=" justify-center flex items-center h-auto">
-            <ResizableBox className="box bg-white " width={400} height={200}>
-                <div>
-                    <div className="py-4">
-                        <input
-                            className="border rounded-md p-2 outline-none"
-                            onChange={get_name}
-                            type="text"
-                            placeholder="Enter song name"
-                        />
-                        <button className="px-2" onClick={search}>Search</button>
-                    </div>                   
-                    {url && (
-                        <div style={{ display: 'none' }}>
-                            <ReactPlayer 
-                                ref={player}
-                                url={url} 
-                                playing={playing}
-                                volume={volume}
-                                onProgress={handle_progress}
-                                controls 
-                                width="0" 
-                                height="0" 
-                            />
-                        </div>
-                    )}
-                    <div className=" space-x-2">
-                        <button onClick={handle_pause}>
-                            {playing ? 'Pause' : 'Play'}
-                        </button>
-                        <input
-                            type="range"
-                            min={0}
-                            max={1}
-                            step="any"
-                            value={played}
-                            onChange={handle_seek_change}
-                        />
-                        <input
-                            type="range"
-                            min={0}
-                            max={1}
-                            step="any"
-                            value={volume}
-                            onChange={handle_volume_change}
-                        />
-                    </div>
-                    <p className="pt-4">{info[0]}</p>
-                    <p className="">{info[1]}</p>
-                </div>
-            </ResizableBox>
+        <div className=" justify-center flex items-center h-dvh box overflow-auto w-screen">
+            <Xterm />
         </div>
     )
 }
