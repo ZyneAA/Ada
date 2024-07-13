@@ -36,7 +36,7 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 				// This is a file
 				return (
 					<div key={current_path} className="flex flex-row items-center pl-6 cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-gray-400 to-gray-500">
-						<FaRegFile color="gray" size="18" />
+						<FaRegFile color="gray" size="18"/>
 						<p onClick={() => send_path([current_path, key])}>{key}</p>
 					</div>
 				)
@@ -51,7 +51,7 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 						>
 							<MdArrowForwardIos color="gray" size="15" />
 							<FaRegFolder color="gray" size="18"/>
-							<p className="pl-1">{key}</p>
+							<p className="pl-1 overflow-hidden">{key}</p>
 						</div>
 						{open_folders[current_path] && (
 							<div className="pl-2">{render_tree(value, current_path)}</div>

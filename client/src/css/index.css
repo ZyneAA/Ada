@@ -10,14 +10,6 @@
 
 }
 
-.resizable-box {
-    @apply resize-x;
-    min-width: 100px;
-    max-width: 500px;
-    min-height: 100px;
-    max-height: 500px;
-}
-
 .gutter {
     background-color: #e2e8f0; /* Customize gutter color */
     transition: background-color 0.25s ease;
@@ -38,3 +30,20 @@
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
     cursor: row-resize;
 }
+
+/* Style the scrollbar track */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+    height: 10px; /* Height of the scrollbar */
+}
+  
+  /* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-300/45;/* Color of the scrollbar thumb */
+}
+  
+  /* Style the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500/70;/* Color of the thumb on hover */
+}
+   

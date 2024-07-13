@@ -66,10 +66,10 @@ router.post(
                 }
             )
 
-            res.status(200).json(response.data)
+            res.status(201).json(response.data)
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }

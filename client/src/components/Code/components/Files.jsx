@@ -17,11 +17,18 @@ const Files = (props) => {
     const make_file = (paths) => {
 
         const result = {}
+        let temp = {}
         let count = 0
     
         paths.forEach((path) => {
     
             const parts = path.split('/')
+
+            if(parts.length === 1) {
+                temp[parts] = parts[0]
+                return
+            }
+
             let current = result
         
             parts.forEach((part, index) => {
@@ -40,8 +47,7 @@ const Files = (props) => {
             })
     
         })
-    
-        return result
+        return {...result, ...temp}
     
     }
 
@@ -140,23 +146,21 @@ const Files = (props) => {
                 },
                 {withCredentials: true}
             )
-            
+
             if(response.data.commit.sha) {
                 set_file_created(1)
-            }
-            else {
-                set_file_created(2)
+                return
             }
         }
         catch(err) {
-            console.log(err)
+            set_file_created(2)
         }
 
     }
 
     return(
         <div className="h-full">
-            <div className="flex flex-row items-end justify-end pr-4 pb-2">
+            <div className="flex flex-row items-end justify-end px-4 pb-2">
                 <div>
                     {toggle && (
                             <div className="w-auto fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-0 backdrop-blur-sm z-50">
@@ -197,11 +201,11 @@ const Files = (props) => {
                 </div>
             </div>
             <div className="flex flex-col">
-                <div className="flex flex-row pb-2 gap-7 px-2" style={{height: "10%"}}>
+                <div className="flex flex-row pb-2 px-2" style={{height: "10%"}}>
                     <div style={{width: "20%"}} className="flex items-center">
-                        <p className="text-transparent bg-clip-text bg-gradient-to-b from-gray-200 to-gray-400">ADA</p> 
+                        <p className="text-transparent bg-clip-text bg-gradient-to-b from-gray-200 to-gray-400">EXPLORER</p> 
                     </div>
-                    <div className="flex flex-row justify-end items-center gap-4" style={{width: "80%"}}>
+                    <div className="flex flex-row justify-end items-center gap-2" style={{width: "80%"}}>
                         <div>
                             <SlReload color="gray" size="20" />
                         </div>

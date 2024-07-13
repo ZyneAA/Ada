@@ -5,10 +5,11 @@ import Code_Mirror from "./components/Code_Mirror"
 import { isMobile } from "react-device-detect"
 import Files from "./components/Files"
 import Split from "react-split"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import Utility_Bar from "../Utility_Bar/Utility_Bar"
 import Chat from "./components/Chat"
 import Music from "./components/Music"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../misc/Resizable"
 
 import "../../css/index.css"
 
@@ -40,6 +41,7 @@ const Code = () => {
     const [Einput, set_Einput] = useState("")
 
     const [e_lang, set_e_lang] = useState("")
+    const [color, set_color] = useState("#1c1e25") // Test worked!
     const [open_chat, set_open_chat] = useState(false)
     
     const get_content = (value) => {
@@ -83,10 +85,12 @@ const Code = () => {
 
     const run = async(how) => {  
 
+        let language = null
         let version = null
         switch(git_file.current[3]) {
 
-            case "js": 
+            case "js" || "mjs": 
+                language = "js"
                 version = "20.11.1"
                 break
 
@@ -96,7 +100,7 @@ const Code = () => {
         }
 
         const payload = {
-            language: git_file.current[3],
+            language: language,
             version: version,
             files: [
                 {
@@ -165,48 +169,56 @@ const Code = () => {
             <Chat is_open={open_chat} on_close={() => set_open_chat(!open_chat)} />
             <Utility_Bar chat={chat_opener} />  
             <div className="pb-10 h-full">
-                <Split
-                    className="flex flex-col h-full"
-                    minSize={0}
-                    sizes={[15, 70, 25]}
+                <ResizablePanelGroup
+                    className="h-full"
                     direction="vertical"
-                    cursor="col-resize"
                 >
-                    <div className="flex items-center h-full pt-2" style={{height: "15%"}}>
-                        <Music />
-                    </div> 
-                    <div className="" style={{height: "60%"}}>
-                        <Split 
-                            className="flex flex-row h-full"
-                            minSize={0}
-                            sizes={[15, 85]}
-                            direction="horizontal"
-                            cursor="col-resize"
-                        >
-                            <div className="rounded-none py-2 w-full h-full overflow-auto" style={{backgroundColor: "#1c1e25"}}>
-                                <Files get_file_content={get_content} send_content={Einput}/>
-                            </div>
-                            <div className="rounded-none p-4 w-full h-full" style={{backgroundColor: "#1c1e25"}}> 
-                                {
-                                    isMobile?
-                                    <Code_Mirror 
-                                        E_parent_callback={E_get_value}
-                                    />
-                                    :
-                                    <Monaco 
-                                        lang={e_lang}
-                                        E_parent_callback={E_get_value} 
-                                        E_parent_save={E_save} 
-                                    />                                     
-                                }     
-                            </div>
-                        </Split> 
-                    </div>  
+                    <ResizablePanel defaultSize={15}>
+                        <div className="flex items-center">
+                            <Music />
+                        </div> 
+                    </ResizablePanel>
+                    <ResizableHandle withHandle />
+                    <ResizablePanel defaultSize={55}>
+                        <div className="h-full" style={{backgroundColor: "#1c1e25"}}>
+                            <ResizablePanelGroup 
+                                direction="horizontal"
+                                className="flex flex-row h-full"
+                            >
+                                <ResizablePanel defaultSize={15}>
+                                    <div className="rounded-none py-2 w-full overflow-auto" style={{backgroundColor: "#1c1e25", height: "80%"}}>
+                                        <Files get_file_content={get_content} send_content={Einput}/>
+                                    </div>
+                                </ResizablePanel>
+                                <ResizableHandle withHandle />
+                                <ResizablePanel defaultSize={85}>
+                                    <div className="rounded-none p-4 w-full h-full" style={{backgroundColor: "#1c1e25"}}> 
+                                        {
+                                            isMobile?
+                                            <Code_Mirror 
+                                                E_parent_callback={E_get_value}
+                                            />
+                                            :
+                                            <Monaco 
+                                                lang={e_lang}
+                                                E_parent_callback={E_get_value} 
+                                                E_parent_save={E_save} 
+                                            />                                     
+                                        }     
+                                    </div>
+                                </ResizablePanel>
+                            </ResizablePanelGroup> 
+                        </div>  
+                    </ResizablePanel>
+                    
                     {/* <br></br> */}
-                    <div className="h-full w-full" style={{backgroundColor: "#1c1e25"}}>
-                        <Xterm T_parent_callback={T_get_value} output={output}/>
-                    </div>  
-                </Split>
+                    <ResizableHandle withHandle />
+                    <ResizablePanel defaultSize={30}>
+                        <div className="w-full h-full" style={{backgroundColor: "#1c1e25"}}>
+                            <Xterm T_parent_callback={T_get_value} output={output}/>
+                        </div> 
+                    </ResizablePanel> 
+                </ResizablePanelGroup>
             </div>        
         </div>       
     )

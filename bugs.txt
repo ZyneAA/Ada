@@ -1,1 +1,4 @@
 client - login page github icon hover bug (fixed)
+folder first and then file in explorer (fixed)
+explorer stick position
+improve resizable 

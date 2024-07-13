@@ -4,6 +4,7 @@ import ReactPlayer from "react-player"
 import axios from "axios"
 import "../css/Test.css"
 import Xterm from "./Code/components/Xterm"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./misc/Resizable"
 
 const Test = () => {
 
@@ -62,11 +63,13 @@ const Test = () => {
 
     }
 
-    return(
-        <div className=" justify-center flex items-center h-dvh box overflow-auto w-screen">
-            <Xterm />
-        </div>
-    )
+    return (
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel>One</ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel>Two</ResizablePanel>
+        </ResizablePanelGroup>
+      )
 }
 
 export default Test
