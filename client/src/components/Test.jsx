@@ -1,75 +1,46 @@
-import { useEffect, useState, useRef } from "react"
-import { ResizableBox, Resizable } from "react-resizable"
-import ReactPlayer from "react-player"
 import axios from "axios"
-import "../css/Test.css"
-import Xterm from "./Code/components/Xterm"
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./misc/Resizable"
+import { useState } from "react"
+import React from "react"
+import Markdown from "react-markdown"
 
 const Test = () => {
 
-    const [info, set_info] = useState([])
-    const [url, set_url] = useState(null)
-    const [name, set_name] = useState("")
-    const [playing, set_playing] = useState(true)
-    const [volume, set_volume] = useState(0.8)
-    const [played, set_played] = useState(0)
-    const player = useRef(null)
+    const [text, set_text] = useState()
+    const [ok, set_ok] = useState()
 
-    const get_name = (e) => {
+    const summit = async () => {
 
-        set_name(e.target.value)
-
-    }
-
-    const handle_pause = (state) => {
-
-        set_playing(!playing)
-
-    }
-
-    const handle_volume_change = (event) => {
-
-        set_volume(parseFloat(event.target.value))
-
-    }
-
-    const handle_seek_change = (event) => {
-
-        set_played(parseFloat(event.target.value))
-        player.current.seekTo(parseFloat(event.target.value))
-
-    }
-
-    const handle_progress = (state) => {
-
-        set_played(state.played)
-
-    }
-
-    const search = async(e) => {
-
-        try{
-            const response = await axios.get(
-                `http://localhost:8000/bridge/v1/labyrinth/get_video_info?name=${name}`,
-                {withCredentials: true}
+        try {
+            const reponse = await axios.post(
+                "http://localhost:8000/bridge/v1/labyrinth/generate_text",
+                {
+                    prompt: text
+                },
+                { withCredentials: true }
             )
-            set_info([response.data.snippet.title, response.data.snippet.channelTitle])
-            set_url(`https://www.youtube.com/watch?v=${response.data.id.videoId}`)
+            const formatted_text = reponse.data.split('\n').map((item, index) => (
+                <React.Fragment key={index}>
+                    {item}
+                    <br />
+                </React.Fragment>
+            ))
+            set_ok(reponse.data)
+            console.log(reponse.data)
         }
-        catch(err) {
+        catch (err) {
             console.log(err)
         }
 
     }
 
     return (
-        <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel>One</ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel>Two</ResizablePanel>
-        </ResizablePanelGroup>
-      )
+        <div className=" flex justify-center items-center py-36 flex-col gap-4 bg-slate-900 rounded-md m-5">
+            <input onChange={(e) => set_text(e.target.value)} />
+            <button className="bg-white" onClick={summit}>Generate</button>
+               <Markdown>{}</Markdown>
+        </div>
+    )
+
 }
 
 export default Test

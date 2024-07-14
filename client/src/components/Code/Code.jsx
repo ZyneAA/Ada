@@ -174,7 +174,7 @@ const Code = () => {
                     direction="vertical"
                 >
                     <ResizablePanel defaultSize={15}>
-                        <div className="flex items-center">
+                        <div className="flex items-center h-full">
                             <Music />
                         </div> 
                     </ResizablePanel>

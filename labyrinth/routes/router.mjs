@@ -8,9 +8,10 @@ import register from "./lnr/register.mjs"
 import test from "./test/test.mjs"
 import repo from "./git/repo.mjs"
 import youtube from "./youtube/youtube.mjs"
+import text_2_text from "./AI/text_2_text.mjs"
 
 const router = Router()
 
-router.use([user, auth_local, auth_github, github_callback, repo, session, register, test, youtube])
+router.use([user, auth_local, auth_github, github_callback, repo, session, register, test, youtube, text_2_text])
 
 export default router
