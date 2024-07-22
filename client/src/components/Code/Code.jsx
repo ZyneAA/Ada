@@ -166,7 +166,7 @@ const Code = () => {
     
     return(
         <div className="flex flex-col h-screen">
-            <Chat is_open={open_chat} on_close={() => set_open_chat(!open_chat)} />
+            <Chat className="h-full" is_open={open_chat} on_close={() => set_open_chat(!open_chat)} />
             <Utility_Bar chat={chat_opener} />  
             <div className="pb-10 h-full">
                 <ResizablePanelGroup
@@ -192,7 +192,7 @@ const Code = () => {
                                 </ResizablePanel>
                                 <ResizableHandle withHandle />
                                 <ResizablePanel defaultSize={85}>
-                                    <div className="rounded-none p-4 w-full h-full" style={{backgroundColor: "#1c1e25"}}> 
+                                    <div className="rounded-none p-4 w-full h-full border-l border-black" style={{backgroundColor: "#1c1e25"}}> 
                                         {
                                             isMobile?
                                             <Code_Mirror 

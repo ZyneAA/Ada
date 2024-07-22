@@ -43,6 +43,7 @@
     "react-resizable-panels": "^2.0.20",
     "react-router-dom": "^6.23.1",
     "react-split": "^2.0.14",
+    "react-syntax-highlighter": "^15.5.0",
     "shadcn-ui": "^0.8.0",
     "tailwind-merge": "^2.3.0"
   },
