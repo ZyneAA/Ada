@@ -1,6 +1,6 @@
+import React from "react"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import React from "react"
 import Markdown from "react-markdown"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -8,7 +8,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 const Test = () => {
 
     const [text, set_text] = useState()
-    const [ok, set_ok] = useState()
+    const [ok, set_ok] = useState("")
 
     const summit = async () => {
 
@@ -46,10 +46,14 @@ std::cout << "hello" <<std::endl;
 
     }, [])
 
+    useEffect(() => {
+        console.log("okok")
+    }, [])
+
     return (
         <div className=" flex justify-center items-center py-36 flex-col gap-4 bg-white rounded-md m-5">
             <input className="bg-black text-white" onChange={(e) => set_text(e.target.value)} />
-            <button className="bg-white" onClick={summit}>Generate</button>
+            <button className="bg-white" onClick={summit}>Ges2323123nerate</button>
             <Markdown
                 children={ok}
                 components={{

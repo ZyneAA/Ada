@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Send } from "lucide-react"
-import Chat_Message from "./Chat_Message"
 
 const Chat = ({ is_open, on_close }) => {
 
-    const [text, set_text] = useState("")
+    const [text, set_text] = useState("Dummy")
     const [generated_text, set_generated_text] = useState("Something is cool something is not")
     const [messages, set_messages] = useState({})
 
@@ -13,6 +12,8 @@ const Chat = ({ is_open, on_close }) => {
 
         if(e.key === "Enter") {
             set_generated_text(text)
+            console.log(generated_text)
+            console.log("sfs")
         }
 
     }
@@ -47,7 +48,7 @@ const Chat = ({ is_open, on_close }) => {
                     <div className="flex flex-col h-full w-full rounded-md">
                         <button onClick={on_close} className="p-6 text-right text-transparent bg-clip-text bg-gradient-to-b from-gray-400 to-gray-500">Close</button>
                         <div className="flex justify-center items-center" style={{height: "92%"}}>
-                            {generate}
+                            <h1>{generated_text}</h1>
                         </div>
                         <div className="px-5 py-4">
                             <div className="flex flex-row border border-gray-400 rounded-lg">
