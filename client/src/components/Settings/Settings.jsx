@@ -3,6 +3,7 @@ import Profile from "./components/Profile"
 import Appearance from "./components/Appearance"
 import Account from "./components/Account"
 import { useState } from "react"
+import { SquareX } from "lucide-react"
 
 const Settings = () => {
 
@@ -25,7 +26,12 @@ const Settings = () => {
             }}
             >
                 <div>
-                    <h1 className="text-white lg:text-5xl text-3xl font-space pt-6">Settings</h1>
+                    <div className="flex flex-row">
+                        <h1 className="text-white lg:text-5xl text-3xl font-space pt-6" style={{width: "99%"}}>Settings</h1>
+                        <a href="http://localhost:8001/code" className="flex items-start pt-3">
+                            <SquareX color="white" scale={10} />
+                        </a>
+                    </div>
                     <p className="text-white py-8">Manage your account settings and set e-mail preferences.</p>
                     <div className="bg-gray-800 w-full" style={{height: 0.5}}/>
                 </div>

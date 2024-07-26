@@ -1,7 +1,7 @@
 package com.Ada.vault.controller;
 
 import com.Ada.vault.domain.User;
-import com.Ada.vault.domain.User_Settings;
+import com.Ada.vault.domain.settings.Profile;
 import com.Ada.vault.service.User_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 @RestController
 public class User_Controller {
@@ -41,12 +42,11 @@ public class User_Controller {
 
     }
 
-    @PostMapping(path = "/vault/update_user_settings")
-    public CompletableFuture<ResponseEntity<User_Settings>> update_user_settings(@RequestBody User_Settings user_settings) {
+    @PostMapping(path = "/vault/update_user_profile")
+    public CompletableFuture<ResponseEntity<Profile>> update_user_settings(@RequestBody Profile profile) {
 
-        return user_service.update_user_settings(user_settings)
-                .thenApply(updated_user_settings -> ResponseEntity.status(HttpStatus.OK).body(updated_user_settings))
-                .exceptionally(_ -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new User_Settings()));
+        return user_service.update_user_settings(profile)
+                .thenApply(updated_profile -> ResponseEntity.status(HttpStatus.OK).body(updated_profile));
 
     }
 

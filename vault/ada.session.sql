@@ -10,11 +10,12 @@ CREATE TABLE users(
 INSERT INTO users(username, email, password) VALUES ('root', 'root@email.com', '123');
 
 --@block
-CREATE TABLE user_settings(
+CREATE TABLE profiles(
     fn VARCHAR(255),
     ln VARCHAR(255),
     status_1 VARCHAR(255),
     status_2 VARCHAR(255),
+    bio VARCHAR(255)
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -33,13 +34,13 @@ SELECT * FROM users;
 SELECT * FROM sessions;
 
 --@block
-SELECT * FROM user_settings;
+SELECT * FROM profiles;
 
 --@block
 DELETE FROM users;
 
 --@block
-DELETE FROM user_settings;
+DELETE FROM profiles;
 
 --@block
 DELETE FROM sessions;
@@ -51,4 +52,4 @@ DROP TABLE users;
 DROP TABLE sessions;
 
 --@block
-DROP TABLE user_settings;
+DROP TABLE profiles;

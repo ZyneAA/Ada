@@ -1,39 +1,86 @@
 import Input_Box from "../../animations/Input_Box"
 import Cool_Button_2 from "../../animations/Cool_Button_2"
-import React, { useState, useEffect } from "react"
-import Cookies from "js-cookie"
+import React, { useState } from "react"
 import { motion } from "framer-motion"
+import axios from "axios"
 
 const Profile = () => {
 
     const [toggle_1, set_toggle_1] = useState(false)
     const [toggle_2, set_toggle_2] = useState(false)
+    const [fn, set_fn] = useState("")
+    const [ln, set_ln] = useState("")
+    const [bio, set_bio] = useState("")
     const [status_1, set_status_1] = useState("Status 1")
     const [status_2, set_status_2] = useState("Status 2")
 
     const items1 = ["Eating", "Playing", "Going", "Making", "Waiting", "Showing", "Pushing", "Pulling", "Riding"];
     const items2 = ["Game", "Code", "Program", "Car", "Bike", "Ski", "Piano", "Guitar"];
 
+    const update = async() => {
+
+        try{
+            const response = await axios.post(
+                "http://localhost:8000/bridge/v1/labyrinth/update_user_profile",
+                {
+                    fn: fn,
+                    ln: ln,
+                    status_1: status_1,
+                    status_2: status_2,
+                    bio: bio
+                },
+                {
+                    withCredentials: true
+                }
+            )
+            console.log(response.data)
+        }
+        catch(err) {
+
+        }
+
+    }
+
     const toggler_1 = () => {
+
         if (toggle_1 === false) set_toggle_1(true)
         if (toggle_1 === true) set_toggle_1(false)
+
     }
 
     const toggler_2 = () => {
+
         if (toggle_2 === false) set_toggle_2(true)
         if (toggle_2 === true) set_toggle_2(false)
+
     }
 
     const s1 = (e) => {
+
         const status = e.target.textContent
         set_status_1(status)
         set_toggle_1(false)
+
     }
 
     const s2 = (e) => {
+
         const status = e.target.textContent
         set_status_2(status)
         set_toggle_2(false)
+
+    }
+
+    const change_fn = (value) => {
+
+        set_fn(value)
+
+    }
+
+    const change_ln = (value) => {
+
+        set_ln(value)
+
     }
 
     return(
@@ -46,10 +93,15 @@ const Profile = () => {
                             <div className="bg-gray-800 w-full" style={{height: 0.5}}/>
                         </div>                          
                     </div>
-                    <div className="pb-10">
-                        <h1 className="text-white pb-3">Username</h1> 
-                        <Input_Box type="text" variant={0}/>
-                        <p className="text-gray-500 pt-3">This is your public display name. It can be your real name or a pseudonym. You can only change this once every 30 days.</p>
+                    <div className="pb-10 flex flex-row gap-3">
+                        <div>
+                            <h1 className="text-white pb-3">First Name</h1> 
+                            <Input_Box type="text" variant={0} getter={change_fn} />
+                        </div>
+                        <div>
+                            <h1 className="text-white pb-3">Last Name</h1> 
+                            <Input_Box type="text" variant={0} getter={change_ln} />
+                        </div>
                     </div>
                     <div className="pb-10">
                         <h1 className="text-white pb-3">Status</h1> 
@@ -93,7 +145,7 @@ const Profile = () => {
                         <h1 className="text-white pb-3">Bio</h1> 
                         <motion.textarea
                             rows="5"
-                            className="rounded-lg border border-gray-50 w-full relative bg-zinc-900 text-slate-50 outline-none p-3"
+                            className="rounded-lg border border-gray-50 w-full bg-zinc-900 text-slate-50 outline-none p-3"
                             placeholder="Tell us a bit..."
                             whileHover={{
                                 scale: 1.1,
@@ -103,6 +155,7 @@ const Profile = () => {
                             transition={{
                                 type: "spring"
                             }}
+                            onChange={e => set_bio(e.target.value)}
                         ></motion.textarea>
                         <p className="text-gray-500 pt-3">Write a few words about yourself or entirely something unrelated.</p>
                     </div>
@@ -116,6 +169,7 @@ const Profile = () => {
                             transition={{
                                 type: "spring"
                             }}
+                            onClick={update}
                         >Save</motion.button>
                     </div>
                 </div>

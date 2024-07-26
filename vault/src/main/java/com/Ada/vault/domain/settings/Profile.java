@@ -1,9 +1,8 @@
-package com.Ada.vault.domain;
+package com.Ada.vault.domain.settings;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "user_settings")
-public class User_Settings {
+@Table(name = "profiles")
+public class Profile {
 
     @Id
     private Long user_id;
@@ -27,6 +26,20 @@ public class User_Settings {
     private String status_1;
 
     private String status_2;
+
+    private String bio;
+
+    public String get_bio() {
+
+        return bio;
+
+    }
+
+    public void set_bio(String bio) {
+
+        this.bio = bio;
+
+    }
 
     public Long get_user_id() {
 

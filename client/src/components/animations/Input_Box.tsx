@@ -5,12 +5,18 @@ const Input_Box = (props) => {
 
     const type = props.variant
 
+    const get_name = (e) => {
+
+        props.getter(e.target.value)
+
+    }
+
     return(
         <div>
             {
                 type === 0? 
                     <motion.input 
-                    onChange={props.getter}
+                    onChange={(e) => get_name(e)}
                     type={props.type}
                     className="h-10 pl-2 rounded-lg border border-gray-50 w-full relative bg-zinc-900 text-slate-50 outline-none" 
                     id={props.id}
@@ -25,7 +31,7 @@ const Input_Box = (props) => {
                     :
                     type === 1?
                         <motion.input 
-                        onChange={props.getter}
+                        onChange={(e) => get_name(e)}
                         type={props.type}
                         className="h-10 pl-2 rounded-lg border border-gray-50 w-full relative bg-zinc-900 text-slate-50 outline-none" 
                         id={props.id}
@@ -38,7 +44,7 @@ const Input_Box = (props) => {
                         }}/>
                         :
                         <motion.input 
-                        onChange={props.getter}
+                        onChange={(e) => get_name(e)}
                         type={props.type}
                         className="h-10 pl-2 rounded-lg border border-gray-50 w-full relative bg-zinc-900 text-slate-50 outline-none" 
                         id={props.id}
