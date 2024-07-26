@@ -11,12 +11,13 @@ export default passport.use(
 
             try{
                 const user = await user_db.find_user_by_username(username)
+                console.log(user)
 
                 if(user.username === null) throw new Error("User Not Found")
 
                 if(!hash.compare_password(password, user.password)) throw new Error("Bad Credentials")
 
-                done(null, user)
+                done(null, {"username": username, "user_id": user.user_id})
             }
             catch(err){
                 done(err, null)
@@ -30,18 +31,18 @@ export default passport.use(
 
 passport.serializeUser(async(user, done) => {
 
-    done(null, user.user_id)
+    done(null, user)
 
 })
 
-passport.deserializeUser(async(user_id, done) => {
+passport.deserializeUser(async(user, done) => {
 
     try{
-        const user = await user_db.find_user_by_id(user_id)
+        const u = await user_db.find_user_by_id(user.user_id)
 
-        if(user.username === null) return new Error("User Not Found")
+        if(u.username === null) return new Error("User Not Found")
 
-        done(null, user)
+        done(null, u)
     }
     catch(err){
         done(err, null)

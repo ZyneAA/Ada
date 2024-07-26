@@ -60,7 +60,7 @@ const Music = () => {
     }
 
     return(
-            <div className="rounded-md text-slate-300 border border-slate-800 h-full justify-center items-center flex overflow-hidden" style={{backgroundColor: "#1c1e25"}}>
+            <div className="rounded-md text-slate-300 border border-slate-800 h-full w-full justify-center items-center flex overflow-hidden" style={{backgroundColor: "#1c1e25"}}>
                 <div className="p-2">
                     <div className="py-3">
                         <div className="flex flex-row gap-2">
@@ -74,7 +74,7 @@ const Music = () => {
                         </div>
                     </div>                   
                     {url && (
-                        <div style={{ display: "none" }}>
+                        <div className="w-full h-full">
                             <ReactPlayer 
                                 ref={player}
                                 url={url} 
@@ -82,8 +82,8 @@ const Music = () => {
                                 volume={volume}
                                 onProgress={handle_progress}
                                 controls 
-                                width="0" 
-                                height="0" 
+                                width="850" 
+                                height="330" 
                             />
                         </div>
                     )}

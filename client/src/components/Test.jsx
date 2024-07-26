@@ -44,6 +44,23 @@ std::cout << "hello" <<std::endl;
 `
         set_ok(markdown)
 
+        const check = async() => {
+
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/bridge/v1/labyrinth/auth/check",
+                    {withCredentials: true}
+                )
+                console.log(response.data)
+            }
+            catch(err) {
+                
+            }
+
+        }
+
+        check()
+
     }, [])
 
     useEffect(() => {

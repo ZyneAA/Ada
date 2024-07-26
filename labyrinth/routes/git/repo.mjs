@@ -23,7 +23,7 @@ router.get(
             res.status(200).json(respone.data)
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -50,10 +50,10 @@ router.post(
             }
 
             const content_encoded = Buffer.from(content).toString("base64")
-            const repo_name = `${req.session.passport.user.git_username}-ada-folder`
+            const repo_name = `${req.session.passport.user.git_name}-ada-folder`
 
             const response = await axios.put(
-                `https://api.github.com/repos/${req.session.passport.user.git_username}/${repo_name}/contents/${file_path}`,
+                `https://api.github.com/repos/${req.session.passport.user.git_name}/${repo_name}/contents/${file_path}`,
                 {
                     message: `Create ${file_path}`,
                     content: content_encoded,
@@ -83,16 +83,16 @@ router.get(
 
         try{
             const file_path = ''
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
-            const response = await get_repo_content(git_username, repo_name, file_path, token)
+            const response = await get_repo_content(git_name, repo_name, file_path, token)
 
             res.status(200).json(response.data)
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -106,17 +106,17 @@ router.get(
 
         try{
             const file_path = ''
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
-            const response = await get_repo_content(git_username, repo_name, file_path, token)
+            const response = await get_repo_content(git_name, repo_name, file_path, token)
             const folders = response.filter(item => item.type === "dir" || item.type === "file").map(item => item)
 
             res.status(200).json(folders)
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -130,16 +130,16 @@ router.get(
 
         try{
             const file_path = req.query.file_path
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
-            const response = await get_repo_content(git_username, repo_name, file_path, token)
+            const response = await get_repo_content(git_name, repo_name, file_path, token)
 
             res.status(200).json(response)
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -153,17 +153,17 @@ router.get(
 
         try{
             const file_path = req.query.file_path
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
-            const response = await get_repo_content(git_username, repo_name, file_path, token)
+            const response = await get_repo_content(git_name, repo_name, file_path, token)
             const content = Buffer.from(response.content, "base64").toString("utf8")
 
             res.status(200).json([response, content])
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -177,17 +177,17 @@ router.get(
 
         try{
             const file_path = req.query.file_path
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
-            const response = await get_all_files(git_username, repo_name, file_path, token)
+            const response = await get_all_files(git_name, repo_name, file_path, token)
             // const respone1 = make_file(response)
 
             res.status(200).json(response)
         }
         catch(err){
-            console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -200,12 +200,14 @@ router.get(
     async(req, res) => {
 
         try{
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+
+            console.log(req.session)
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
             const ref_response = await axios.get(
-                `https://api.github.com/repos/${git_username}/${repo_name}/git/refs/heads/main`,
+                `https://api.github.com/repos/${git_name}/${repo_name}/git/refs/heads/main`,
                 {
                     headers: {
                         Authorization: `token ${token}`,      
@@ -217,11 +219,11 @@ router.get(
             const commit_sha = ref_response.data.object.sha
 
             const tree_response = await axios.get(
-                `https://api.github.com/repos/${git_username}/${repo_name}/git/trees/${commit_sha}?recursive=1`,
+                `https://api.github.com/repos/${git_name}/${repo_name}/git/trees/${commit_sha}?recursive=1`,
                 {
                     headers: {
                         Authorization: `token ${token}`,
-                        Accept: 'application/vnd.github.v3+json'
+                        Accept: "application/vnd.github.v3+json"
                     }
                 }
             )
@@ -232,6 +234,7 @@ router.get(
         }
         catch(err){
             console.log(err)
+            res.sendStatus(400)
         }
 
     }
@@ -252,12 +255,12 @@ router.post(
 
         try{
             const file_path = req.query.file_path
-            const git_username  = req.session.passport.user.git_username
-            const repo_name = `${git_username}-ada-folder`
+            const git_name  = req.session.passport.user.git_name
+            const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
 
             const response = await axios.put(
-                `https://api.github.com/repos/${git_username}/${repo_name}/contents/${file_path}`, 
+                `https://api.github.com/repos/${git_name}/${repo_name}/contents/${file_path}`, 
                 {
                     message: "Update File",
                     content: file,
@@ -273,7 +276,7 @@ router.post(
             res.status(200).json(response.data)
         }
         catch(err){
-            return
+            res.sendStatus(400)
         }
 
     }

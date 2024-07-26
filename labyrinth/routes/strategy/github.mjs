@@ -9,14 +9,14 @@ export default passport.use(
         {         
             "clientID": get_secret(process.env.GIT_CLIENT_ID),
             "clientSecret": get_secret(process.env.GIT_CLIENT_SECRET),
-            "callbackURL": "http://localhost:8000/bridge/v1/labyrinth/auth/github/callback"            
+            "callbackURL": "http://localhost:8000/bridge/v1/labyrinth/auth/github/callback", 
         },
         async(accessToken, refreshToken, profile, done) => {
 
             try{
-                console.log(profile)
                 profile.accessToken = accessToken
-                done(null, {"git_username": profile.username, "id": profile.id, "access_token": profile.accessToken})
+                const github = {"git_username": profile.username, "id": profile.id, "access_token": profile.accessToken}
+                done(null, {"github": github})
             }
             catch(err){
                 done(err, null)

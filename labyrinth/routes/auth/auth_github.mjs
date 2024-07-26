@@ -6,8 +6,7 @@ const router = Router()
 router.get(
 
     "/auth/github",
-    passport.authenticate("github", {scope: ["user:email", "repo"]})
-
+    passport.authorize("github", {scope: ["user:email", "repo"]})
 
 )
 

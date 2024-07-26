@@ -44,7 +44,7 @@ const Utility_Bar = ({chat}) => {
                         withCredentials: true,
                     }
                 )
-                set_username(response.data[0].passport.user.git_username)
+                set_username(response.data[0].passport.user.username)
                 set_id(response.data[1])
                 set_login(true)
             }

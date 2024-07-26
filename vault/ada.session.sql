@@ -7,6 +7,9 @@ CREATE TABLE users(
 );
 
 --@block
+INSERT INTO users(username, email, password) VALUES ('root', 'root@email.com', '123');
+
+--@block
 CREATE TABLE user_settings(
     fn VARCHAR(255),
     ln VARCHAR(255),

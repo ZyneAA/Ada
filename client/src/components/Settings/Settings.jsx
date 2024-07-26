@@ -25,7 +25,7 @@ const Settings = () => {
             }}
             >
                 <div>
-                    <h1 className="text-white lg:text-5xl text-3xl font-space">Settings</h1>
+                    <h1 className="text-white lg:text-5xl text-3xl font-space pt-6">Settings</h1>
                     <p className="text-white py-8">Manage your account settings and set e-mail preferences.</p>
                     <div className="bg-gray-800 w-full" style={{height: 0.5}}/>
                 </div>
