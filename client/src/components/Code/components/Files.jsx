@@ -212,19 +212,24 @@ const Files = (props) => {
                         <div className="flex flex-col">
                             <div className="flex flex-row pb-2 px-2" style={{ height: "10%" }}>
                                 <div style={{ width: "20%" }} className="flex items-center">
-                                    <p className="text-transparent bg-clip-text bg-gradient-to-b from-gray-200 to-gray-400">EXPLORER</p>
+                                    <p className="text-transparent bg-clip-text" style={{backgroundColor: props.background_second_complement}}>EXPLORER</p>
                                 </div>
                                 <div className="flex flex-row justify-end items-center gap-2" style={{ width: "80%" }}>
                                     <div>
-                                        <SlReload color="gray" size="20" />
+                                        <SlReload color={props.background_second_complement} size="20" />
                                     </div>
                                     <div>
-                                        <LuFilePlus2 color="gray" size="20" onClick={handle_toggle} />
+                                        <LuFilePlus2 color={props.background_second_complement} size="20" onClick={handle_toggle} />
                                     </div>
                                 </div>
                             </div>
                             <div style={{ height: "90%" }}>
-                                <File_System data={files} selected_path={get_file} selected_folder={get_folder} />
+                                <File_System data={files} 
+                                    selected_path={get_file} 
+                                    selected_folder={get_folder} 
+                                    icon_color={props.background_second_complement} 
+                                    font_color={props.font}
+                                />
                             </div>
                         </div>
                     </div>

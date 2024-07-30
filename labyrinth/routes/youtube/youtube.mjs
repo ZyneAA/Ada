@@ -20,13 +20,13 @@ router.get(
                         q: info,
                         key: get_secret(process.env.YOUTUBE_API_KEY),
                         type: "video",
-                        maxResults: 1,
+                        maxResults: 10,
                     },
                 }
             )
 
             if (response.data.items.length > 0) {
-                console.log(response.data.items[0])
+                console.log(response.data)
                 res.status(200).json(response.data.items[0])
             }
             else {

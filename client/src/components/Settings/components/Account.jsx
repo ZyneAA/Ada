@@ -4,34 +4,45 @@ import { useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 
-const Account = () => {
+const Account = ({ background_color, background_complement, background_second_complement, font_color }) => {
 
     const navigate = useNavigate()
-    
-    const [id, set_id] = useState("")
+
+    const [session, set_session] = useState(null)
     const [session_exist, set_session_exist] = useState(false)
 
+    if(session === null) {
+        navigate("/")
+    }
+
     useEffect(() => {
-        const extract_id = () => {
-            const session = Cookies.get("connect.sid")
-            if(!session){
-                set_session_exist(false)
-                return
+
+        const get_session = async () => {
+
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/bridge/v1/labyrinth/auth/check",
+                    { withCredentials: true }
+                )
+                if(response.data === null){
+                    navigate("/")
+                }
+                set_session(response.data)
             }
-            set_session_exist(true)
-            const regex = /:([^.]*)/;
-            const match = session.match(regex);         
-            return match ? match[1] : '';
+            catch (err) {
+
+            }
+
         }
 
-        set_id(extract_id())
+        get_session()
 
     }, [])
 
     const logout = () => {
-        try{
+        try {
             const response = axios.delete(
-                `http://127.0.0.1:8000/session_data/${id}`,
+                `http://localhost:8000/bridge/v1/labyrinth/logout`,
                 {
                     withCredentials: true
                 }
@@ -39,39 +50,60 @@ const Account = () => {
             Cookies.remove("connect.sid")
             navigate("/")
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     }
 
-    return(
+    return (
         <div>
             <div className="pb-6">
-                <h1 className="text-white text-2xl pb-3">Account</h1>
-                <p className="text-gray-500">Settings for your account.</p>
+                <h1 className="text-2xl pb-3" style={{ color: font_color }}>Account</h1>
+                <p style={{ color: font_color }}>Your Account Informations</p>
                 <div className="pt-5 pb-6">
-                    <div className="bg-gray-800 w-full" style={{height: 0.5}}/>
+                    <div className="bg-gray-800 w-full" style={{ height: 0.5, backgroundColor: background_second_complement }} />
+                    {
+                        !session ?
+                            <p>loading</p> :
+                            <div>
+                                <div className="pb-1 pt-3  flex flex-row">
+                                    <h1 className="pb-1 pr-2" style={{ color: font_color }}>Username:</h1>
+                                    <p style={{ color: font_color }}>{session.passport.user.username}</p>
+                                </div>
+                                {
+                                    session.passport.user.git_name === undefined ?
+                                        <div>
+                                            <p style={{ color: font_color }}>Haven't login to Git Hub</p>
+                                        </div> :
+                                        <div>
+                                            <div className="pb-1 flex flex-row">
+                                                <h1 className="pb-1 pr-2" style={{ color: font_color }}>Git Hub Username:</h1>
+                                                <p style={{ color: font_color }}>{session.passport.user.git_name}</p>
+                                            </div>
+                                            <div className="pb-1 flex flex-row">
+                                                <h1 className="pb-1 pr-2" style={{ color: font_color }}>Access Token: </h1>
+                                                <p style={{ color: font_color }}>{session.passport.user.access_token}</p>
+                                            </div>
+                                        </div>
+                                }
+                            </div>
+
+                    }
                 </div>
-                {
-                    session_exist === true ?
-                    <div className="pb-10 flex flex-row">
-                        <h1 className="text-white pb-3 pr-2">Your session id:</h1>
-                        <p className="text-gray-500">{id}</p>
-                    </div> 
-                    :
-                    <div className="pb-10 flex flex-row">
-                        <h1 className="text-white pb-3 pr-2">No current active session.</h1>
-                    </div> 
-                }
-                   
                 <div>
-                    <motion.button onClick={logout} className=" text-white border border-red-800 rounded-lg px-3 h-10 w-15 bg-red-800"
-                        whileHover={{scale: 1.1, borderColor: "rgb(153, 27, 27)",boxShadow: "0px 0px 10px 0px red"}}
-                        transition={{type: "spring"}}
-                    >
-                        Logout
-                    </motion.button>
-                </div>                      
+                    <motion.button className="rounded-md px-3 h-10 w-20"
+                        onClick={logout}
+                        style={{ color: font_color, backgroundColor: background_complement }}
+                        whileHover={{
+                            scale: 1.1,
+                            borderColor: background_complement,
+                            boxShadow: `0px 0px 20px 0px ${background_complement}`
+                        }}
+                        transition={{
+                            type: "spring"
+                        }}
+                    >Logout</motion.button>
+                </div>
             </div>
         </div>
     )

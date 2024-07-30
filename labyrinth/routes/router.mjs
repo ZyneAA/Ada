@@ -11,11 +11,12 @@ import youtube from "./youtube/youtube.mjs"
 import text_2_text from "./AI/text_2_text.mjs"
 import check from "./auth/check.mjs"
 import profile from "./settings/profile.mjs"
+import logout from "./lnr/logout.mjs"
 
 const router = Router()
 
 router.use([user, auth_local, auth_github, github_callback, 
             repo, session, register, test, youtube, text_2_text, 
-            check, profile])
+            check, profile, logout])
 
 export default router

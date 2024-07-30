@@ -1,0 +1,37 @@
+{
+    "theme_name": "Retro Sunset",
+    "name": "sunset",
+    "title": "I'm just running in the 90s",
+    "description": "Who else doesn't want to live in the 90s",
+    "bg_class": "bg-sunset",
+    "editor": {
+        "foreground": "#F19ED2",
+        "background": "#973131",
+        "background_complement": "#E0A75E",
+        "background_second_complement": "#FEFFD2",
+        "font": "#FFFBDA",
+        "cursor_foregorund": "#F3D7CA",
+        "line_highlight_background": "#F5E7B250",
+        "line_number_foreground": "#DFCCFB",
+        "selection_background": "#D8B4F830",
+        "inactive_selection_background": "#88000015",
+        "dintinct_color": "#FEFFD2",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#FFEC9E",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#FCF5ED",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "string",
+                "foreground": "#FCF5ED",
+                "fontStyle": "italic"
+            }    
+        ]
+    }
+}

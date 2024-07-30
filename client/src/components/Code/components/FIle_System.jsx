@@ -3,7 +3,7 @@ import { FaRegFile } from "react-icons/fa"
 import { FaRegFolder } from "react-icons/fa"
 import { MdArrowForwardIos } from "react-icons/md"
 
-const File_System = ({ data, selected_path, selected_folder }) => {
+const File_System = ({ data, selected_path, selected_folder, font_color, icon_color }) => {
 
 	const [open_folders, set_open_folders] = useState({});
 	const [open, set_open] = useState(false)
@@ -35,8 +35,8 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 			if (typeof value === "string") {
 				// This is a file
 				return (
-					<div key={current_path} className="flex flex-row items-center pl-6 cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-gray-400 to-gray-500">
-						<FaRegFile color="gray" size="18"/>
+					<div key={current_path} className="flex flex-row items-center pl-6 cursor-pointer text-transparent bg-clip-text" style={{backgroundColor: font_color}}>
+						<FaRegFile color={icon_color} size="18"/>
 						<p onClick={() => send_path([current_path, key])}>{key}</p>
 					</div>
 				)
@@ -46,11 +46,11 @@ const File_System = ({ data, selected_path, selected_folder }) => {
 				return (
 					<div key={current_path} className="pl-2">
 						<div
-							className="flex flex-row items-center cursor-pointer text-transparent bg-clip-text bg-gradient-to-b from-gray-400 to-gray-500"
+							className="flex flex-row items-center cursor-pointer text-transparent bg-clip-text" style={{backgroundColor: font_color}}
 							onClick={() => toggle_folder(current_path)}
 						>
-							<MdArrowForwardIos color="gray" size="15" />
-							<FaRegFolder color="gray" size="18"/>
+							<MdArrowForwardIos color={icon_color} size="15" />
+							<FaRegFolder color={icon_color} size="18"/>
 							<p className="pl-1 overflow-hidden">{key}</p>
 						</div>
 						{open_folders[current_path] && (

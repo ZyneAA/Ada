@@ -29,8 +29,8 @@ const Xterm = (props) => {
             rows: 8,
             disableStdin: true,
             theme: {
-                background: '#1c1e25',
-                foreground: 'transparent',
+                background: props.background_color,
+                foreground: props.font,
                 cursor: '#d4d4d4',
                 selection: '#4d4d4d'
             }
@@ -74,11 +74,11 @@ const Xterm = (props) => {
         <div className="w-full h-full overflow-hidden" style={{height: "100%"}}>
             <div ref={terminal_ref} className="rounded-t-md w-full flex flex-grow"/>
         </div>
-        <div className="flex flex-row rounded-b-md bg-slate-800 overflow-hidden">
+        <div className="flex flex-row overflow-hidden" style={{backgroundColor: props.background_complement}}>
             <div className="justify-center items-center flex">
-                <label htmlFor="t_input" className="text-white px-3 p-2"> {'>'} </label>
+                <label htmlFor="t_input" className="px-3 p-2" style={{color: props.font}}> {'>'} </label>
             </div>
-            <input id="t_input" className="outline-none w-full bg-slate-800 text-white text-sm rounded-b-md" placeholder="Type something here" onKeyDown={termminal_input_func}/>
+            <input id="t_input" className="outline-none w-full text-sm" onKeyDown={termminal_input_func} style={{backgroundColor: props.background_complement, color: props.font, "::placeholder": { color: props.font} }}/>
         </div>
     </div>
   )

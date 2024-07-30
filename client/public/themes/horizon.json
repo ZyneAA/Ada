@@ -1,0 +1,38 @@
+{
+    "theme_name": "Event Horizon",
+    "name": "horizon",
+    "title": "Default theme for Ada",
+    "description": "A black and dark blue(idk how the eaxct color name) is the perfect match for eye comfort",
+    "bg_class": "bg-horizon",
+    "editor": {
+        "foreground": "#FFFFFF",
+        "background": "#1C1E25",
+        "background_complement": "#1E293B",
+        "background_second_complement": "#EEF7FF",
+        "font": "#CBD5E1",
+        "cursor_foregorund": "#C35970",
+        "line_highlight_background": "#30333D",
+        "line_number_foreground": "#3A3D44",
+        "selection_background": "#88000030",
+        "inactive_selection_background": "#88000015",
+        "dintinct_color": "#EEF7FF",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#E95678E6",
+                "font_style": "italic"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#B877DBE6",
+                "font_style": "italic"
+            },
+            {
+                "token": "string",
+                "foreground": "#DFB095",
+                "font_style": "italic"
+            }   
+        ]
+    }
+}
+

@@ -201,7 +201,6 @@ router.get(
 
         try{
 
-            console.log(req.session)
             const git_name  = req.session.passport.user.git_name
             const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
@@ -233,7 +232,6 @@ router.get(
             res.status(200).json(file_paths)
         }
         catch(err){
-            console.log(err)
             res.sendStatus(400)
         }
 

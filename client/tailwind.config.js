@@ -14,7 +14,8 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
-        horizon: '#1c1e25', // Replace with your hash color value
+        horizon: '#1C1E25',
+        sunset: "#973131"
       },    
       "animation": {
         shimmer: "shimmer 2s linear infinite"

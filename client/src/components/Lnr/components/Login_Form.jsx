@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { AiFillGithub } from "react-icons/ai"
+import "../../../css/misc.css"
 
 const Login_Form = (props) => {
 
@@ -53,44 +54,38 @@ const Login_Form = (props) => {
 
     return(<div>
 
-        <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input backdrop-blur-sm bg-slate-300/5 border border-slate-800">
-            <h1 className="text-white text-3xl font-space pb-8">Login with your registered account</h1>
+        <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input backdrop-blur-sm bg-slate-300/5 border-2" style={{borderColor: props.background_second_complement}}>
+            <h1 className="text-3xl font-space pb-8" style={{color: props.font_color}}>Login with your registered account</h1>
                 <motion.input 
-                    whileHover={{
-                        scale: 1.05
-                    }}
-                    transition={{
-                        duration: 0.2
-                    }}
+                    style={{borderColor: props.background_second_complement, color: props.font_color, "--placeholder-color": props.font_color}}
+                    whileHover={{scale: 1.1, borderColor: props.background_complement, boxShadow: `0px 0px 15px 4px ${props.background_complement}`}}
+                    transition={{type: "spring"}}
                     onChange={get_username}
                     type="text"
                     placeholder="  Username"
-                    className="h-10 pl-2 rounded-lg border border-slate-700 focus:ring-2 w-full relative z-10 mt-4 bg-neutral-950 text-slate-50"
+                    className="h-10 pl-2 rounded-lg border focus:ring-2 w-full relative z-10 mt-4 bg-inherit outline-none input-placeholder"
                 />
-                <motion.input
-                    whileHover={{
-                        scale: 1.05
-                    }}
-                    transition={{
-                        duration: 0.2
-                    }}
+                <motion.input 
+                    style={{borderColor: props.background_second_complement, color: props.font_color, "--placeholder-color": props.font_color}}
+                    whileHover={{scale: 1.1, borderColor: props.background_complement, boxShadow: `0px 0px 15px 4px ${props.background_complement}`}}
+                    transition={{type: "spring"}}
                     onChange={get_password}
-                    type="password"
+                    type="text"
                     placeholder="  Password"
-                    className="h-10 pl-2 form-control rounded-lg border border-slate-700 focus:ring-2 w-full relative z-10 mt-4  bg-neutral-950 text-slate-50"
+                    className="h-10 pl-2 rounded-lg border focus:ring-2 w-full relative z-10 mt-4 bg-inherit outline-none input-placeholder"
                 />
                 <div className="pt-10">
-                    <motion.button className="inline-flex width: 25%; h-12 animate-shimmer items-center
-                            justify-center rounded-md border border-slate-800
-                            bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] 
-                            bg-[length:200%_100%] px-10 font-medium text-slate-400 
-                            transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 
-                            focus:ring-offset-2 focus:ring-offset-slate-50"
+                    <motion.button className={`inline-flex width: 25%; h-12 animate-shimmer items-center
+                            justify-center rounded-md border
+                            bg-[linear-gradient(110deg,${props.background_color},45%,${props.background_second_complement},55%,${props.background_color})] 
+                            bg-[length:200%_100%] px-10 font-medium
+                            transition-colors focus:outline-none`}                                                 
                         onClick={() => local_auth()}
-
+                        style={{color: props.font_color, borderColor: props.background_second_complement}}
                         whileHover={{
                             scale: 1.1, 
-                            borderColor: "#3573e6"
+                            borderColor: props.background_complement,
+                            boxShadow: `0px 0px 20px 0px ${props.background_complement}`
                         }}
                         transition={{
                             type: "spring"
@@ -118,13 +113,13 @@ const Login_Form = (props) => {
                                 }}
                                 onClick={git_auth}
                             >
-                                <AiFillGithub color="white" size="35"/>
+                                <AiFillGithub color={props.background_second_complement} size="35"/>
                         </motion.div>
                     </div>
                 </div>
                 <div>
                     <a href="/lnr">
-                        <p className="text-neutral-500 max-w-lg mx-auto text-sm text-center relative z-10 pt-16 font-space underline">
+                        <p className="max-w-lg mx-auto text-sm text-center relative z-10 pt-16 font-space underline" style={{color: props.font_color}}>
                             Or register an account here!
                         </p>
                     </a>

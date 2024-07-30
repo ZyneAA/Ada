@@ -99,8 +99,8 @@ services:
         develop:
             watch:
               - action: sync
-                path: ./client/src
-                target: /client/src
+                path: ./client
+                target: /client
                 ignore:
                     - node_modules
               - action: rebuild

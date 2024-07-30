@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { motion } from "framer-motion"
 import axios from "axios"
 
-const Profile = () => {
+const Profile = ({background_color, background_complement, background_second_complement, font_color}) => {
 
     const [toggle_1, set_toggle_1] = useState(false)
     const [toggle_2, set_toggle_2] = useState(false)
@@ -87,26 +87,38 @@ const Profile = () => {
         <div>
                 <div>
                     <div className="pb-6">
-                        <h1 className="text-white text-2xl pb-3">Profile</h1>
-                        <p className="text-gray-500">This is how others will see you on the site.</p>
+                        <h1 className="text-2xl pb-3" style={{color: font_color}}>Profile</h1>
+                        <p style={{color: font_color}}>This is how others will see you on the site.</p>
                         <div className="pt-5">
-                            <div className="bg-gray-800 w-full" style={{height: 0.5}}/>
+                            <div className="w-full" style={{height: 0.5, backgroundColor: background_second_complement}}/>
                         </div>                          
                     </div>
                     <div className="pb-10 flex flex-row gap-3">
                         <div>
-                            <h1 className="text-white pb-3">First Name</h1> 
-                            <Input_Box type="text" variant={0} getter={change_fn} />
+                            <h1 className="pb-3" style={{color: font_color}}>First Name</h1> 
+                            <Input_Box type="text" variant={0} getter={change_fn} 
+                                background_complement={background_complement} 
+                                font_color={font_color} 
+                                background_second_complement={background_second_complement} 
+                            />
                         </div>
                         <div>
-                            <h1 className="text-white pb-3">Last Name</h1> 
-                            <Input_Box type="text" variant={0} getter={change_ln} />
+                            <h1 className="pb-3" style={{color: font_color}}>Last Name</h1> 
+                            <Input_Box type="text" variant={0} getter={change_ln} 
+                                background_complement={background_complement} 
+                                font_color={font_color} 
+                                background_second_complement={background_second_complement} 
+                            />
                         </div>
                     </div>
                     <div className="pb-10">
-                        <h1 className="text-white pb-3">Status</h1> 
+                        <h1 className="pb-3" style={{color: font_color}}>Status</h1> 
                         <div className="flex flex-row gap-3">
-                            <Cool_Button_2 type="summit" handle={toggler_1} name={status_1}/>
+                            <Cool_Button_2 type="summit" handle={toggler_1} name={status_1}
+                                background_complement={background_complement} 
+                                font_color={font_color} 
+                                background_second_complement={background_second_complement} 
+                            />
                             {toggle_1 && (
                                 <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-blur">
                                     <div className="bg-black p-6 shadow-lg rounded-xl border border-slate-800 h-auto">
@@ -122,10 +134,14 @@ const Profile = () => {
                                     </div>
                                 </div>
                             )} 
-                            <Cool_Button_2 handle={toggler_2} type="summit" name={status_2}/>   
+                            <Cool_Button_2 handle={toggler_2} type="summit" name={status_2}
+                                background_complement={background_complement} 
+                                font_color={font_color} 
+                                background_second_complement={background_second_complement} 
+                            />   
                             {toggle_2 && (
                                 <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-blur">
-                                    <div className="bg-black p-6 shadow-lg rounded-xl border border-slate-800 h-auto">
+                                    <div className="p-6 shadow-lg rounded-xl border h-auto">
                                         <h2 className="text-xl font-bold mb-4 text-white">Select status</h2>
                                         <div className="flex flex-row flex-wrap gap-3 py-3 w-96">
                                             {items2.map((item, index) => (
@@ -139,32 +155,33 @@ const Profile = () => {
                                 </div>
                             )} 
                         </div>              
-                        <p className="text-gray-500 pt-3">Change your status.</p>
+                        <p className="pt-3" style={{color: font_color}}>Change your status.</p>
                     </div>
                     <div className="pb-10">
-                        <h1 className="text-white pb-3">Bio</h1> 
+                        <h1 className="pb-3" style={{color: font_color}}>Bio</h1> 
                         <motion.textarea
                             rows="5"
-                            className="rounded-lg border border-gray-50 w-full bg-zinc-900 text-slate-50 outline-none p-3"
-                            placeholder="Tell us a bit..."
+                            className="rounded-lg border-2 w-full outline-none p-3 bg-inherit"
+                            style={{color: font_color, borderColor: background_second_complement}}
                             whileHover={{
                                 scale: 1.1,
-                                borderColor: "rgb(38, 113, 212)",
-                                boxShadow: "0px 0px 20px 0px blue"
+                                borderColor: background_complement,
+                                boxShadow: `0px 0px 20px 0px ${background_complement}`
                             }}
                             transition={{
                                 type: "spring"
                             }}
                             onChange={e => set_bio(e.target.value)}
                         ></motion.textarea>
-                        <p className="text-gray-500 pt-3">Write a few words about yourself or entirely something unrelated.</p>
+                        <p className="pt-3" style={{color: font_color}}>Write a few words about yourself or entirely something unrelated.</p>
                     </div>
                     <div>
-                        <motion.button className="text-white bg-green-800 rounded-md px-3 h-10 w-20"
+                        <motion.button className="rounded-md px-3 h-10 w-20"
+                            style={{color: font_color, backgroundColor: background_complement}}
                             whileHover={{
                                 scale: 1.1,
-                                borderColor: "rgb(41, 166, 58)",
-                                boxShadow: "0px 0px 20px 0px green"
+                                borderColor: background_complement,
+                                boxShadow: `0px 0px 20px 0px ${background_complement}`
                             }}
                             transition={{
                                 type: "spring"
