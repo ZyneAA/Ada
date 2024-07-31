@@ -219,14 +219,16 @@ const Code = () => {
                     direction="vertical"
                 >
                     <ResizablePanel defaultSize={15}>
-                        <div className="flex items-center h-full overflow-auto" style={{ backgroundColor: theme.editor.background }}>
-                            <div className="flex flex-row overflow-auto">
-                                <YT_Player
-                                    font_color={theme.editor.font}
-                                    background_color={theme.editor.background}
-                                    background_complement={theme.editor.background_complement}
-                                    background_second_complement={theme.editor.background_second_complement}
-                                />
+                        <div className="flex h-full w-full overflow-auto" style={{ backgroundColor: theme.editor.background }}>
+                            <div className="flex flex-row overflow-auto items-start">
+                                <div className="w-full">
+                                    <YT_Player
+                                        font_color={theme.editor.font}
+                                        background_color={theme.editor.background}
+                                        background_complement={theme.editor.background_complement}
+                                        background_second_complement={theme.editor.background_second_complement}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </ResizablePanel>

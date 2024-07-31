@@ -8,15 +8,14 @@ import "../../../css/misc.css"
 const YT_Player = (props) => {
 
     const [info, set_info] = useState([])
-    const [url, set_url] = useState(null)
+    const [url, set_url] = useState("")
     const [name, set_name] = useState("")
     const [playing, set_playing] = useState(true)
-    const [volume, set_volume] = useState(0.8)
+    const [volume, set_volume] = useState(0.7)
     const [played, set_played] = useState(0)
-
-    // Player
     const player = useRef(null)
     const [music_mode, set_music_mode] = useState(true)
+    const [list, set_list] = useState([])
 
     const get_name = (e) => {
 
@@ -49,6 +48,13 @@ const YT_Player = (props) => {
 
     }
 
+    // const play_selected = (url) => {
+
+    //     set_url(url)
+
+
+    // }
+
     const search = async (e) => {
 
         try {
@@ -56,8 +62,28 @@ const YT_Player = (props) => {
                 `http://localhost:8000/bridge/v1/labyrinth/get_video_info?name=${name}`,
                 { withCredentials: true }
             )
-            set_info([response.data.snippet.title, response.data.snippet.channelTitle])
-            set_url(`https://www.youtube.com/watch?v=${response.data.id.videoId}`)
+
+            if (music_mode) {
+                set_info([response.data[0].snippet.title, response.data[0].snippet.channelTitle])
+                set_url(`https://www.youtube.com/watch?v=${response.data[0].id.videoId}`)
+                return
+            }
+
+            let temp = []
+
+            Object.keys(response.data).forEach(key => {
+                const id = response.data[key].id.videoId
+                const channel = response.data[key].snippet.channelTitle
+                const title = response.data[key].snippet.title
+                const thumbnail = response.data[key].snippet.thumbnails.default.url
+
+                temp.push([id, channel, title, thumbnail])
+            })
+            set_list(temp)
+            set_url(true)
+            console.log(player.current)
+
+            console.log(temp)
         }
         catch (err) {
             console.log(err)
@@ -66,7 +92,7 @@ const YT_Player = (props) => {
     }
 
     return (
-        <div className="rounded-md h-auto w-auto justify-center items-center flex overflow-auto bg-inherit" style={{ color: props.font_color }}>
+        <div className="rounded-md h-full w-full justify-center items-center flex overflow-auto bg-inherit" style={{ color: props.font_color }}>
             <div className="p-2">
                 <div className="py-3">
                     <div className="flex flex-row gap-2">
@@ -77,16 +103,16 @@ const YT_Player = (props) => {
                             placeholder="Search a song"
                             style={{ backgroundColor: props.background_complement, "--placeholder-color": props.font_color }}
                         />
-                        <button className="border rounded-md px-2" onClick={search} style={{ backgroundColor: props.background_complement }}>Search</button>
+                        <button className="border rounded-md px-2" onClick={search} style={{ backgroundColor: props.background_complement }}>{music_mode === true ? "Play" : "Search"}</button>
                         <div className="cursor-pointer h-full">
                             {
                                 music_mode === true ?
-                                <div className="flex items-center h-full w-full">
-                                    <Music color={props.font_color} onClick={() => set_music_mode(!music_mode)} size={30} /> 
-                                </div>:
-                                <div className="flex items-center h-full w-full">
-                                    <SquarePlay color={props.font_color} onClick={() => set_music_mode(!music_mode)} size={35} />
-                                </div>
+                                    <div className="flex items-center h-full w-full">
+                                        <Music color={props.font_color} onClick={() => set_music_mode(!music_mode)} size={30} />
+                                    </div> :
+                                    <div className="flex items-center h-full w-full">
+                                        <SquarePlay color={props.font_color} onClick={() => set_music_mode(!music_mode)} size={35} />
+                                    </div>
                             }
                         </div>
                     </div>
@@ -103,25 +129,46 @@ const YT_Player = (props) => {
                                     volume={volume}
                                     onProgress={handle_progress}
                                     controls
-                                    width="600px"
-                                    height="300px"
                                 /> :
-                                <ReactPlayer
-                                    ref={player}
-                                    url={url}
-                                    playing={playing}
-                                    volume={volume}
-                                    onProgress={handle_progress}
-                                    controls
-                                    width="600px"
-                                    height="300px"
-                                />
+                                <div className="flex flex-row overflow-auto w-full h-full">
+                                    <ReactPlayer
+                                        ref={player}
+                                        url={url}
+                                        playing={playing}
+                                        volume={volume}
+                                        onProgress={handle_progress}
+                                        controls
+                                        width="600px"
+                                        height="300px"
+                                    />
+                                    <div className="bg-inherit flex overflow-y-auto" style={{height: "300px"}}>
+                                        <div className="flex flex-col">
+                                            {list.length === 0 ?
+                                                <></> :
+                                                <ul>
+                                                    {list.map((item, index) => (
+                                                        <li key={index} className="py-1">
+                                                            <div className="flex flex-row p-2 rounded-lg cursor-pointer" onClick={() => set_url(`https://www.youtube.com/watch?v=${item[0]}`)}  style={{backgroundColor: props.background_complement, borderColor: props.background_second_complement}}>
+                                                                <img src={item[3]} width={100} height={30}/> 
+                                                                <div className="flex flex-col pl-3">
+                                                                    <p className="font-bold poin" style={{color: props.background_second_complement}}>{item[2]}</p>
+                                                                    <p style={{color: props.font_color}}>{item[1]}</p>
+                                                                    {/* <p>{item[0]}</p> */}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                         }
                     </div>
                 )}
                 {
                     music_mode === true ?
-                        <div className="space-x-2 flex justify-start">
+                        <div className="space-x-2 flex justify-start flex-grow-0">
                             <button onClick={handle_pause}>
                                 {playing ? <Pause size={20} strokeWidth={1} /> : <Play size={20} strokeWidth={1} />}
                             </button>
@@ -147,7 +194,7 @@ const YT_Player = (props) => {
                         <></>
                 }
 
-                <p className="pt-4">{info[0]}</p>
+                {/* <p className="pt-4">{info[0]}</p> */}
                 {/* <p className="">{info[1]}</p> */}
             </div>
         </div>

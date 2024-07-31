@@ -26,8 +26,8 @@ router.get(
             )
 
             if (response.data.items.length > 0) {
-                console.log(response.data)
-                res.status(200).json(response.data.items[0])
+                console.log(response.data.items)
+                res.status(200).json(response.data.items)
             }
             else {
                 res.status(404).json("Video Not Found")

@@ -166,38 +166,38 @@ const Files = (props) => {
             {
                 err === true ?
                     <div className="flex justify-center items-center">
-                        <h1 className="text-white">Cannot connect to github</h1>
+                        <h1 className="">Cannot connect to github</h1>
                     </div> :
                     <div>
                         <div className="flex flex-row items-end justify-end px-4 pb-2">
                             <div>
                                 {toggle && (
                                     <div className="w-auto fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-0 backdrop-blur-sm z-50">
-                                        <div className="bg-black p-6 shadow-lg rounded-xl border border-slate-600 h-auto w-auto">
+                                        <div className=" p-6 shadow-lg rounded-xl border h-auto w-auto" style={{backgroundColor: props.background_complement, borderColor: props.background_second_complement}}> 
                                             <div className="flex flex-col">
-                                                <h2 className="text-xl font-bold mb-4 text-white">Create New File</h2>
-                                                <div className="border rounded-lg p-2 border-slate-600 bg-green-700/45 flex flex-col mt-4 mb-1">
-                                                    <p className="text-white">To create new folder, type folder name/file name.</p>
+                                                <h2 className="text-xl font-bold mb-4" style={{color: props.font}}>Create New File</h2>
+                                                <div className="rounded-lg p-2 flex flex-col mt-4 mb-1" style={{backgroundColor: props.background_color}}>
+                                                    <p className="" style={{color: props.font}}>To create new folder, type folder name/file name.</p>
                                                 </div>
-                                                <div className="border rounded-lg p-2 border-slate-600 bg-red-700/40 flex flex-col mb-4">
-                                                    <p className="text-white">Cann't create empty folder.</p>
+                                                <div className="rounded-lg p-2 flex flex-col mb-4" style={{backgroundColor: props.background_color}}>
+                                                    <p className="" style={{color: props.font}}>Cann't create empty folder.</p>
                                                 </div>
-                                                <p className="text-white pb-4">Current folder: {folder}</p>
-                                                <input placeholder="Enter file name" className="p-2 bg-slate-900 outline-none rounded-lg text-white border border-slate-600" onChange={handle_filename}></input>
+                                                <p className=" pb-4" style={{color: props.font}}>Current folder: {folder}</p>
+                                                <input placeholder="Enter file name" className="p-2 outline-none rounded-lg border-2" style={{backgroundColor: props.background_second_complement, borderColor: props.background_color}} onChange={handle_filename}></input>
                                                 <div className="flex flex-row gap-4 pt-4">
-                                                    <button onClick={create_file} className="text-white p-1 px-2 border rounded-xl">
+                                                    <button onClick={create_file} className=" p-1 px-2 border rounded-xl" style={{color: props.font}}>
                                                         Create
                                                     </button>
-                                                    <button onClick={handle_toggle} className="text-white p-1 px-2 border rounded-xl">
+                                                    <button onClick={handle_toggle} className=" p-1 px-2 border rounded-xl" style={{color: props.font}}>
                                                         Cancle
                                                     </button>
                                                 </div>
                                                 <div className="py-4">
                                                     {
                                                         file_created === 1 ?
-                                                            <h2 className="text-green-600">File created</h2> :
+                                                            <h2 className="" style={{color: props.font}}>File created</h2> :
                                                             file_created === 2 ?
-                                                                <h2 className="text-red-600">Failed to create file</h2>
+                                                                <h2 className="" style={{color: props.font}}>Failed to create file</h2>
                                                                 :
                                                                 <></>
                                                     }

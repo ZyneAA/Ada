@@ -20,26 +20,32 @@ router.post(
                     apiKey: get_secret(process.env.AI_API_KEY),
                     baseURL: "https://api.aimlapi.com",
                 })
-    
-            const ok = async() => { 
-                const chatCompletion = await openai.chat.completions.create({
-                    model: "mistralai/Mistral-7B-Instruct-v0.2",
-                    messages: [
-                        {role: "system", content: "You are here to help people with coding"},
-                        {role: "user", content: prompt}
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 128,
-                })                
 
-                console.log(chatCompletion.choices[0].message.content)   
-                res.status(200).json(chatCompletion.choices[0].message.content)
+            const ok = async () => {
+                try {
+                    const chatCompletion = await openai.chat.completions.create({
+                        model: "mistralai/Mistral-7B-Instruct-v0.2",
+                        messages: [
+                            { role: "system", content: "You are here to help people with coding" },
+                            { role: "user", content: prompt }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 128,
+                    })
+
+                    console.log(chatCompletion.choices[0].message.content)
+                    res.status(200).json(chatCompletion.choices[0].message.content)
+                }
+                catch (err) {
+                    res.status(400).json("Error generating response")
+                }
+
             }
-            
+
             ok()
 
         }
-        catch(err) {
+        catch (err) {
             res.status(400).json("Error generating response")
         }
 
