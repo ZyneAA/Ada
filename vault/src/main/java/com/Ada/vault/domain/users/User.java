@@ -1,4 +1,4 @@
-package com.Ada.vault.domain;
+package com.Ada.vault.domain.users;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

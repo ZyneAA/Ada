@@ -1,6 +1,6 @@
 import { OpenAI } from "openai"
 import { Router } from "express"
-import get_secret from "../../util/get_secret.mjs"
+import get_secret from "../../../util/get_secret.mjs"
 
 const router = Router()
 

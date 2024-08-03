@@ -1,6 +1,6 @@
 import { Router } from "express"
 import axios from "axios"
-import get_secret from "../../util/get_secret.mjs"
+import get_secret from "../../../util/get_secret.mjs"
 
 const router = Router()
 

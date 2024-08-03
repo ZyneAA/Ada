@@ -1,6 +1,6 @@
 package com.Ada.vault.repository.user;
 
-import com.Ada.vault.domain.User;
+import com.Ada.vault.domain.users.User;
 
 public interface User_Repository {
 

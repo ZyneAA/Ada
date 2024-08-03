@@ -1,6 +1,5 @@
 package com.Ada.vault.repository.settings;
 
-
 import com.Ada.vault.domain.settings.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class Profiles_Repository_JDBC implements Profiles_Repository {
 
     @Autowired
-    JdbcTemplate jdbc_template;
+    private JdbcTemplate jdbc_template;
 
     @Override
     public void add_user_id(Long user_id) {

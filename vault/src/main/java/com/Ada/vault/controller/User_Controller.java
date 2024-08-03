@@ -1,6 +1,6 @@
 package com.Ada.vault.controller;
 
-import com.Ada.vault.domain.User;
+import com.Ada.vault.domain.users.User;
 import com.Ada.vault.domain.settings.Profile;
 import com.Ada.vault.service.User_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Logger;
 
 @RestController
 public class User_Controller {
 
-    @Autowired
+    @Autowired(required = true)
     private User_Service user_service;
 
     @PostMapping(path = "/vault/add_user")

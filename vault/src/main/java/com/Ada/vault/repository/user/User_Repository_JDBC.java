@@ -1,8 +1,6 @@
 package com.Ada.vault.repository.user;
 
-import com.Ada.vault.domain.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.Ada.vault.domain.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,7 +14,7 @@ import java.sql.SQLException;
 public class User_Repository_JDBC implements User_Repository {
 
     @Autowired
-    JdbcTemplate jdbc_template;
+    private JdbcTemplate jdbc_template;
 
     // private static final Logger logger = LoggerFactory.getLogger(User_Repository_JDBC.class);
 

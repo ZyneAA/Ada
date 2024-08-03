@@ -10,8 +10,8 @@ import router from "./routes/router.mjs"
 import pool from "./db/pool.mjs"
 
 // Authentication strategy
-import "./routes/strategy/local.mjs"
-import "./routes/strategy/github.mjs"
+import "./routes/client/strategy/local.mjs"
+import "./routes/client/strategy/github.mjs"
 
 const LABYRINTH_SECRET = get_secret(process.env.LABYRINTH_SECRET)
 const LABYRINTH_COOKIE_PARSER = get_secret(process.env.LABYRINTH_COOKIE_PARSER)

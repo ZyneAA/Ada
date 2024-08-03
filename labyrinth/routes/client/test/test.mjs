@@ -1,5 +1,5 @@
 import { Router } from "express"
-import check_auth from "../../middlewares/check_auth.mjs"
+import check_auth from "../../../middlewares/check_auth.mjs"
 
 const router = Router()
 

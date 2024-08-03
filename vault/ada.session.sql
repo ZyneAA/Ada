@@ -21,6 +21,50 @@ CREATE TABLE profiles(
 );
 
 --@block
+CREATE TABLE admins(
+    admin_id INT PRIMARY KEY AUTO_INCREMENT,
+    admin_name VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+--@block
+INSERT INTO admins(admin_name, password) VALUES ('root', 'root@A99');
+
+--@block
+SELECT * FROM admins;
+
+--@block
+DROP TABLE admins;
+
+--@block
+CREATE TABLE visitations(
+    last_login TIMESTAMP NOT NULL,
+    last_visited TIMESTAMP NOT NULL,
+    user_id INT UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+--@block
+DROP TABLE visitations;
+
+--@block
+CREATE TABLE code_executions(
+    date TIMESTAMP NOT NULL,
+    language VARCHAR(255) NOT NULL,
+    version VARCHAR(255) NOT NULL,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+--@block
+CREATE TABLE youtube_search_histories(
+    date TIMESTAMP NOT NULL,
+    search TEXT NOT NULL,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+--@block
 CREATE TABLE sessions(
     session_id VARCHAR(255) UNIQUE,
     expires VARCHAR(255),
@@ -53,3 +97,19 @@ DROP TABLE sessions;
 
 --@block
 DROP TABLE profiles;
+
+--@block
+INSERT INTO code_executions(date, language, version, user_id) VALUES 
+    ('2024-05-17', 'js', '20', 35),
+    ('2024-05-17 00:00:01', 'py', '3', 35),
+    ('2024-05-20 00:00:01', 'java', '8', 35);
+
+--@block
+DELETE FROM code_executions;
+
+--@block
+SELECT * FROM code_executions WHERE user_id = 35;
+
+--@block
+SELECT * FROM code_executions WHERE date = '2024-05-17';
+

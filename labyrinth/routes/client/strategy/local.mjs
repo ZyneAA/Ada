@@ -1,7 +1,7 @@
 import passport from "passport"
 import { Strategy } from "passport-local"
-import hash from "../../util/hash_password.mjs"
-import user_db from "../../db/repository/user_db.mjs"
+import hash from "../../../util/hash_password.mjs"
+import user_db from "../../../db/repository/user_db.mjs"
 
 export default passport.use(
 

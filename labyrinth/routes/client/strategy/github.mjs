@@ -1,6 +1,6 @@
 import passport from "passport"
 import { Strategy } from "passport-github2"
-import get_secret from "../../util/get_secret.mjs"
+import get_secret from "../../../util/get_secret.mjs"
 
 export default passport.use(
 
