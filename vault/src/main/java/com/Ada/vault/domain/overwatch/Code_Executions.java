@@ -2,16 +2,12 @@ package com.Ada.vault.domain.overwatch;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +21,7 @@ public class Code_Executions {
     private Long user_id;
 
     @NotBlank()
-    private Timestamp date;
+    private String date;
 
     @NotBlank()
     private String language;
@@ -45,13 +41,13 @@ public class Code_Executions {
 
     }
 
-    public Timestamp get_date() {
+    public String get_date() {
 
         return this.date;
 
     }
 
-    public void set_date(Timestamp date) {
+    public void set_date(String date) {
 
         this.date = date;
 

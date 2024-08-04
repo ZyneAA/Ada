@@ -1,27 +1,27 @@
 package com.Ada.vault.domain.overwatch;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 @Table(name = "youtube_search_histories")
 public class Youtube_Search_Histories {
 
-    @NotNull
+    @Id
     private Long user_id;
 
     @NotBlank()
-    private LocalDateTime date;
+    private String date;
 
     @NotBlank()
     private String search;
@@ -38,13 +38,13 @@ public class Youtube_Search_Histories {
 
     }
 
-    public LocalDateTime get_date() {
+    public String get_date() {
 
         return this.date;
 
     }
 
-    public void set_date(LocalDateTime date) {
+    public void set_date(String date) {
 
         this.date = date;
 

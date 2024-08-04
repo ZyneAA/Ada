@@ -2,31 +2,27 @@ package com.Ada.vault.domain.overwatch;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 @Table(name = "visitations")
 public class Visitations {
 
-    @OneToOne
-    @NotNull
+    @Id
     private Long user_id;
 
     @NotBlank()
-    private Timestamp last_visited;
+    private String last_visited;
 
     @NotBlank()
-    private Timestamp last_login;
+    private String last_login;
 
     public Long get_user_id() {
 
@@ -40,25 +36,25 @@ public class Visitations {
 
     }
 
-    public Timestamp get_last_visited() {
+    public String get_last_visited() {
 
         return this.last_visited;
 
     }
 
-    public void set_last_visited(Timestamp last_visited) {
+    public void set_last_visited(String last_visited) {
 
         this.last_visited = last_visited;
 
     }
 
-    public Timestamp get_last_login() {
+    public String get_last_login() {
 
         return this.last_login;
 
     }
 
-    public void set_last_login(Timestamp last_login) {
+    public void set_last_login(String last_login) {
 
         this.last_login = last_login;
 

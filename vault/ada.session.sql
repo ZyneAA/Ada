@@ -104,11 +104,18 @@ INSERT INTO code_executions(date, language, version, user_id) VALUES
     ('2024-05-17 00:00:01', 'py', '3', 35),
     ('2024-05-20 00:00:01', 'java', '8', 35);
 
+
+--@block
+INSERT INTO code_executions(date, language, version, user_id) VALUES ('2024-05-10', 'js', '20', 35);
+
 --@block
 DELETE FROM code_executions;
 
 --@block
 SELECT * FROM code_executions WHERE user_id = 35;
+
+--@block
+SELECT * FROM code_executions;
 
 --@block
 SELECT * FROM code_executions WHERE date = '2024-05-17';
