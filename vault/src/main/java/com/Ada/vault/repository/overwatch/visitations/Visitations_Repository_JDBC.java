@@ -102,8 +102,8 @@ public class Visitations_Repository_JDBC implements Visitations_Repository{
     public void insert_visitation(Visitations visitations) {
 
         this.jdbc_template.update(
-                "INSERT INTO visitations (last_login, last_visited, user_id) values(?, ?, ?)",
-                visitations.get_last_login(), visitations.get_last_visited(), visitations.get_user_id()
+                "INSERT INTO visitations (last_login, last_visit, user_id) values(?, ?, ?)",
+                visitations.get_last_login(), visitations.get_last_visit(), visitations.get_user_id()
         );
 
     }
@@ -113,12 +113,12 @@ public class Visitations_Repository_JDBC implements Visitations_Repository{
 
         if(visitations.get_last_login() == null) {
             jdbc_template.update(
-                    "UPDATE visitations SET last_visited = ? WHERE user_id = ?",
-                    visitations.get_last_visited(), visitations.get_user_id()
+                    "UPDATE visitations SET last_visit = ? WHERE user_id = ?",
+                    visitations.get_last_visit(), visitations.get_user_id()
             );
             return;
         }
-        else if (visitations.get_last_visited() == null) {
+        else if (visitations.get_last_visit() == null) {
             jdbc_template.update(
                     "UPDATE visitations SET last_login = ? WHERE user_id = ?",
                     visitations.get_last_login(), visitations.get_user_id()
@@ -127,8 +127,8 @@ public class Visitations_Repository_JDBC implements Visitations_Repository{
         }
 
         jdbc_template.update(
-                "UPDATE visitations SET last_login = ?, last_visited = ? WHERE user_id = ?",
-                visitations.get_last_login(), visitations.get_last_visited(), visitations.get_user_id()
+                "UPDATE visitations SET last_login = ?, last_visit = ? WHERE user_id = ?",
+                visitations.get_last_login(), visitations.get_last_visit(), visitations.get_user_id()
         );
 
     }
@@ -140,7 +140,7 @@ public class Visitations_Repository_JDBC implements Visitations_Repository{
 
             Visitations visitations = new Visitations();
             visitations.set_last_login(rs.getString("last_login"));
-            visitations.set_last_visited(rs.getString("last_visited"));
+            visitations.set_last_visit(rs.getString("last_visit"));
             visitations.set_user_id(rs.getLong("user_id"));
 
             return visitations;

@@ -12,6 +12,7 @@ import pool from "./db/pool.mjs"
 // Authentication strategy
 import "./routes/client/strategy/local.mjs"
 import "./routes/client/strategy/github.mjs"
+import "./routes/overwatch/strategy/admin.mjs"
 
 const LABYRINTH_SECRET = get_secret(process.env.LABYRINTH_SECRET)
 const LABYRINTH_COOKIE_PARSER = get_secret(process.env.LABYRINTH_COOKIE_PARSER)

@@ -74,33 +74,49 @@ public class Overwatch_Controller {
     }
 
     @GetMapping(path = "/vault/get_visitations_by_last_visit")
-    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_visit(@RequestParam String last_visit) {
+    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_visit(@RequestParam String date) {
 
-        return  overwatch_service.get_visitations_by_last_visit(last_visit)
+        return  overwatch_service.get_visitations_by_last_visit(date)
                 .thenApply(visit -> ResponseEntity.status(HttpStatus.OK).body(visit));
 
     }
 
     @GetMapping(path = "/vault/get_visitations_by_last_visit_range")
-    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_visit_range(@RequestParam String last_visit_0, @RequestParam String last_visit_1) {
+    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_visit_range(@RequestParam String date_0, @RequestParam String date_1) {
 
-        return  overwatch_service.get_visitations_by_last_visit_range(last_visit_0, last_visit_1)
+        return  overwatch_service.get_visitations_by_last_visit_range(date_0, date_1)
                 .thenApply(visit -> ResponseEntity.status(HttpStatus.OK).body(visit));
 
     }
 
     @GetMapping(path = "/vault/get_visitations_by_last_login")
-    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_login(@RequestParam String last_login) {
+    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_login(@RequestParam String date) {
 
-        return  overwatch_service.get_visitations_by_last_login(last_login)
+        return  overwatch_service.get_visitations_by_last_login(date)
                 .thenApply(visit -> ResponseEntity.status(HttpStatus.OK).body(visit));
 
     }
 
     @GetMapping(path = "/vault/get_visitations_by_last_login_range")
-    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_login_range(@RequestParam String last_login_0, @RequestParam String last_login_1) {
+    public CompletableFuture<ResponseEntity<List<Visitations>>> get_visitations_by_last_login_range(@RequestParam String date_0, @RequestParam String date_1) {
 
-        return  overwatch_service.get_visitations_by_last_login_range(last_login_0, last_login_1)
+        return  overwatch_service.get_visitations_by_last_login_range(date_0, date_1)
+                .thenApply(visit -> ResponseEntity.status(HttpStatus.OK).body(visit));
+
+    }
+
+    @PostMapping(path = "/vault/record_visitation")
+    public CompletableFuture<ResponseEntity<Visitations>> record_execute(@RequestBody Visitations visitations) {
+
+        return  overwatch_service.insert_visitation(visitations)
+                .thenApply(visit -> ResponseEntity.status(HttpStatus.OK).body(visit));
+
+    }
+
+    @PostMapping(path = "/vault/update_visitation")
+    public CompletableFuture<ResponseEntity<Visitations>> update_visitation(@RequestBody Visitations visitations) {
+
+        return  overwatch_service.update_visitation(visitations)
                 .thenApply(visit -> ResponseEntity.status(HttpStatus.OK).body(visit));
 
     }

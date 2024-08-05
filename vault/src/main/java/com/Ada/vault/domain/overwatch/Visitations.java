@@ -19,7 +19,7 @@ public class Visitations {
     private Long user_id;
 
     @NotBlank()
-    private String last_visited;
+    private String last_visit;
 
     @NotBlank()
     private String last_login;
@@ -36,15 +36,15 @@ public class Visitations {
 
     }
 
-    public String get_last_visited() {
+    public String get_last_visit() {
 
-        return this.last_visited;
+        return this.last_visit;
 
     }
 
-    public void set_last_visited(String last_visited) {
+    public void set_last_visit(String last_visited) {
 
-        this.last_visited = last_visited;
+        this.last_visit = last_visited;
 
     }
 

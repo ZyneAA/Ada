@@ -39,10 +39,13 @@ DROP TABLE admins;
 --@block
 CREATE TABLE visitations(
     last_login TIMESTAMP NOT NULL,
-    last_visited TIMESTAMP NOT NULL,
+    last_visit TIMESTAMP NOT NULL,
     user_id INT UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+--@block
+SELECT * FROM visitations;
 
 --@block
 DROP TABLE visitations;

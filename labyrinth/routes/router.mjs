@@ -1,4 +1,6 @@
 import { Router } from "express"
+
+// Client
 import user from "./client/users/user.mjs"
 import auth_local from "./client/auth/auth_local.mjs"
 import auth_github from "./client/auth/auth_github.mjs"
@@ -13,10 +15,15 @@ import check from "./client/auth/check.mjs"
 import profile from "./client/settings/profile.mjs"
 import logout from "./client/lnr/logout.mjs"
 
+// Overwatch
+import code_exe from "./overwatch/code_exe/code_exe.mjs"
+import visitations from "./overwatch/visitations/visitations.mjs"
+import admin_auth from "./overwatch/auth/admin_auth.mjs"
+
 const router = Router()
 
 router.use([user, auth_local, auth_github, github_callback, 
             repo, session, register, test, youtube, text_2_text, 
-            check, profile, logout])
+            check, profile, logout, code_exe, admin_auth])
 
 export default router
