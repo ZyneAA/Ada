@@ -7,7 +7,7 @@ CREATE TABLE users(
 );
 
 --@block
-INSERT INTO users(username, email, password) VALUES ('root', 'root@email.com', '123');
+INSERT INTO users(username, email, password) VALUES ('zyne', 'zyne@email.com', 'zyneA99$');
 
 --@block
 CREATE TABLE profiles(

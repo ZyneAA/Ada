@@ -58,21 +58,21 @@ const Login_Form = (props) => {
 
     }
 
-    const git_auth = async () => {
+    // const git_auth = async () => {
 
-        // try {
-        //     const response = await axios.get(
-        //         "http://localhost:8000/bridge/v1/labyrinth/auth/github", 
-        //         {},
-        //         {withCredentials: true}
-        //     )
-        // } 
-        // catch (err) {
-        //     console.error(err);
-        // }
-        window.location.href = "http://localhost:8000/bridge/v1/labyrinth/auth/github"
+    //     // try {
+    //     //     const response = await axios.get(
+    //     //         "http://localhost:8000/bridge/v1/labyrinth/auth/github", 
+    //     //         {},
+    //     //         {withCredentials: true}
+    //     //     )
+    //     // } 
+    //     // catch (err) {
+    //     //     console.error(err);
+    //     // }
+    //     window.location.href = "http://localhost:8000/bridge/v1/labyrinth/auth/github"
 
-    }
+    // }
 
     return (<div>
 

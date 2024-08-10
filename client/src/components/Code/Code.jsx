@@ -242,6 +242,7 @@ const Code = () => {
                                 <ResizablePanel defaultSize={15}>
                                     <div className="rounded-none py-2 w-full overflow-auto" style={{ backgroundColor: theme.editor.background, height: "80%" }}>
                                         <Files
+                                            send_output={set_output}
                                             get_file_content={get_content}
                                             send_content={Einput}
                                             font={theme.editor.font}
