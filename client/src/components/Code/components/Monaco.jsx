@@ -86,10 +86,12 @@ const Monaco = (props) => {
                 theme="A"
                 height="100%" 
                 width="100%"
-                language="javascript"
+                language={props.lang}
                 loading=<SelfBuildingSquareSpinner size="100" color={props.font}/>
                 onMount={editor_mount}
                 options={{
+                    suggestOnTriggerCharacters: false,
+                    parameterHints: { enabled: false },
                     quickSuggestions: false,
                     suggest: {
                         showWords: false

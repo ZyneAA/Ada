@@ -14,7 +14,7 @@ const YT_Player = (props) => {
     const [volume, set_volume] = useState(0.7)
     const [played, set_played] = useState(0)
     const player = useRef(null)
-    const [music_mode, set_music_mode] = useState(true)
+    const [music_mode, set_music_mode] = useState(props.mode)
     const [list, set_list] = useState([])
 
     const get_name = (e) => {
@@ -81,9 +81,6 @@ const YT_Player = (props) => {
             })
             set_list(temp)
             set_url(true)
-            console.log(player.current)
-
-            console.log(temp)
         }
         catch (err) {
             console.log(err)
@@ -100,21 +97,10 @@ const YT_Player = (props) => {
                             className="px-2 outline-none py-1 border input-placeholder"
                             onChange={get_name}
                             type="text"
-                            placeholder="Search a song"
+                            placeholder={props.placeholder}
                             style={{ backgroundColor: props.background_complement, "--placeholder-color": props.font_color }}
                         />
                         <button className="border rounded-md px-2" onClick={search} style={{ backgroundColor: props.background_complement }}>{music_mode === true ? "Play" : "Search"}</button>
-                        <div className="cursor-pointer h-full">
-                            {
-                                music_mode === true ?
-                                    <div className="flex items-center h-full w-full">
-                                        <Music color={props.font_color} onClick={() => set_music_mode(!music_mode)} size={30} />
-                                    </div> :
-                                    <div className="flex items-center h-full w-full">
-                                        <SquarePlay color={props.font_color} onClick={() => set_music_mode(!music_mode)} size={35} />
-                                    </div>
-                            }
-                        </div>
                     </div>
                 </div>
                 {url && (
@@ -138,7 +124,7 @@ const YT_Player = (props) => {
                                         volume={volume}
                                         onProgress={handle_progress}
                                         controls
-                                        width="600px"
+                                        width="900px"
                                         height="300px"
                                     />
                                     <div className="bg-inherit flex overflow-y-auto" style={{height: "300px"}}>

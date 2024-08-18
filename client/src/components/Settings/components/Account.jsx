@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import Cookies from "js-cookie"
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
 const Account = ({ background_color, background_complement, background_second_complement, font_color }) => {
@@ -25,8 +25,9 @@ const Account = ({ background_color, background_complement, background_second_co
                     { withCredentials: true }
                 )
                 if(response.data === null){
-                    navigate("/")
+                    navigate("/login")
                 }
+                console.log(Cookies.get())
                 set_session(response.data)
             }
             catch (err) {
@@ -47,8 +48,9 @@ const Account = ({ background_color, background_complement, background_second_co
                     withCredentials: true
                 }
             )
+        
             Cookies.remove("connect.sid")
-            navigate("/")
+            navigate("/login")
         }
         catch (err) {
             console.log(err)
@@ -64,7 +66,7 @@ const Account = ({ background_color, background_complement, background_second_co
                     <div className="bg-gray-800 w-full" style={{ height: 0.5, backgroundColor: background_second_complement }} />
                     {
                         !session ?
-                            <p>loading</p> :
+                            <p style={{ color: font_color }} className="py-4">loading</p> :
                             <div>
                                 <div className="pb-1 pt-3  flex flex-row">
                                     <h1 className="pb-1 pr-2" style={{ color: font_color }}>Username:</h1>

@@ -7,9 +7,16 @@ router.delete(
     "/logout",
     async(req, res) => {
 
-        req.session = null
-        console.log(req.session)
-        res.sendStatus(200)
+        req.session.destroy((err) => {
+
+            if (err) {
+                console.log(err)
+                return res.redirect('/')
+            }
+            
+            res.clearCookie("connect.sid")
+            res.redirect("/login")
+        })
 
     }
 

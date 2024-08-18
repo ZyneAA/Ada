@@ -55,7 +55,53 @@ router.post(
             const response = await axios.put(
                 `https://api.github.com/repos/${req.session.passport.user.git_name}/${repo_name}/contents/${file_path}`,
                 {
-                    message: `Create ${file_path}`,
+                    message: `Created ${file_path}`,
+                    content: content_encoded,
+                },
+                {
+                    headers: {
+                        Authorization: `token ${req.session.passport.user.access_token}`,
+                        Accept: "application/vnd.github.v3+json",
+                    },
+                }
+            )
+
+            res.status(201).json(response.data)
+        }
+        catch (err) {
+            res.sendStatus(400)
+        }
+
+    }
+
+)
+
+router.post(
+
+    "/rename_file",
+    async (req, res) => {
+
+        const {
+            folder, filename, content
+        } = req.body
+
+        try {
+            let file_path = ""
+
+            if (folder === "") {
+                file_path = `${filename}`
+            }
+            else {
+                file_path = `${folder}/${filename}`
+            }
+
+            const content_encoded = Buffer.from(content).toString("base64")
+            const repo_name = `${req.session.passport.user.git_name}-ada-folder`
+
+            const response = await axios.put(
+                `https://api.github.com/repos/${req.session.passport.user.git_name}/${repo_name}/contents/${file_path}`,
+                {
+                    message: `Renamed ${file_path}`,
                     content: content_encoded,
                 },
                 {

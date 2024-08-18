@@ -8,10 +8,13 @@ import { useEffect, useRef, useState } from "react"
 import Utility_Bar from "../Utility_Bar/Utility_Bar"
 import Chat from "./components/Chat"
 import YT_Player from "./components/YT_Player"
+import Stop_Watch from "./components/Stop_Watch"
 import Cookies from "js-cookie"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../misc/Resizable"
 import { FingerprintSpinner } from "react-epic-spinners"
-
+import { useNavigate } from "react-router-dom"
+import Draggable from "react-draggable"
+import { motion } from "framer-motion"
 import "../../css/index.css"
 
 // TO DO
@@ -19,6 +22,8 @@ import "../../css/index.css"
 // mobile, tablet, and other devices
 
 const Code = () => {
+
+    const navigate = useNavigate()
 
     // Git file
     // git_file will be an array and has 4 elements. 
@@ -43,7 +48,12 @@ const Code = () => {
 
     const [e_lang, set_e_lang] = useState("")
     const [color, set_color] = useState("#1c1e25") // Test worked!
+
+    // Floating pop-ups
     const [open_chat, set_open_chat] = useState(false)
+    const [open_music, set_open_music] = useState(false)
+    const [open_video, set_open_video] = useState(false)
+    const [open_sw, set_open_sw] = useState(false)
 
     // Theme
     const [theme, set_theme] = useState({})
@@ -55,17 +65,32 @@ const Code = () => {
         const theme_name = Cookies.get("theme")
 
         fetch(`/themes/${theme_name}.json`)
-        .then(response => response.json())
-        .then(data => {
-            set_loader(data.editor.background)
-            set_theme(data)
-            document.body.style.backgroundColor = data.editor.background_second_complement
-            setTimeout(() => {
-                set_loading(false)
-            }, 2000)
-        })
-        .catch(error => console.error("Error fetching the JSON file:", error))
+            .then(response => response.json())
+            .then(data => {
+                set_loader(data.editor.background)
+                set_theme(data)
+                document.body.style.backgroundColor = data.editor.background_second_complement
+                setTimeout(() => {
+                    set_loading(false)
+                }, 2000)
+            })
+            .catch(error => console.error("Error fetching the JSON file:", error))
 
+
+        try {
+            const response = axios.get(
+                "http://localhost:8000/bridge/v1/labyrinth/auth/check",
+                { withCredentials: true }
+            )
+            console.log(response.data[0])
+            if (response.data === undefined) {
+                console.log("here")
+                navigate("/login")
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
 
     }, [])
 
@@ -87,6 +112,27 @@ const Code = () => {
         // Add file type to git_file.current
         git_file.current.push(lang.length > 1 ? lang.pop() : '')
         set_e_lang(git_file.current[3])
+
+        console.log(git_file.current[3])
+        // Change editor language
+        switch (git_file.current[3]) {
+
+            case "js":
+                set_e_lang("javascript")
+                break
+
+            case "mjs":
+                set_e_lang("javascript")
+                break
+
+            case "py":
+                set_e_lang("python")
+                break
+
+            default:
+                break
+
+        }
 
         // Setting the current editor value
         editor.current.setValue(value[0])
@@ -120,9 +166,20 @@ const Code = () => {
 
         let language = null
         let version = null
-        switch (git_file.current[3]) {
 
-            case "js" || "mjs":
+        switch (e_lang) {
+
+            case "javascript" || "mjs" || "js":
+                language = "js"
+                version = "20.11.1"
+                break
+
+            case "js":
+                language = "js"
+                version = "20.11.1"
+                break
+
+            case "mjs":
                 language = "js"
                 version = "20.11.1"
                 break
@@ -137,7 +194,7 @@ const Code = () => {
             version: version,
             files: [
                 {
-                    name: git_file.current[2],
+                    name: "file" + language,
                     content: Einput
                 }
             ],
@@ -168,7 +225,7 @@ const Code = () => {
                     temp += stdout[i]
                 }
             }
-            if (how === "CLI") {
+            if (how === "CLI" || how === "direct") {
                 set_output(arr)
                 return
             }
@@ -191,23 +248,74 @@ const Code = () => {
         }
     }
 
-    const chat_opener = (value) => {
+    const chat_opener = (val) => {
 
-        set_open_chat(value)
+        set_open_chat(val)
 
     }
 
+    const music_opener = (val) => {
+
+        if (open_music === true) {
+            set_open_music(false)
+        }
+        else {
+            set_open_music(val)
+        }
+
+    }
+
+    const video_opener = (val) => {
+
+        if (open_video === true) {
+            set_open_video(false)
+        }
+        else {
+            set_open_video(val)
+        }
+
+    }
+
+    const sw_opener = (val) => {
+
+        if (open_sw === true) {
+            set_open_sw(false)
+        }
+        else {
+            set_open_sw(val)
+        }
+
+    }
+
+    const language_selector = (val) => {
+
+        console.log(val)
+        set_e_lang(val)
+
+    }
+
+    const run_code = (val) => [
+
+        run(val)
+
+    ]
+
     return (
         <div className="flex flex-col h-screen" style={{ backgroundColor: theme.editor.background_second_complement }}>
-            <Chat className="h-full" 
-                is_open={open_chat} 
-                on_close={() => set_open_chat(!open_chat)} 
+            <Chat className="h-full"
+                is_open={open_chat}
+                on_close={() => set_open_chat(!open_chat)}
                 font_color={theme.editor.font}
                 background_color={theme.editor.background}
                 background_complement={theme.editor.background_complement}
-                background_second_complement={theme.editor.background_second_complement}/>
+                background_second_complement={theme.editor.background_second_complement} />
             <Utility_Bar
+                run_code={run_code}
+                language={language_selector}
+                video={video_opener}
+                music={music_opener}
                 chat={chat_opener}
+                stop_watch={sw_opener}
                 font={theme.editor.font}
                 background_color={theme.editor.background}
                 background_complement={theme.editor.background_complement}
@@ -218,22 +326,111 @@ const Code = () => {
                     className="h-full"
                     direction="vertical"
                 >
-                    <ResizablePanel defaultSize={15}>
-                        <div className="flex h-full w-full overflow-auto" style={{ backgroundColor: theme.editor.background }}>
-                            <div className="flex flex-row overflow-auto items-start">
-                                <div className="w-full">
-                                    <YT_Player
-                                        font_color={theme.editor.font}
-                                        background_color={theme.editor.background}
-                                        background_complement={theme.editor.background_complement}
-                                        background_second_complement={theme.editor.background_second_complement}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                    <ResizablePanel defaultSize={5}>
+                        {open_music && (
+                            <Draggable
+                                defaultPosition={{ x: 0, y: 0 }}
+                            >
+                                <motion.div
+                                    className="resize z-40 flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 150, width: 400 }}
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    exit={{
+                                        opacity: 0
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        duration: 0.6
+                                    }}
+                                >
+                                    <div className="flex flex-row overflow-auto items-start">
+                                        <div className="w-full">
+                                            <YT_Player
+                                                placeholder={"Search a song"}
+                                                mode={true}
+                                                font_color={theme.editor.font}
+                                                background_color={theme.editor.background}
+                                                background_complement={theme.editor.background_complement}
+                                                background_second_complement={theme.editor.background_second_complement}
+                                            />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Draggable>
+                        )}
+                        {open_sw && (
+                            <Draggable
+                                defaultPosition={{ x: 0, y: 0 }}
+                            >
+                                <motion.div
+                                    className="resize z-40 flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 150, width: 400 }}
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    exit={{
+                                        opacity: 0
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        duration: 0.6
+                                    }}
+                                >
+                                    <div className="flex flex-row overflow-auto items-start">
+                                        <Stop_Watch
+                                            font_color={theme.editor.font}
+                                            background_color={theme.editor.background}
+                                            background_complement={theme.editor.background_complement}
+                                            background_second_complement={theme.editor.background_second_complement}
+                                        />
+                                    </div>
+                                </motion.div>
+                            </Draggable>
+                        )}
+                        {open_video && (
+                            <Draggable
+                                defaultPosition={{ x: 0, y: 0 }}
+                            >
+                                <motion.div
+                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 400, width: 900 }}
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    exit={{
+                                        opacity: 0
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        duration: 0.6
+                                    }}
+                                >
+                                    <div className="flex flex-row overflow-auto items-start">
+                                        <div className="w-full">
+                                            <YT_Player
+                                                placeholder={"Search a video"}
+                                                mode={false}
+                                                font_color={theme.editor.font}
+                                                background_color={theme.editor.background}
+                                                background_complement={theme.editor.background_complement}
+                                                background_second_complement={theme.editor.background_second_complement}
+                                            />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Draggable>
+                        )}
                     </ResizablePanel>
                     <ResizableHandle withHandle color={theme.editor.dintinct_color} />
-                    <ResizablePanel defaultSize={55}>
+                    <ResizablePanel defaultSize={65}>
                         <div className="h-full" style={{ backgroundColor: theme.editor.background }}>
                             <ResizablePanelGroup
                                 direction="horizontal"
@@ -248,7 +445,7 @@ const Code = () => {
                                             font={theme.editor.font}
                                             background_color={theme.editor.background}
                                             background_complement={theme.editor.background_complement}
-                                            background_second_complement={theme.editor.background_second_complement} 
+                                            background_second_complement={theme.editor.background_second_complement}
                                         />
                                     </div>
                                 </ResizablePanel>

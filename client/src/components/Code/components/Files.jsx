@@ -107,6 +107,8 @@ const Files = (props) => {
 
         set_pat(path[0])
 
+        console.log(path[2])
+
         try {
             const response = await axios.get(
                 `http://localhost:8000/bridge/v1/labyrinth/get_file_content?file_path=${path[0]}`,
@@ -114,7 +116,7 @@ const Files = (props) => {
             )
             props.get_file_content([response.data[1], path[0], path[1]])
             set_sha(response.data[0].sha)
-            
+
             if (path[2] === 1) {
                 const lang = response.data[0].name.split('.')
 
@@ -175,6 +177,9 @@ const Files = (props) => {
                 }
                 console.log(response.data, lang[1])
             }
+            else if (path[2] === 2) {
+                props.send_output([path[0]])
+            }
         }
         catch (err) {
             console.log(err)
@@ -203,6 +208,10 @@ const Files = (props) => {
 
     const create_file = async () => {
 
+        if (folder.includes('.')) {
+            set_file_created(2)
+        }
+
         try {
             const response = await axios.post(
                 `http://localhost:8000/bridge/v1/labyrinth/create_file`,
@@ -216,7 +225,7 @@ const Files = (props) => {
 
             if (response.data.commit.sha) {
                 set_file_created(1)
-                changes({cause: `${filename} created`})
+                changes({ cause: `${filename} created` })
                 return
             }
         }
@@ -253,7 +262,13 @@ const Files = (props) => {
     const set_root_folder = () => {
 
         set_folder("")
-    
+
+
+    }
+
+    const rename_file = () => {
+
+
 
     }
 
@@ -262,30 +277,15 @@ const Files = (props) => {
             {
                 err === true ?
                     <div className="flex justify-center items-center">
-                        <div className="flex justify-center items-center">
-                            <motion.div
-                                className="pt-4"
-                                initial={{
-                                    y: -10,
-                                    opacity: 0
-                                }}
-                                animate={{
-                                    y: 0,
-                                    opacity: 1
-                                }}
-                                whileHover={{
-                                    scale: 1.3,
-                                }}
-                                transition={{
-                                    type: "spring",
-                                    duration: 1
-                                }}
-                                onClick={git_auth}
-                            >
-                                <p>Login with github to store your code</p>
+                        <motion.div
+                            className="pt-4"
+                            onClick={git_auth}
+                        >
+                            <p className="px-4 pb-10" style={{ color: props.font }}>Login with github to store your code</p>
+                            <div className="flex justify-center items-center hover:cursor-pointer">
                                 <AiFillGithub color={props.background_second_complement} size="35" />
-                            </motion.div>
-                        </div>
+                            </div>
+                        </motion.div>
                     </div> :
                     <div>
                         <div className="flex flex-row items-end justify-end px-4 pb-2">
@@ -304,7 +304,7 @@ const Files = (props) => {
                                                 <p className=" pb-4" style={{ color: props.font }}>Current folder: {folder}</p>
                                                 <input placeholder="Enter file name" className="p-2 outline-none rounded-lg border-1 border-b" style={{ backgroundColor: props.background_complement, borderColor: props.background_color, color: props.font, "--placeholder-color": props.font }} onChange={handle_filename}></input>
                                                 <button onClick={set_root_folder} className="mt-4 p-1 px-2 justify-start flex underline" style={{ color: props.font }}>
-                                                        Set To Root Path
+                                                    Set To Root Path
                                                 </button>
                                                 <div className="flex flex-row gap-4 pt-4">
                                                     <button onClick={create_file} className=" p-1 px-2 border rounded-xl" style={{ color: props.font }}>
@@ -350,6 +350,7 @@ const Files = (props) => {
                                     selected_path={get_file}
                                     selected_folder={get_folder}
                                     changes_occour={changes}
+                                    rename_file={rename_file}
                                     icon_color={props.background_second_complement}
                                     font_color={props.font}
                                     background_complement={props.background_complement}
