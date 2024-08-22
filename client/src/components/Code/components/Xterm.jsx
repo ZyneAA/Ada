@@ -76,7 +76,7 @@ const Xterm = (props) => {
         </div>
         <div className="flex flex-row overflow-hidden" style={{backgroundColor: props.background_complement}}>
             <div className="justify-center items-center flex">
-                <label htmlFor="t_input" className="px-3 p-2" style={{color: props.font}}> {'>'} </label>
+                <label htmlFor="t_input" className="px-3 p-2" style={{color: props.font}}> {props.current_folder + '>'} </label>
             </div>
             <input id="t_input" className="outline-none w-full text-sm" onKeyDown={termminal_input_func} style={{backgroundColor: props.background_complement, color: props.font, "::placeholder": { color: props.font} }}/>
         </div>

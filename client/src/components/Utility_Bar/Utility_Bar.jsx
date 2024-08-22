@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react"
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../misc/Context_Menu"
 import { useNavigate, useLocation } from "react-router-dom"
 
-const Utility_Bar = ({ chat, music, video, stop_watch, language, run_code, background_color, background_complement, background_second_complement, font }) => {
+const Utility_Bar = ({ chat, music, video, stop_watch, watch, language, run_code, background_color, background_complement, background_second_complement, font }) => {
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -42,6 +42,12 @@ const Utility_Bar = ({ chat, music, video, stop_watch, language, run_code, backg
     const open_stop_watch = () => {
 
         stop_watch(true)
+
+    }
+
+    const open_watch = () => {
+
+        watch(true)
 
     }
 
@@ -175,6 +181,16 @@ const Utility_Bar = ({ chat, music, video, stop_watch, language, run_code, backg
                         >
                             <div>
                                 <h3 className="font-space ml-2 bg-clip-text text-transparent" onClick={open_stop_watch} style={{ backgroundColor: background_color }}>⏱️</h3>
+                            </div>
+                        </motion.div>
+                        <motion.div className="flex flex-col rounded-full w-10 h-10 place-content-center cursor-pointer"
+                            whileHover={{
+                                scale: 1.2
+                            }}
+                            style={{ backgroundColor: background_second_complement }}
+                        >
+                            <div>
+                                <h3 className="font-space ml-2 bg-clip-text text-transparent" onClick={open_watch} style={{ backgroundColor: background_color }}>⏰</h3>
                             </div>
                         </motion.div>
                         <motion.div className="flex flex-col rounded-full w-10 h-10 place-content-center cursor-pointer"
