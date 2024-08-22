@@ -14,6 +14,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../misc/Re
 import { FingerprintSpinner } from "react-epic-spinners"
 import { useNavigate } from "react-router-dom"
 import Draggable from "react-draggable"
+import Clock from "./components/Clock"
 import { motion } from "framer-motion"
 import "../../css/index.css"
 
@@ -45,6 +46,7 @@ const Code = () => {
     const [output, set_output] = useState([])
 
     const [Einput, set_Einput] = useState("")
+    const [current_folder, set_current_folder] = useState("")
 
     const [e_lang, set_e_lang] = useState("")
     const [color, set_color] = useState("#1c1e25") // Test worked!
@@ -54,6 +56,7 @@ const Code = () => {
     const [open_music, set_open_music] = useState(false)
     const [open_video, set_open_video] = useState(false)
     const [open_sw, set_open_sw] = useState(false)
+    const [open_clock, set_open_watch] = useState(false)
 
     // Theme
     const [theme, set_theme] = useState({})
@@ -233,19 +236,75 @@ const Code = () => {
             set_output(arr)
         }
         catch (err) {
-            console.log(err)
+            set_output(["An error occured when trying to run the code"])
         }
 
     }
 
-    const T_get_value = async (value) => {
+    const T_get_value = async(value) => {
+
         if (value === "python" || value === "py" || value === "node") {
             run("CLI")
+        }
+        else if (value === "ls") {
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/bridge/v1/labyrinth/get_repo_files",
+                    { withCredentials: true }
+                )
+                set_output(Object.keys(make_file(response.data)))
+            }
+            catch (err) {
+                set_output(["An error occured"])
+            }
+        }
+        else if (value === "cd") {
+            set_output(["cd"])
+            set_current_folder(value)
         }
         else {
             const arr = [`"${value}" ` + "Terminal doesn't recognize that command"]
             set_output(arr)
         }
+
+    }
+
+    const make_file = (paths) => {
+
+        const result = {}
+        let temp = {}
+        let count = 0
+
+        paths.forEach((path) => {
+
+            const parts = path.split('/')
+
+            if (parts.length === 1) {
+                temp[parts] = parts[0]
+                return
+            }
+
+            let current = result
+
+            parts.forEach((part, index) => {
+
+                if (index === parts.length - 1) {
+                    current[part] = paths[count]
+                    count++
+                }
+                else {
+                    if (!current[part]) {
+                        current[part] = {}
+                    }
+                    current = current[part]
+                }
+
+            })
+
+        })
+        
+        return { ...result, ...temp }
+
     }
 
     const chat_opener = (val) => {
@@ -294,11 +353,23 @@ const Code = () => {
 
     }
 
-    const run_code = (val) => [
+    const run_code = (val) => {
 
         run(val)
 
-    ]
+    }
+
+    const watch_opener = (val) => {
+
+
+        if (open_clock === true) {
+            set_open_watch(false)
+        }
+        else {
+            set_open_watch(val)
+        }
+
+    } 
 
     return (
         <div className="flex flex-col h-screen" style={{ backgroundColor: theme.editor.background_second_complement }}>
@@ -310,6 +381,7 @@ const Code = () => {
                 background_complement={theme.editor.background_complement}
                 background_second_complement={theme.editor.background_second_complement} />
             <Utility_Bar
+                watch={watch_opener}
                 run_code={run_code}
                 language={language_selector}
                 video={video_opener}
@@ -428,6 +500,39 @@ const Code = () => {
                                 </motion.div>
                             </Draggable>
                         )}
+                        {open_clock && (
+                            <Draggable
+                                defaultPosition={{ x: 0, y: 0 }}
+                            >
+                                <motion.div
+                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 50, width: 200 }}
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    exit={{
+                                        opacity: 0
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        duration: 0.6
+                                    }}
+                                >
+                                    <div className="flex flex-row overflow-auto items-start">
+                                        <div className="w-full">
+                                            <Clock 
+                                                font_color={theme.editor.font}
+                                                background_color={theme.editor.background}
+                                                background_complement={theme.editor.background_complement}
+                                                background_second_complement={theme.editor.background_second_complement}
+                                            />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Draggable>
+                        )}
                     </ResizablePanel>
                     <ResizableHandle withHandle color={theme.editor.dintinct_color} />
                     <ResizablePanel defaultSize={65}>
@@ -485,6 +590,7 @@ const Code = () => {
                     <ResizablePanel defaultSize={30}>
                         <div className="w-full h-full" style={{ backgroundColor: theme.editor.background }}>
                             <Xterm
+                                current_folder={current_folder}
                                 T_parent_callback={T_get_value} output={output}
                                 font={theme.editor.font}
                                 background_color={theme.editor.background}
