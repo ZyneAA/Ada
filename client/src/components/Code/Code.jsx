@@ -15,8 +15,10 @@ import { FingerprintSpinner } from "react-epic-spinners"
 import { useNavigate } from "react-router-dom"
 import Draggable from "react-draggable"
 import Clock from "./components/Clock"
+import Controller from "./components/Controller"
 import { motion } from "framer-motion"
 import "../../css/index.css"
+import "../../css/misc.css"
 
 // TO DO
 // crtl+s save
@@ -37,9 +39,6 @@ const Code = () => {
     // Main text editor(monaco or code mirror)
     const editor = useRef(null)
 
-    // Monaco's div ref
-    const monaco_div_ref = useRef(null)
-
     // Due to some issues with writing new line in termninal, output must be array
     // If array, terminal will attach \n and \r to the each element of the array when writing to the termnial
     // so that the final output doesn't not look weired
@@ -49,7 +48,6 @@ const Code = () => {
     const [current_folder, set_current_folder] = useState("")
 
     const [e_lang, set_e_lang] = useState("")
-    const [color, set_color] = useState("#1c1e25") // Test worked!
 
     // Floating pop-ups
     const [open_chat, set_open_chat] = useState(false)
@@ -57,6 +55,14 @@ const Code = () => {
     const [open_video, set_open_video] = useState(false)
     const [open_sw, set_open_sw] = useState(false)
     const [open_clock, set_open_watch] = useState(false)
+    const [open_controller, set_open_controller] = useState(false)
+
+    //Controller
+    const [ct, set_ct] = useState(10000)
+    const [et, set_et] = useState(3000)
+    const [args, set_args] = useState("")
+    const [cml, set_cml] = useState(-1)
+    const [eml, set_eml] = useState(-1)
 
     // Theme
     const [theme, set_theme] = useState({})
@@ -85,11 +91,31 @@ const Code = () => {
                 "http://localhost:8000/bridge/v1/labyrinth/auth/check",
                 { withCredentials: true }
             )
+
             console.log(response.data[0])
             if (response.data === undefined) {
-                console.log("here")
                 navigate("/login")
             }
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+        try {
+            const today = new Date()
+            const month = today.getMonth() + 1
+            const hours = today.getHours()
+            const minutes = today.getMinutes()
+            const seconds = today.getSeconds()
+
+            const record = axios.post(
+                "http://localhost:8000/bridge/v1/labyrinth/update_visitation",
+                {
+                    "last_visit": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
+                    "last_login": null
+                },
+                { withCredentials: true }
+            )
         }
         catch (err) {
             console.log(err)
@@ -192,6 +218,19 @@ const Code = () => {
 
         }
 
+        console.log(cml, args, eml, ct, et)
+
+        let arg = []
+        let temp = ""
+
+        for (i in args) {
+            if(i === ' ') {
+                arg.push(temp)
+                temp = ""
+            }
+            temp += i
+        }
+
         const payload = {
             language: language,
             version: version,
@@ -202,11 +241,11 @@ const Code = () => {
                 }
             ],
             stdin: "",
-            args: [],
-            compile_timeout: 10000,
-            run_timeout: 3000,
-            compile_memory_limit: -1,
-            run_memory_limit: -1
+            args: arg,
+            compile_timeout: ct,
+            run_timeout: et,
+            compile_memory_limit: cml,
+            run_memory_limit: eml
         }
 
         try {
@@ -216,32 +255,71 @@ const Code = () => {
                 { withCredentials: true }
             )
 
+            console.log(response.data.run.output)
+
             const stdout = response.data.run.output
             const arr = []
             let temp = ""
+            let found = false
+
             for (let i in stdout) {
-                if (stdout[i] == "\n") {
-                    arr.push(temp)
-                    temp = ""
+
+                if (stdout[i] === "[") {
+                    found = true
+                    temp += stdout[i]
+                }
+                else if (stdout[i] === "]") {
+                    found = false
+                    temp += stdout[i]
+                }
+                else if (stdout[i] === "\n") {
+                    if (found) {
+                        continue
+                    }
+                    else {
+                        arr.push(temp)
+                        temp = ""
+                    }
                 }
                 else {
                     temp += stdout[i]
                 }
+
             }
+
             if (how === "CLI" || how === "direct") {
+
                 set_output(arr)
+
+                const today = new Date()
+                const month = today.getMonth() + 1
+                const hours = today.getHours()
+                const minutes = today.getMinutes()
+                const seconds = today.getSeconds()
+
+                const record = await axios.post(
+                    "http://localhost:8000/bridge/v1/labyrinth/record_execute",
+                    {
+                        "date": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
+                        "language": language,
+                        "version": version,
+                    },
+                    { withCredentials: true }
+                )
+                console.log(record.data)
                 return
+
             }
+
             arr.unshift(["> Terminal will run the file accroding to the file type"])
             set_output(arr)
         }
         catch (err) {
             set_output(["An error occured when trying to run the code"])
         }
-
     }
 
-    const T_get_value = async(value) => {
+    const T_get_value = async (value) => {
 
         if (value === "python" || value === "py" || value === "node") {
             run("CLI")
@@ -302,7 +380,7 @@ const Code = () => {
             })
 
         })
-        
+
         return { ...result, ...temp }
 
     }
@@ -369,7 +447,49 @@ const Code = () => {
             set_open_watch(val)
         }
 
-    } 
+    }
+
+    const controller_opener = (val) => {
+
+
+        if (open_controller === true) {
+            set_open_controller(false)
+        }
+        else {
+            set_open_controller(val)
+        }
+
+    }
+
+    const get_ct = (val) => {
+
+        set_ct(val)
+
+    }
+
+    const get_et = (val) => {
+
+        set_et(val)
+
+    }
+
+    const get_args = (val) => {
+
+        set_args(val)
+
+    }
+
+    const get_cml = (val) => {
+
+        set_cml(val)
+
+    }
+
+    const get_eml = (val) => {
+
+        set_eml(val)
+
+    }
 
     return (
         <div className="flex flex-col h-screen" style={{ backgroundColor: theme.editor.background_second_complement }}>
@@ -381,6 +501,8 @@ const Code = () => {
                 background_complement={theme.editor.background_complement}
                 background_second_complement={theme.editor.background_second_complement} />
             <Utility_Bar
+                content={Einput}
+                controller={controller_opener}
                 watch={watch_opener}
                 run_code={run_code}
                 language={language_selector}
@@ -398,7 +520,7 @@ const Code = () => {
                     className="h-full"
                     direction="vertical"
                 >
-                    <ResizablePanel defaultSize={5}>
+                    <ResizablePanel defaultSize={5} className="flex flex-row gap-1">
                         {open_music && (
                             <Draggable
                                 defaultPosition={{ x: 0, y: 0 }}
@@ -522,7 +644,45 @@ const Code = () => {
                                 >
                                     <div className="flex flex-row overflow-auto items-start">
                                         <div className="w-full">
-                                            <Clock 
+                                            <Clock
+                                                font_color={theme.editor.font}
+                                                background_color={theme.editor.background}
+                                                background_complement={theme.editor.background_complement}
+                                                background_second_complement={theme.editor.background_second_complement}
+                                            />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Draggable>
+                        )}
+                        {open_controller && (
+                            <Draggable
+                                defaultPosition={{ x: 0, y: 0 }}
+                            >
+                                <motion.div
+                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 200, width: 900 }}
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    exit={{
+                                        opacity: 0
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        duration: 0.6
+                                    }}
+                                >
+                                    <div className="flex flex-row overflow-auto items-start">
+                                        <div className="w-full">
+                                            <Controller
+                                                ct={get_ct}
+                                                et={get_et}
+                                                args={get_args}
+                                                cml={get_cml}
+                                                eml={get_eml}
                                                 font_color={theme.editor.font}
                                                 background_color={theme.editor.background}
                                                 background_complement={theme.editor.background_complement}
@@ -588,7 +748,7 @@ const Code = () => {
                     {/* <br></br> */}
                     <ResizableHandle withHandle color={theme.editor.dintinct_color} />
                     <ResizablePanel defaultSize={30}>
-                        <div className="w-full h-full" style={{ backgroundColor: theme.editor.background }}>
+                        <div className="h-full flex flex-row w-full" style={{ backgroundColor: theme.editor.background }}>
                             <Xterm
                                 current_folder={current_folder}
                                 T_parent_callback={T_get_value} output={output}

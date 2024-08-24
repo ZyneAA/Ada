@@ -61,7 +61,7 @@ const Settings = () => {
                     <div className="flex flex-row">
                         <h1 className="lg:text-5xl text-3xl font-space pt-6" style={{width: "99%", color: theme.editor.font}}>Settings</h1>
                         <a href="http://localhost:8001/code" className="flex items-start pt-3">
-                            <SquareX color="white" scale={10} />
+                            <SquareX color={theme.editor.font} scale={10} />
                         </a>
                     </div>
                     <p className="py-8" style={{color: theme.editor.font}}>Manage your account settings and set e-mail preferences.</p>

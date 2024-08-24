@@ -50,6 +50,23 @@ const Login_Form = (props) => {
                 { "username": username, "password": password },
                 { withCredentials: true }
             )
+
+            const today = new Date()
+            const month = today.getMonth() + 1
+            const hours = today.getHours()
+            const minutes = today.getMinutes()
+            const seconds = today.getSeconds()
+
+            const record = axios.post(
+                "http://localhost:8000/bridge/v1/labyrinth/update_visitation",
+                {
+                    "username": username,
+                    "last_login": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
+                    "last_visit": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
+                },
+                { withCredentials: true }
+            )
+
             navigate("/code")
         }
         catch (err) {
@@ -99,44 +116,44 @@ const Login_Form = (props) => {
             <div className="pt-10">
                 {
                     pass_ok === true ?
-                    <motion.button className={`inline-flex width: 25%; h-12 animate-shimmer items-center
+                        <motion.button className={`inline-flex width: 25%; h-12 animate-shimmer items-center
                     justify-center rounded-md border
                     bg-[linear-gradient(110deg,${props.background_color},45%,${props.background_second_complement},55%,${props.background_color})] 
                     bg-[length:200%_100%] px-10 font-medium
                     transition-colors focus:outline-none`}
-                        onClick={() => local_auth()}
-                        style={{ color: props.font_color, borderColor: props.background_second_complement }}
-                        initial={{
-                            opacity: 0
-                        }}
-                        animate={{
-                            opacity: 1
-                        }}
-                        whileHover={{
-                            scale: 1.1,
-                            borderColor: props.background_complement,
-                            boxShadow: `0px 0px 20px 0px ${props.background_complement}`
-                        }}
-                        transition={{
-                            type: "spring"
-                        }}
-                    >
-                        Login
-                    </motion.button> :
-                    <motion.div
-                        initial={{
-                            opacity: 0
-                        }}
-                        animate={{
-                            opacity: 1
-                        }}
-                        transition={{
-                            duration: 1.4,
-                            type: "spring"
-                        }}
-                    >
-                        <p className="flex justify-center items-center" style={{color: props.font_color}}>Password must contain at least one special character, number(s), at least one uppercase letter, and a minimum of 8 characters</p>  
-                    </motion.div>
+                            onClick={() => local_auth()}
+                            style={{ color: props.font_color, borderColor: props.background_second_complement }}
+                            initial={{
+                                opacity: 0
+                            }}
+                            animate={{
+                                opacity: 1
+                            }}
+                            whileHover={{
+                                scale: 1.1,
+                                borderColor: props.background_complement,
+                                boxShadow: `0px 0px 20px 0px ${props.background_complement}`
+                            }}
+                            transition={{
+                                type: "spring"
+                            }}
+                        >
+                            Login
+                        </motion.button> :
+                        <motion.div
+                            initial={{
+                                opacity: 0
+                            }}
+                            animate={{
+                                opacity: 1
+                            }}
+                            transition={{
+                                duration: 1.4,
+                                type: "spring"
+                            }}
+                        >
+                            <p className="flex justify-center items-center" style={{ color: props.font_color }}>Password must contain at least one special character, number(s), at least one uppercase letter, and a minimum of 8 characters</p>
+                        </motion.div>
                 }
 
                 {/* <div className="flex justify-center items-center">

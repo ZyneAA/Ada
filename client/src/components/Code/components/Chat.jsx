@@ -2,11 +2,9 @@ import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Send } from "lucide-react"
 import { LoopingRhombusesSpinner } from "react-epic-spinners"
+import { MessageSquareCode } from "lucide-react"
 import axios from "axios"
 import "../../../css/misc.css"
-import Markdown from "react-markdown"
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import Message from "./Message"
 
 const Chat = ({ is_open, on_close, font_color, background_complement, background_second_complement, background_color }) => {
@@ -107,7 +105,7 @@ const Chat = ({ is_open, on_close, font_color, background_complement, background
             >
                 <div className="flex flex-row h-full" style={{ backgroundColor: background_color }}>
                     <div className="flex flex-col gap-2 h-full items-center py-4" style={{ width: "8%", backgroundColor: background_complement, color: font_color }}>
-                        <h1>GPT</h1>
+                        <MessageSquareCode color={font_color} />
                         <div className="border w-full" style={{ backgroundColor: background_second_complement }} />
                     </div>
                     <div className="flex flex-col h-full w-full rounded-md">

@@ -91,6 +91,7 @@ const Files = (props) => {
                     { withCredentials: true }
                 )
                 set_files(make_file(response.data))
+                console.log("Reloaded files")
             }
             catch (err) {
                 console.log(err)
@@ -161,14 +162,31 @@ const Files = (props) => {
                     const stdout = response.data.run.output
                     const arr = []
                     let temp = ""
+                    let found = false
+                    
                     for (let i in stdout) {
-                        if (stdout[i] == "\n") {
-                            arr.push(temp)
-                            temp = ""
+
+                        if (stdout[i] === "[") {
+                            found = true
+                            temp += stdout[i]
+                        }
+                        else if (stdout[i] === "]") {
+                            found = false
+                            temp += stdout[i]
+                        }
+                        else if (stdout[i] === "\n") {
+                            if (found) {
+                                continue
+                            }
+                            else {
+                                arr.push(temp)
+                                temp = ""
+                            }
                         }
                         else {
                             temp += stdout[i]
                         }
+        
                     }
                     props.send_output(arr)
                 }
@@ -338,7 +356,7 @@ const Files = (props) => {
                                 </div>
                                 <div className="flex flex-row justify-end items-center gap-2" style={{ width: "80%" }}>
                                     <div>
-                                        <SlReload color={props.background_second_complement} size="20" />
+                                        <SlReload color={props.background_second_complement} size="20" onClick={() => set_c({cause: `Reload`})}/>
                                     </div>
                                     <div>
                                         <LuFilePlus2 color={props.background_second_complement} size="20" onClick={handle_toggle} />

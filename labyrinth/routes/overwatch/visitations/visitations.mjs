@@ -1,5 +1,6 @@
 import { Router } from "express"
 import overwatch_db from "../../../db/repository/overwatch_db.mjs"
+import user_db from "../../../db/repository/user_db.mjs"
 
 const router = Router()
 
@@ -104,8 +105,10 @@ router.post(
         } = req
 
         try{
-            const response = await overwatch_db.record_visitation(body.user_id, body.last_visit, body.last_login)
-            res.status(200).json(response)
+            const response = await user_db.find_user_by_username(body.username)
+
+            const response1 = await overwatch_db.record_visitation(response.user_id, body.last_visit, body.last_login)
+            res.status(200).json(response1)
         }
         catch(err) {
             res.status(400).json(err)
@@ -123,8 +126,10 @@ router.post(
             body
         } = req
 
+        console.log("here")
+
         try{
-            const response = await overwatch_db.update_visitation(body.user_id, body.last_visit, body.last_login)
+            const response = await overwatch_db.update_visitation(req.session.passport.user.user_id, body.last_visit, body.last_login)
             res.status(200).json(response)
         }
         catch(err) {

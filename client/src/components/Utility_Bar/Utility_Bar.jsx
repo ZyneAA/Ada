@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react"
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../misc/Context_Menu"
 import { useNavigate, useLocation } from "react-router-dom"
 
-const Utility_Bar = ({ chat, music, video, stop_watch, watch, language, run_code, background_color, background_complement, background_second_complement, font }) => {
+const Utility_Bar = ({ content, controller, chat, music, video, stop_watch, watch, language, run_code, background_color, background_complement, background_second_complement, font }) => {
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -60,6 +60,28 @@ const Utility_Bar = ({ chat, music, video, stop_watch, watch, language, run_code
     const run = (val) => {
 
         run_code(val)
+
+    }
+
+    const open_controller = () => {
+
+        controller(true)
+
+    }
+
+    const download = async() => {
+
+        try{
+            const response = await axios.get(
+                `http://localhost:8000/bridge/v1/labyrinth/download?content=${content}`,
+                {withCredentials: true}
+    
+            )
+        }
+        catch(err) {
+            console.log(err)
+        }
+
 
     }
 
@@ -200,9 +222,7 @@ const Utility_Bar = ({ chat, music, video, stop_watch, watch, language, run_code
                             style={{ backgroundColor: background_second_complement }}
                         >
                             <div>
-                                <a href="/settings">
-                                    <h3 className="font-space ml-2 bg-clip-text text-transparent " style={{ backgroundColor: background_color }}>⚙️</h3>
-                                </a>
+                                <h3 className="font-space ml-2 bg-clip-text text-transparent" onClick={open_controller} style={{ backgroundColor: background_color }}>⚙️</h3>
                             </div>
                         </motion.div>
                     </div>

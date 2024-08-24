@@ -212,11 +212,12 @@ const update_visitation = async(user_id, last_visit, last_login) => {
         const response = await axios.post(
             `http://vault:8080/vault/update_visitation`,
             {
-                user_id: user_id,
                 last_visit: last_visit,
-                last_login, last_login
+                last_login, last_login,
+                user_id: user_id,
             }
         )
+        return response.data
     }
     catch(err) {
         return err

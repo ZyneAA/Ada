@@ -108,8 +108,10 @@ router.post(
             body
         } = req
 
+        console.log(req.session)
+
         try{
-            const response = await overwatch_db.record_execute(body.date, body.language, body.version, body.user_id)
+            const response = await overwatch_db.record_execute(body.date, body.language, body.version, req.session.passport.user.user_id)
             res.status(200).json(response)
         }
         catch(err) {

@@ -70,7 +70,7 @@ const Xterm = (props) => {
     }
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col rounded-md">
         <div className="w-full h-full overflow-hidden" style={{height: "100%"}}>
             <div ref={terminal_ref} className="rounded-t-md w-full flex flex-grow"/>
         </div>

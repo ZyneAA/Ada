@@ -31,6 +31,12 @@ const find_user_by_id = async(id) => {
 
 const add_user = async(username, email, password) => {
 
+    const exist = find_user_by_username(username)
+
+    if(exist.username) {
+        throw Error("User already exist")
+    }
+
     const hashed_password = await hash.hash_password(password)
 
     try{
@@ -42,6 +48,7 @@ const add_user = async(username, email, password) => {
                 password: hashed_password
             }
         )
+        console.log(respone.data)
         return respone.data
     }
     catch(err) {

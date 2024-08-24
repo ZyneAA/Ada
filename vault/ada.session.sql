@@ -71,7 +71,7 @@ CREATE TABLE youtube_search_histories(
 CREATE TABLE sessions(
     session_id VARCHAR(255) UNIQUE,
     expires VARCHAR(255),
-    data VARCHAR(255)
+    data VARCHAR(600)
 );
 
 --@block
