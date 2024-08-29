@@ -2,7 +2,6 @@ import { Router } from "express"
 import axios from "axios"
 import get_repo_content from "./helper/get_repo_content.mjs"
 import get_all_files from "./helper/get_all_files.mjs"
-import make_file from "./helper/make_file.mjs"
 
 const router = Router()
 
@@ -20,6 +19,7 @@ router.get(
                     }
                 }
             )
+            console.log(respone.data)
             res.status(200).json(respone.data)
         }
         catch (err) {
@@ -247,6 +247,8 @@ router.get(
 
         try {
 
+            console.log(req.session.passport.user)
+
             const git_name = req.session.passport.user.git_name
             const repo_name = `${git_name}-ada-folder`
             const token = req.session.passport.user.access_token
@@ -278,7 +280,8 @@ router.get(
             res.status(200).json(file_paths)
         }
         catch (err) {
-            res.sendStatus(400)
+            console.log(err)
+            res.send(err)
         }
 
     }

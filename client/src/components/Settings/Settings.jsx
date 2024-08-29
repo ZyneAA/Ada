@@ -4,10 +4,14 @@ import Appearance from "./components/Appearance"
 import Account from "./components/Account"
 import { useState } from "react"
 import Cookies from "js-cookie"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 import { SquareX } from "lucide-react"
 import { FingerprintSpinner } from "react-epic-spinners"
 
 const Settings = () => {
+
+    const navigate = useNavigate()
 
     const [no, set_no] = useState(0)
     const [theme, set_theme] = useState({})
@@ -29,6 +33,26 @@ const Settings = () => {
             }, 1500)
         })
         .catch(error => console.error("Error fetching the JSON file:", error))
+
+        const check = async () => {
+
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/bridge/v1/labyrinth/auth/check",
+                    { withCredentials: true }
+                )
+                console.log(response.data)
+                if (response.data === false) {
+                    navigate("/login")
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+
+        }
+
+        check()
     
     }, [])
 

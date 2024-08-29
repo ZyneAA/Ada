@@ -14,7 +14,9 @@ app.use(cors({
         "http://172.0.0.1:8001",
         "http://172.18.0.2:8001",
         "http://localhost:8001",
-        "http://client:8001"
+        "http://localhost:8004",
+        "http://client:8001",
+        "http://overwatch:8004"
     ],
     credentials: true
 }))

@@ -1,0 +1,37 @@
+{
+    "theme_name": "Elegant Midnight",
+    "name": "midnight",
+    "title": "Sophisticated Elegance",
+    "description": "A sleek and elegant theme with a sophisticated color palette for a modern look.",
+    "bg_class": "bg-midnight",
+    "editor": {
+        "foreground": "#E0E0E0",
+        "background": "#1E1E1E",
+        "background_complement": "#3C4A6A",
+        "background_second_complement": "#F5F5F5",
+        "font": "#F0F0F0",
+        "cursor_foregorund": "#B0B0B0",
+        "line_highlight_background": "#2A2A2A",
+        "line_number_foreground": "#9E9E9E",
+        "selection_background": "#4A4A4A",
+        "inactive_selection_background": "#2C2C2C",
+        "dintinct_color": "#F5F5F5",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#C5C5C5",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#D0D0D0",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#D0D0D0",
+                "fontStyle": "normal"
+            }    
+        ]
+    }
+}

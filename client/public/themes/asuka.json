@@ -1,0 +1,37 @@
+{
+    "theme_name": "Asuka Ascendancy",
+    "name": "asuka",
+    "title": "Rise with Asuka Ascendancy",
+    "description": "A bold and dynamic theme inspired by Asuka's fiery spirit and striking red palette, perfect for intense and focused coding sessions.",
+    "bg_class": "bg-asuka",
+    "editor": {
+        "foreground": "#F1C4AF",
+        "background": "#4A1C2E",
+        "background_complement": "#6B2D3F",
+        "background_second_complement": "#B62F2E",
+        "font": "#ECA394",
+        "cursor_foregorund": "#FF7365",
+        "line_highlight_background": "#6B2D3F",
+        "line_number_foreground": "#F4A391",
+        "selection_background": "#B62F2E",
+        "inactive_selection_background": "#4A1C2E",
+        "dintinct_color": "#FF7365",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#F1C4AF",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#FF7365",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#ECA394",
+                "fontStyle": "normal"
+            }
+        ]
+    }
+}

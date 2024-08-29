@@ -1,0 +1,37 @@
+{
+    "theme_name": "Neon Dreams",
+    "name": "neon",
+    "title": "Riding the Neon Wave",
+    "description": "Dive into the vibrant world of neon colors with a touch of retro flair.",
+    "bg_class": "bg-neon",
+    "editor": {
+        "foreground": "#C0E9FF",
+        "background": "#1A1A2E",
+        "background_complement": "#3D4C6D",
+        "background_second_complement": "#D6E0F0",
+        "font": "#F0F4F8",
+        "cursor_foregorund": "#B0E0FF",
+        "line_highlight_background": "#2A3D5C",
+        "line_number_foreground": "#9BCEFF",
+        "selection_background": "#57AFFF",
+        "inactive_selection_background": "#0A0A1B",
+        "dintinct_color": "#D6E0F0",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#B9D9FF",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#E0F4FF",
+                "fontStyle": "italic"
+            },
+            {
+                "token": "string",
+                "foreground": "#E0F4FF",
+                "fontStyle": "italic"
+            }    
+        ]
+    }
+}

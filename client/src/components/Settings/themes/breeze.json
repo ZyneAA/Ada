@@ -1,0 +1,37 @@
+{
+    "theme_name": "Ocean Breeze",
+    "name": "breeze",
+    "title": "Refresh with Ocean Breeze",
+    "description": "A refreshing theme inspired by the calm and serene hues of the ocean, designed to provide a cool and tranquil coding experience.",
+    "bg_class": "bg-breeze",
+    "editor": {
+        "foreground": "#E0F4F4",
+        "background": "#0F3B4C",
+        "background_complement": "#1E5D7F",
+        "background_second_complement": "#E8F4F4",
+        "font": "#F1F9F9",
+        "cursor_foregorund": "#A0D9D9",
+        "line_highlight_background": "#1E5D7F",
+        "line_number_foreground": "#B3D8E8",
+        "selection_background": "#5A9BBF",
+        "inactive_selection_background": "#0F3B4C",
+        "dintinct_color": "#E8F4F4",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#9BD1D1",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#A8D9E7",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#A8D9E7",
+                "fontStyle": "normal"
+            }
+        ]
+    }
+}

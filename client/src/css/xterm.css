@@ -109,7 +109,7 @@
  }
  .xterm-viewport::-webkit-scrollbar {
      background-color: var(--dark);
-     width: 3px;
+     width: 0px;
  }
  
  Making it invisible

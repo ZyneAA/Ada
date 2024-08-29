@@ -22,6 +22,11 @@ const Files = (props) => {
 
     const make_file = (paths) => {
 
+        console.log(paths)
+        if (paths.length === 0) {
+            return {}
+        }
+
         const result = {}
         let temp = {}
         let count = 0
@@ -75,7 +80,7 @@ const Files = (props) => {
                 console.log(err)
             }
 
-        }, 5000)
+        }, 2000)
 
         return () => clearTimeout(timeout)
 
@@ -90,8 +95,16 @@ const Files = (props) => {
                     "http://localhost:8000/bridge/v1/labyrinth/get_repo_files",
                     { withCredentials: true }
                 )
+
+                console.log(response.data)
+                if(response.data.status === 409) {
+                    console.log("cscs")
+                    set_files({})
+                    return
+                }
+
                 set_files(make_file(response.data))
-                console.log("Reloaded files")
+                console.log(response.data)
             }
             catch (err) {
                 console.log(err)
@@ -123,33 +136,83 @@ const Files = (props) => {
 
                 let language = null
                 let version = null
+
                 switch (lang[1]) {
 
-                    case "js" || "mjs":
-                        language = "js"
-                        version = "20.11.1"
-                        break
+                    case "javascript":
+                    case "js":
+                    case "mjs":
+                        language = "js";
+                        version = "18.15.0";
+                        break;
+
+                    case "python":
+                    case "py":
+                        language = "python";
+                        version = "3.10.4"; // Example version, change as needed
+                        break;
+
+                    case "java":
+                    case "jav":
+                        language = "java";
+                        version = "17.0.1"; // Example version, change as needed
+                        break;
+
+                    case "c":
+                        language = "c";
+                        version = "11.2.0"; // Example version, change as needed
+                        break;
+
+                    case "cpp":
+                    case "c++":
+                        language = "cpp";
+                        version = "11.2.0"; // Example version, change as needed
+                        break;
+
+                    case "ruby":
+                    case "rb":
+                        language = "ruby";
+                        version = "3.1.2"; // Example version, change as needed
+                        break;
+
+                    case "go":
+                    case "golang":
+                        language = "go";
+                        version = "1.18.1"; // Example version, change as needed
+                        break;
+
+                    case "rust":
+                    case "rs":
+                        language = "rust";
+                        version = "1.60.0"; // Example version, change as needed
+                        break;
+
+                    case "php":
+                        language = "php";
+                        version = "8.1.4"; // Example version, change as needed
+                        break;
+
+                    case "typescript":
+                    case "ts":
+                        language = "typescript";
+                        version = "4.6.3"; // Example version, change as needed
+                        break;
 
                     default:
-                        break
+                        break;
 
                 }
-                console.log(response.data[1])
+
+                console.log(response.data)
                 const payload = {
-                    language: language,
-                    version: version,
+                    language: language,  // Change to your desired language
+                    version: "*",        // Use the latest version
                     files: [
                         {
-                            name: "test",
-                            content: response.data[1]
+                            name: "main.", // The file name (can be anything)
+                            content: response.data[1] // Your code
                         }
-                    ],
-                    stdin: "",
-                    args: [],
-                    compile_timeout: 10000,
-                    run_timeout: 3000,
-                    compile_memory_limit: -1,
-                    run_memory_limit: -1
+                    ]
                 }
 
                 try {
@@ -163,7 +226,7 @@ const Files = (props) => {
                     const arr = []
                     let temp = ""
                     let found = false
-                    
+
                     for (let i in stdout) {
 
                         if (stdout[i] === "[") {
@@ -186,7 +249,7 @@ const Files = (props) => {
                         else {
                             temp += stdout[i]
                         }
-        
+
                     }
                     props.send_output(arr)
                 }
@@ -354,16 +417,16 @@ const Files = (props) => {
                                 <div style={{ width: "20%" }} className="flex items-center">
                                     <p className="text-transparent bg-clip-text" style={{ backgroundColor: props.background_second_complement }}>EXPLORER</p>
                                 </div>
-                                <div className="flex flex-row justify-end items-center gap-2" style={{ width: "80%" }}>
+                                <div className="flex flex-row justify-end items-center gap-2" style={{ width: "90%" }}>
                                     <div>
-                                        <SlReload color={props.background_second_complement} size="20" onClick={() => set_c({cause: `Reload`})}/>
+                                        <SlReload color={props.background_second_complement} size="20" onClick={() => set_c({ cause: `Reload` })} />
                                     </div>
                                     <div>
                                         <LuFilePlus2 color={props.background_second_complement} size="20" onClick={handle_toggle} />
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ height: "90%" }}>
+                            <div style={{ height: "90%" }} >
                                 <File_System data={files}
                                     selected_path={get_file}
                                     selected_folder={get_folder}
@@ -374,6 +437,7 @@ const Files = (props) => {
                                     background_complement={props.background_complement}
                                 />
                             </div>
+
                         </div>
                     </div>
             }

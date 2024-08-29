@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import { CircleAlert, CircleX } from "lucide-react"
 
-function DigitalClock({background_color, font_color, background_complement, background_second_complement}){
+function DigitalClock({background_color, font_color, background_complement, background_second_complement, make_close}){
 
     const [time, setTime] = useState(new Date());
 
@@ -31,7 +32,10 @@ function DigitalClock({background_color, font_color, background_complement, back
 
     return(
         <div className="">
-            <div className="" style={{backgroundColor: background_color, color: font_color}}>
+            <div className="p-2 cursor-pointer w-4" onClick={() => make_close(false)}>
+                <CircleX color={font_color} />
+            </div>
+            <div className="flex justify-center items-center pl-14" style={{backgroundColor: background_color, color: font_color}}>
                 <span>{formatTime()}</span>
             </div>
         </div>

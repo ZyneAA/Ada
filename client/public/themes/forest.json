@@ -1,0 +1,37 @@
+{
+    "theme_name": "Forest Glow",
+    "name": "forest",
+    "title": "Embrace the Forest Glow",
+    "description": "A tranquil theme inspired by lush forests, featuring calming greens and earthy tones.",
+    "bg_class": "bg-forest",
+    "editor": {
+        "foreground": "#E3E9E6",
+        "background": "#1F2A1F",
+        "background_complement": "#3C5B3F",
+        "background_second_complement": "#D3E2D5",
+        "font": "#F2F5F2",
+        "cursor_foregorund": "#A9C1A4",
+        "line_highlight_background": "#2F3E2E",
+        "line_number_foreground": "#B8D5B0",
+        "selection_background": "#4A6A4A",
+        "inactive_selection_background": "#2A3B2A",
+        "dintinct_color": "#D3E2D5",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#B7D3B3",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#C0D9B5",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#C0D9B5",
+                "fontStyle": "normal"
+            }    
+        ]
+    }
+}

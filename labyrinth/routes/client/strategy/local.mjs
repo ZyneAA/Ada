@@ -15,7 +15,9 @@ export default passport.use(
 
                 if(user.username === null) throw new Error("User Not Found")
 
-                if(!hash.compare_password(password, user.password)) throw new Error("Bad Credentials")
+                console.log(await hash.compare_password(password, user.password))
+
+                if(!await hash.compare_password(password, user.password)) throw new Error("Bad Credentials")
 
                 done(null, {"username": username, "user_id": user.user_id})
             }

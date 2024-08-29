@@ -21,15 +21,18 @@ router.post(
             const minutes = today.getMinutes()
             const seconds = today.getSeconds()
 
-            const response = await user_db.add_user(username, email, password)
+            if (fn === "" || ln === "" || username === "" || email === "" || password === "") {
+                res.status(500).json("Fill all")
+            }
 
-            const response1 = await user_db.find_user_by_username(username)
+            else {
+                const response = await user_db.add_user(username, email, password)
+                const response1 = await user_db.find_user_by_username(username)
+                const response2 = await user_db.update_user_profile(fn, ln, "", "", "", response1.user_id)
+                const response3 = await overwatch_db.record_visitation(response1.user_id, today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds, today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds)
+                res.status(201).json({ ...response, ...response2, ...response3 })
+            }
 
-            const response2 = await user_db.update_user_profile(fn, ln, "", "", "", response1.user_id)
-
-            const response3 = await overwatch_db.record_visitation(response1.user_id, today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds, today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds)
-
-            res.status(201).json({ ...response, ...response2, ...response3 })
         }
         catch (err) {
             res.status(400).json(err)

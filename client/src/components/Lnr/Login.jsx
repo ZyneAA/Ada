@@ -2,6 +2,7 @@ import Login_Form from "./components/Login_Form"
 import Cookies from "js-cookie"
 import { BackgroundBeams } from "../animations/Background_Beams"
 import  { useEffect, useState } from "react"
+import { Cover } from "../animations/Cover"
 
 const Login = () => {
 
@@ -51,7 +52,7 @@ const Login = () => {
                         Welcome Back
                         </h1>
                         <p className="max-w-lg mx-auto my-2 text-sm text-center relative z-10 pt-2 font-space" style={{color: theme.editor.font}}>
-                        Lorem111s ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ullam tempora. Non veritatis laborum consequatur excepturi asperiores, esse qui architecto, voluptatibus, aliquam neque aperiam! Sed accusantium repellat aut iure quae.
+                        Step into your personalized coding environment, designed to empower your creativity and streamline your workflow. Whether you're working on your next big project or refining your skills, our platform is here to provide all the tools you need.
                         </p>
                     </div>
                     <div className="flex h-max xl:w-1/2 justify-center z-30">

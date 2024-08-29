@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { FingerprintSpinner } from "react-epic-spinners"
 import Cookies from "js-cookie"
+import { FlipWords } from "../animations/Flip";
+import { BackgroundBeamsWithCollision } from "../animations/BBC"
 
 const Register = () => {
 
@@ -15,7 +17,7 @@ const Register = () => {
     const [loader, set_loader] = useState("")
 
     const go_to_1 = () => {
-        
+
         navigate("/login")
 
     }
@@ -39,6 +41,8 @@ const Register = () => {
 
     }, [])
 
+    const words = ["better", "faster", "beautiful", "modern"]
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -48,8 +52,9 @@ const Register = () => {
     }
 
     return (
-        <div className="h-auto">
-            <div className="h-full w-full dark:bg-inherit bg-inherit dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative">                <motion.div className="z-10 lg:px-40 pb-40 px-10 md:px-20 py-20"
+        <BackgroundBeamsWithCollision color1={theme.editor.background_complement} color2={theme.editor.font} className="h-auto">
+            <div className="h-full w-full relative">
+                <motion.div className="z-10 lg:px-40 pb-40 px-10 md:px-20 py-20"
                     initial={{
                         opacity: 0,
                         scale: 0.5
@@ -63,25 +68,18 @@ const Register = () => {
                         type: "spring"
                     }}
                 >
-                    <div className="flex lg:flex-row flex-col rounded-xl" style={{backgroundColor: theme.editor.background, color: theme.editor.font }}>
-                        <div className="lg:basis-9/12 py-10 flex flex-col w-full">
-                            <p className="py-5 px-10">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt id, odit illo reiciendis a vel nisi, ipsum excepturi, commodi nam quidem quo. Ipsam quod soluta earum, a eligendi quaerat ad?</p>
-                            {/* <div className="py-10 lg:py-5">
-                                <Meteor
-                                    handle={go_to_1}
-                                    header="Already register? Login now and start playing"
-                                    para=""
-                                    button_text="Login" />
+                    <div className="flex lg:flex-row flex-col rounded-xl h-full backdrop-blur-sm border bg-slate-300/10" style={{ color: theme.editor.font, borderColor: theme.editor.background_complement }}>
+                        <div className="lg:basis-9/12 py-10 flex flex-col w-full justify-center items-center">
+                            <div className="h-[40rem] flex justify-center items-center px-4">
+                                <div className="text-4xl mx-auto font-norma" style={{ color: theme.editor.background_complement }}>
+                                    Build
+                                    <FlipWords color={theme.editor.background_complement} words={words} /> <br />
+                                    programs with ADA
+                                </div>
                             </div>
-                            <div className="py-10 lg:py-16">
-                                <Meteor
-                                    header="Learn more about the game"
-                                    para="Start learning by reading the doc and playing. This simple tutourial will teach you the basics to get started."
-                                    button_text="Documentation"
-                                />
-                            </div> */}
+                            <p className="py-5 px-10" style={{color: theme.editor.background_complement}}>Welcome to a community of developers who are pushing the boundaries of innovation. By registering, you’ll unlock access to a powerful, intuitive coding environment tailored to bring your ideas to life.</p>
                         </div>
-                        <div style={{width: "40%"}}>
+                        <div style={{ width: "40%" }}>
                             <Register_Form
                                 background_color={theme.editor.background}
                                 background_complement={theme.editor.background_complement}
@@ -92,8 +90,7 @@ const Register = () => {
                     </div>
                 </motion.div>
             </div>
-        </div>
-
+        </BackgroundBeamsWithCollision>
     );
 }
 

@@ -1,0 +1,37 @@
+{
+    "theme_name": "Urban Dawn",
+    "name": "urban",
+    "title": "Awaken to Urban Dawn",
+    "description": "A modern theme featuring cool greys and subtle blues, inspired by the early morning cityscape.",
+    "bg_class": "bg-urban",
+    "editor": {
+        "foreground": "#E8E9EB",
+        "background": "#2C2F33",
+        "background_complement": "#3B4C5C",
+        "background_second_complement": "#F0F2F5",
+        "font": "#F5F7FA",
+        "cursor_foregorund": "#BCC8D4",
+        "line_highlight_background": "#3B4C5C",
+        "line_number_foreground": "#A4B0B9",
+        "selection_background": "#6C8D9E",
+        "inactive_selection_background": "#2C2F34",
+        "dintinct_color": "#F0F2F5",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#BCC8D4",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#D0D6DD",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#D0D6DD",
+                "fontStyle": "normal"
+            }    
+        ]
+    }
+}

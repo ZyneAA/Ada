@@ -1,0 +1,37 @@
+{
+    "theme_name": "EVA-01 Serenity",
+    "name": "eva",
+    "title": "Experience the EVA-01 Serenity",
+    "description": "A balanced theme inspired by EVA-01, with softer hues for a more relaxed coding experience.",
+    "bg_class": "bg-eva01-light",
+    "editor": {
+        "foreground": "#C0FF8C",
+        "background": "#3A1A48",
+        "background_complement": "#4A235B",
+        "background_second_complement": "#5A2C6E",
+        "font": "#C0FF8C",
+        "cursor_foregorund": "#80FF80",
+        "line_highlight_background": "#4A235B",
+        "line_number_foreground": "#A3FF73",
+        "selection_background": "#68457D",
+        "inactive_selection_background": "#3A1A48",
+        "dintinct_color": "#C0FF8C",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#9EFF70",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#D78FFF",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#B3FF7A",
+                "fontStyle": "normal"
+            }
+        ]
+    }
+}

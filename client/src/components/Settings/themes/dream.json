@@ -1,0 +1,37 @@
+{
+    "theme_name": "Pink Dream",
+    "name": "dream",
+    "title": "Enter the Pink Dream",
+    "description": "A soft and soothing theme centered around various shades of pink, offering a calm and gentle coding experience.",
+    "bg_class": "bg-pink-dream",
+    "editor": {
+        "foreground": "#FFD1DC", 
+        "background": "#4A2A33", 
+        "background_complement": "#5E3641", 
+        "background_second_complement": "#763E4B", 
+        "font": "#FFD1DC", 
+        "cursor_foregorund": "#FFB7C5", 
+        "line_highlight_background": "#5E3641", 
+        "line_number_foreground": "#FFA7B9", 
+        "selection_background": "#763E4B", 
+        "inactive_selection_background": "#4A2A33", 
+        "dintinct_color": "#FFB7C5", 
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#FFC1CC",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#FF8FAF",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#FFD1DC",
+                "fontStyle": "normal"
+            }
+        ]
+    }
+}

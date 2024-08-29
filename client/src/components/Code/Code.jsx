@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom"
 import Draggable from "react-draggable"
 import Clock from "./components/Clock"
 import Controller from "./components/Controller"
+import PDF from "./components/PDF_Reader"
 import { motion } from "framer-motion"
 import "../../css/index.css"
 import "../../css/misc.css"
@@ -56,11 +57,12 @@ const Code = () => {
     const [open_sw, set_open_sw] = useState(false)
     const [open_clock, set_open_watch] = useState(false)
     const [open_controller, set_open_controller] = useState(false)
+    const [open_pdf, set_open_pdf] = useState(false)
 
     //Controller
     const [ct, set_ct] = useState(10000)
     const [et, set_et] = useState(3000)
-    const [args, set_args] = useState("")
+    const [args, set_args] = useState(null)
     const [cml, set_cml] = useState(-1)
     const [eml, set_eml] = useState(-1)
 
@@ -85,41 +87,45 @@ const Code = () => {
             })
             .catch(error => console.error("Error fetching the JSON file:", error))
 
-
-        try {
-            const response = axios.get(
-                "http://localhost:8000/bridge/v1/labyrinth/auth/check",
-                { withCredentials: true }
-            )
-
-            console.log(response.data[0])
-            if (response.data === undefined) {
-                navigate("/login")
+        const check = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/bridge/v1/labyrinth/auth/check",
+                    { withCredentials: true }
+                )
+                if (response.data === false) {
+                    navigate("/login")
+                }
+            }
+            catch (err) {
+                console.log(err)
             }
         }
-        catch (err) {
-            console.log(err)
+
+        const update_visit = async () => {
+            try {
+                const today = new Date()
+                const month = today.getMonth() + 1
+                const hours = today.getHours()
+                const minutes = today.getMinutes()
+                const seconds = today.getSeconds()
+
+                const record = await axios.post(
+                    "http://localhost:8000/bridge/v1/labyrinth/update_visitation",
+                    {
+                        "last_visit": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
+                        "last_login": null
+                    },
+                    { withCredentials: true }
+                )
+            }
+            catch (err) {
+                console.log(err)
+            }
         }
 
-        try {
-            const today = new Date()
-            const month = today.getMonth() + 1
-            const hours = today.getHours()
-            const minutes = today.getMinutes()
-            const seconds = today.getSeconds()
-
-            const record = axios.post(
-                "http://localhost:8000/bridge/v1/labyrinth/update_visitation",
-                {
-                    "last_visit": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
-                    "last_login": null
-                },
-                { withCredentials: true }
-            )
-        }
-        catch (err) {
-            console.log(err)
-        }
+        check()
+        update_visit()
 
     }, [])
 
@@ -147,19 +153,58 @@ const Code = () => {
         switch (git_file.current[3]) {
 
             case "js":
-                set_e_lang("javascript")
-                break
-
             case "mjs":
-                set_e_lang("javascript")
-                break
+                set_e_lang("javascript");
+                break;
 
             case "py":
-                set_e_lang("python")
-                break
+                set_e_lang("python");
+                break;
+
+            case "ts":
+            case "typescript":
+                set_e_lang("typescript");
+                break;
+
+            case "java":
+            case "jav":
+                set_e_lang("java");
+                break;
+
+            case "rb":
+            case "ruby":
+                set_e_lang("ruby");
+                break;
+
+            case "c":
+                set_e_lang("c");
+                break;
+
+            case "cpp":
+            case "c++":
+                set_e_lang("cpp");
+                break;
+
+            case "go":
+            case "golang":
+                set_e_lang("go");
+                break;
+
+            case "rs":
+            case "rust":
+                set_e_lang("rust");
+                break;
+
+            case "php":
+                set_e_lang("php");
+                break;
+
+            // Add more cases as needed
 
             default:
-                break
+                console.error("Language not supported or unrecognized");
+                break;
+
 
         }
 
@@ -196,74 +241,202 @@ const Code = () => {
         let language = null
         let version = null
 
+        console.log(e_lang)
+
         switch (e_lang) {
 
-            case "javascript" || "mjs" || "js":
-                language = "js"
-                version = "20.11.1"
-                break
-
+            case "javascript":
             case "js":
-                language = "js"
-                version = "20.11.1"
-                break
-
             case "mjs":
-                language = "js"
-                version = "20.11.1"
-                break
+                language = "js";
+                version = "18.15.0";
+                break;
+
+            case "python":
+            case "py":
+                language = "python";
+                version = "3.10.4"; // Example version, change as needed
+                break;
+
+            case "java":
+            case "jav":
+                language = "java";
+                version = "17.0.1"; // Example version, change as needed
+                break;
+
+            case "c":
+            case "gcc":
+                language = "c";
+                version = "11.2.0"; // Example version, change as needed
+                break;
+
+            case "cpp":
+            case "c++":
+                language = "cpp";
+                version = "11.2.0"; // Example version, change as needed
+                break;
+
+            case "ruby":
+            case "rb":
+                language = "ruby";
+                version = "3.1.2"; // Example version, change as needed
+                break;
+
+            case "go":
+            case "golang":
+                language = "go";
+                version = "1.18.1"; // Example version, change as needed
+                break;
+
+            case "rust":
+            case "rs":
+                language = "rust";
+                version = "1.60.0"; // Example version, change as needed
+                break;
+
+            case "php":
+                language = "php";
+                version = "8.1.4"; // Example version, change as needed
+                break;
+
+            case "typescript":
+            case "ts":
+                language = "typescript";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "csharp":
+            case "c#":
+            case "cs":
+                language = "csharp.net";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "cbl":
+            case "cob":
+                language = "cobol";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "ex":
+            case "exs":
+                language = "elixir";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "hs":
+            case "lhs":
+                language = "haskell";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "kt":
+                language = "kotlin";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "lua":
+                language = "lua";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "pl":
+                language = "perl";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "pas":
+                language = "pascal";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "swift":
+                language = "swift";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "zig":
+                language = "zig";
+                version = "4.6.3"; // Example version, change as needed
+                break;
+
+            case "ps1":
+                language = "powershell";
+                version = "4.6.3"; // Example version, change as needed
+                break;
 
             default:
-                break
+                break;
 
         }
-
-        console.log(cml, args, eml, ct, et)
 
         let arg = []
         let temp = ""
 
-        for (i in args) {
-            if(i === ' ') {
-                arg.push(temp)
-                temp = ""
+        if (Array.isArray(args)) {
+            console.log(args)
+            arg = args
+        }
+        else {
+            for (let i in args) {
+                if (args[i] === ' ') {
+                    arg.push(temp)
+                    temp = ""
+                }
+                if (Number(i) === args.length - 1) {
+                    temp += args[i]
+                    arg.push(temp)
+                    break
+                }
+                temp += args[i]
             }
-            temp += i
         }
 
+        console.log(language)
         const payload = {
-            language: language,
-            version: version,
+            language: language,  // Change to your desired language
+            version: "*",        // Use the latest version
             files: [
                 {
-                    name: "file" + language,
-                    content: Einput
+                    name: "main." + language, // The file name (can be anything)
+                    content: Einput // Your code
                 }
             ],
-            stdin: "",
-            args: arg,
-            compile_timeout: ct,
-            run_timeout: et,
-            compile_memory_limit: cml,
-            run_memory_limit: eml
+            "args": arg
         }
-
+        console.log(payload)
         try {
-            const response = await axios.post(
-                "http://localhost:8000/birdge/v1/execute",
-                { "payload": payload },
-                { withCredentials: true }
-            )
 
-            console.log(response.data.run.output)
+            const url = "https://emkc.org/api/v2/piston/execute"
+            const response = await axios.post(url, payload)
+            console.log(response.data)
+            if (response.data) {
+                const today = new Date()
+                const month = today.getMonth() + 1
+                const hours = today.getHours()
+                const minutes = today.getMinutes()
+                const seconds = today.getSeconds()
+
+                const record = await axios.post(
+                    "http://localhost:8000/bridge/v1/labyrinth/record_execute",
+                    {
+                        "date": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
+                        "language": language,
+                        "version": response.data.version,
+                    },
+                    { withCredentials: true }
+                )
+                console.log(record.data)
+            }
 
             const stdout = response.data.run.output
+            console.log(stdout)
             const arr = []
             let temp = ""
             let found = false
 
             for (let i in stdout) {
-
+                console.log(i, stdout.length - 1)
                 if (stdout[i] === "[") {
                     found = true
                     temp += stdout[i]
@@ -281,32 +454,20 @@ const Code = () => {
                         temp = ""
                     }
                 }
+                else if(Number(i) === stdout.length - 1) {
+                    arr.push(temp)
+                    temp = ""
+                }
                 else {
                     temp += stdout[i]
                 }
 
             }
+            console.log(arr)
 
             if (how === "CLI" || how === "direct") {
 
                 set_output(arr)
-
-                const today = new Date()
-                const month = today.getMonth() + 1
-                const hours = today.getHours()
-                const minutes = today.getMinutes()
-                const seconds = today.getSeconds()
-
-                const record = await axios.post(
-                    "http://localhost:8000/bridge/v1/labyrinth/record_execute",
-                    {
-                        "date": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
-                        "language": language,
-                        "version": version,
-                    },
-                    { withCredentials: true }
-                )
-                console.log(record.data)
                 return
 
             }
@@ -315,16 +476,29 @@ const Code = () => {
             set_output(arr)
         }
         catch (err) {
+            console.log(err)
             set_output(["An error occured when trying to run the code"])
         }
     }
 
     const T_get_value = async (value) => {
 
-        if (value === "python" || value === "py" || value === "node") {
+        let arg = false
+        const arr = value.split(' ')
+        if (arr.length > 1) {
+            arg = true
+        }
+
+        if (arr[0] === "run") {
+            if (arg) {
+                set_args(arr.slice(1))
+            }
+            else {
+                set_args([])
+            }
             run("CLI")
         }
-        else if (value === "ls") {
+        else if (arr[0] === "ls") {
             try {
                 const response = await axios.get(
                     "http://localhost:8000/bridge/v1/labyrinth/get_repo_files",
@@ -336,13 +510,13 @@ const Code = () => {
                 set_output(["An error occured"])
             }
         }
-        else if (value === "cd") {
+        else if (arr[0] === "cd") {
             set_output(["cd"])
             set_current_folder(value)
         }
         else {
-            const arr = [`"${value}" ` + "Terminal doesn't recognize that command"]
-            set_output(arr)
+            const out = [`"${value}" ` + "Terminal doesn't recognize that command"]
+            set_output(out)
         }
 
     }
@@ -449,7 +623,21 @@ const Code = () => {
 
     }
 
+    const pdf_opener = (val) => {
+
+
+        if (open_pdf === true) {
+            set_open_pdf(false)
+        }
+        else {
+            set_open_pdf(val)
+        }
+
+    }
+
     const controller_opener = (val) => {
+
+        console.log(val)
 
 
         if (open_controller === true) {
@@ -510,6 +698,7 @@ const Code = () => {
                 music={music_opener}
                 chat={chat_opener}
                 stop_watch={sw_opener}
+                pdf={pdf_opener}
                 font={theme.editor.font}
                 background_color={theme.editor.background}
                 background_complement={theme.editor.background_complement}
@@ -526,7 +715,7 @@ const Code = () => {
                                 defaultPosition={{ x: 0, y: 0 }}
                             >
                                 <motion.div
-                                    className="resize z-40 flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 150, width: 400 }}
+                                    className="resize z-40 flex h-full w-auto overflow-auto border rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 150, width: 350 }}
                                     initial={{
                                         opacity: 0
                                     }}
@@ -544,6 +733,7 @@ const Code = () => {
                                     <div className="flex flex-row overflow-auto items-start">
                                         <div className="w-full">
                                             <YT_Player
+                                                make_close={() => music_opener(false)}
                                                 placeholder={"Search a song"}
                                                 mode={true}
                                                 font_color={theme.editor.font}
@@ -561,7 +751,7 @@ const Code = () => {
                                 defaultPosition={{ x: 0, y: 0 }}
                             >
                                 <motion.div
-                                    className="resize z-40 flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 150, width: 400 }}
+                                    className="resize z-40 flex h-full w-auto overflow-auto border rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 200, width: 400 }}
                                     initial={{
                                         opacity: 0
                                     }}
@@ -578,6 +768,7 @@ const Code = () => {
                                 >
                                     <div className="flex flex-row overflow-auto items-start">
                                         <Stop_Watch
+                                            make_close={() => sw_opener(false)}
                                             font_color={theme.editor.font}
                                             background_color={theme.editor.background}
                                             background_complement={theme.editor.background_complement}
@@ -592,7 +783,7 @@ const Code = () => {
                                 defaultPosition={{ x: 0, y: 0 }}
                             >
                                 <motion.div
-                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 400, width: 900 }}
+                                    className="resize flex h-full w-auto overflow-auto border rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 450, width: 1200 }}
                                     initial={{
                                         opacity: 0
                                     }}
@@ -610,6 +801,7 @@ const Code = () => {
                                     <div className="flex flex-row overflow-auto items-start">
                                         <div className="w-full">
                                             <YT_Player
+                                                make_close={() => video_opener(false)}
                                                 placeholder={"Search a video"}
                                                 mode={false}
                                                 font_color={theme.editor.font}
@@ -627,7 +819,7 @@ const Code = () => {
                                 defaultPosition={{ x: 0, y: 0 }}
                             >
                                 <motion.div
-                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 50, width: 200 }}
+                                    className="resize flex h-full w-auto overflow-auto border rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 80, width: 200 }}
                                     initial={{
                                         opacity: 0
                                     }}
@@ -645,6 +837,7 @@ const Code = () => {
                                     <div className="flex flex-row overflow-auto items-start">
                                         <div className="w-full">
                                             <Clock
+                                                make_close={() => watch_opener(false)}
                                                 font_color={theme.editor.font}
                                                 background_color={theme.editor.background}
                                                 background_complement={theme.editor.background_complement}
@@ -660,7 +853,7 @@ const Code = () => {
                                 defaultPosition={{ x: 0, y: 0 }}
                             >
                                 <motion.div
-                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 200, width: 900 }}
+                                    className="resize flex h-full w-auto overflow-auto border justify-center items-center rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 100, width: 300 }}
                                     initial={{
                                         opacity: 0
                                     }}
@@ -678,11 +871,46 @@ const Code = () => {
                                     <div className="flex flex-row overflow-auto items-start">
                                         <div className="w-full">
                                             <Controller
+                                                make_close={() => controller_opener(false)}
                                                 ct={get_ct}
                                                 et={get_et}
                                                 args={get_args}
                                                 cml={get_cml}
                                                 eml={get_eml}
+                                                font_color={theme.editor.font}
+                                                background_color={theme.editor.background}
+                                                background_complement={theme.editor.background_complement}
+                                                background_second_complement={theme.editor.background_second_complement}
+                                            />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Draggable>
+                        )}
+                        {open_pdf && (
+                            <Draggable
+                                defaultPosition={{ x: 0, y: 0 }}
+                            >
+                                <motion.div
+                                    className="resize flex h-full w-auto overflow-auto border rounded-md" style={{ backgroundColor: theme.editor.background, borderColor: theme.editor.background_second_complement, height: 500, width: 1100 }}
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    exit={{
+                                        opacity: 0
+                                    }}
+                                    transition={{
+                                        type: "spring",
+                                        duration: 0.6
+                                    }}
+                                >
+                                    <div className="flex flex-row overflow-auto">
+                                        <div className="w-full">
+                                            <PDF
+                                                make_close={() => pdf_opener(false)}
                                                 font_color={theme.editor.font}
                                                 background_color={theme.editor.background}
                                                 background_complement={theme.editor.background_complement}
@@ -702,7 +930,8 @@ const Code = () => {
                                 className="flex flex-row h-full"
                             >
                                 <ResizablePanel defaultSize={15}>
-                                    <div className="rounded-none py-2 w-full overflow-auto" style={{ backgroundColor: theme.editor.background, height: "80%" }}>
+                    
+                                    <div className="rounded-none py-2 w-full overflow-auto" style={{ backgroundColor: theme.editor.background, height: "100%" }}>
                                         <Files
                                             send_output={set_output}
                                             get_file_content={get_content}
@@ -751,7 +980,8 @@ const Code = () => {
                         <div className="h-full flex flex-row w-full" style={{ backgroundColor: theme.editor.background }}>
                             <Xterm
                                 current_folder={current_folder}
-                                T_parent_callback={T_get_value} output={output}
+                                T_parent_callback={T_get_value}
+                                output={output}
                                 font={theme.editor.font}
                                 background_color={theme.editor.background}
                                 background_complement={theme.editor.background_complement}

@@ -29,6 +29,7 @@ router.get(
     async(req, res) => {
 
         const id = req.query.id
+        console.log(id)
 
         try{
             const respone = await user_db.find_user_by_id(id)

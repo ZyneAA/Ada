@@ -11,23 +11,19 @@ const Account = ({ background_color, background_complement, background_second_co
     const [session, set_session] = useState(null)
     const [session_exist, set_session_exist] = useState(false)
 
-    if(session === null) {
-        navigate("/")
-    }
-
     useEffect(() => {
 
         const get_session = async () => {
 
             try {
                 const response = await axios.get(
-                    "http://localhost:8000/bridge/v1/labyrinth/auth/check",
+                    "http://localhost:8000/bridge/v1/labyrinth/auth/get",
                     { withCredentials: true }
                 )
-                if(response.data === null){
+                if (response.data === null) {
                     navigate("/login")
                 }
-                console.log(Cookies.get())
+                console.log(response.data)
                 set_session(response.data)
             }
             catch (err) {
@@ -48,7 +44,7 @@ const Account = ({ background_color, background_complement, background_second_co
                     withCredentials: true
                 }
             )
-        
+
             Cookies.remove("connect.sid")
             navigate("/login")
         }

@@ -110,6 +110,24 @@ services:
         networks:
             - alpha
 
+    overwatch:
+        container_name: overwatch
+        build: ./overwatch
+        restart: no
+        develop:
+            watch:
+              - action: sync
+                path: ./overwatch
+                target: /overwatch
+                ignore:
+                    - node_modules
+              - action: rebuild
+                path: package.json
+        ports:
+            - 8004:8004
+        networks:
+            - alpha
+
     mysql:
         image: mysql:latest
         container_name: mysql

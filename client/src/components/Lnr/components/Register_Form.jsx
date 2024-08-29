@@ -1,9 +1,8 @@
 import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Cool_Button_2 from "../../animations/Cool_Button_2"
 import axios from "axios"
-import { BreedingRhombusSpinner } from "react-epic-spinners"
+import { Cover } from "../../animations/Cover";
 import Input_Box from "../../animations/Input_Box"
 
 const Register_Form = ({ background_color, background_complement, background_second_complement, font_color }) => {
@@ -94,7 +93,8 @@ const Register_Form = ({ background_color, background_complement, background_sec
 
         }
         catch (err) {
-            console.error({ "error": err });
+            set_show(false)
+            navigate("/register")
         }
 
     }
@@ -119,7 +119,15 @@ const Register_Form = ({ background_color, background_complement, background_sec
 
     const email_setter = (val) => {
 
-        set_email(val)
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const ok = regex.test(val)
+        if (ok) {
+            set_email(val)
+            set_show(true)
+        }
+        else {
+            set_show(false)
+        }
 
     }
 
@@ -168,7 +176,7 @@ const Register_Form = ({ background_color, background_complement, background_sec
     return (
         <motion.div
             className="border-l py-5 h-auto px-10"
-            style={{ backgroundColor: background_color }}
+            style={{ backgroundColor: background_color, borderColor: background_complement }}
             initial={{
                 opacity: 0
             }}
@@ -250,22 +258,55 @@ const Register_Form = ({ background_color, background_complement, background_sec
 
                     {
                         show === true && un_exist === false ?
-                            <div>
-                                <Cool_Button_2 handle={send_credentials} type="summit" name="Register"
-                                    background_complement={background_complement}
-                                    font_color={font_color}
-                                    background_second_complement={background_second_complement}
-                                />
-                            </div>
+                            <motion.div
+                                initial={{
+                                    opacity: 0
+                                }}
+                                animate={{
+                                    opacity: 1
+                                }}
+                                transition={{
+                                    duration: 1.4,
+                                    type: "spring"
+                                }}
+                            >
+                                <div onClick={send_credentials} className="cursor-pointer">
+                                    <Cover className="w-full" color1={font_color} color2={background_color} color3={background_complement}>
+                                        <p style={{ color: font_color }}>Register now and experience the warp speed of code executoin</p>
+                                    </Cover>
+                                </div>
+                            </motion.div>
                             :
                             un_exist === true ?
-                                <div>
+                                <motion.div
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    transition={{
+                                        duration: 1.4,
+                                        type: "spring"
+                                    }}
+
+                                >
                                     <h1>Username already exist</h1>
-                                </div>
+                                </motion.div>
                                 :
-                                <div>
-                                    <h1 style={{ color: font_color }}>Complete the registration and make sure that both password and comfirmed password are the same. Also the password must contain at least one special character, number(s), at least one uppercase letter, and a minimum of 8 characters</h1>
-                                </div>
+                                <motion.div
+                                    initial={{
+                                        opacity: 0
+                                    }}
+                                    animate={{
+                                        opacity: 1
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        type: "spring"
+                                    }}>
+                                    <h1 style={{ color: font_color }}>To complete the registration and make sure that both password and comfirmed password are the same and fill all the required informations. Also the password must contain at least one special character, number(s), at least one uppercase letter, and a minimum of 8 characters. Also make sure that email is valid.</h1>
+                                </motion.div>
 
                     }
                 </div>

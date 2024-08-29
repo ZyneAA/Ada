@@ -86,7 +86,7 @@ const Monaco = (props) => {
                 theme="A"
                 height="100%" 
                 width="100%"
-                language={props.lang}
+                language="cpp"
                 loading=<SelfBuildingSquareSpinner size="100" color={props.font}/>
                 onMount={editor_mount}
                 options={{
