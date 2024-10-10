@@ -13,6 +13,7 @@ import midnight from "../themes/midnight.json"
 import neon from "../themes/neon.json"
 import urban from "../themes/urban.json"
 import dream from "../themes/dream.json"
+import dawn from "../themes/dawn.json"
 
 const Appearance = ({ background_color, background_complement, background_second_complement, font_color, name }) => {
 
@@ -58,6 +59,25 @@ const Appearance = ({ background_color, background_complement, background_second
                                     background_complement={horizon.editor.background_complement}
                                     font={horizon.editor.font}
                                     background_second_complement={horizon.editor.background_second_complement} />
+                            </a>
+                            <a href="/settings">
+                                <Show_Theme
+                                    rule0={dawn.editor.rules[0].foreground}
+                                    rule1={dawn.editor.rules[1].foreground}
+                                    rule2={dawn.editor.rules[2].foreground}
+                                    diff={dawn.editor.dintinct_color}
+                                    selection={dawn.editor.selection_background}
+                                    cursor={dawn.editor.cursor_foregorund}
+                                    r_name={dawn.theme_name}
+                                    title={dawn.title}
+                                    description={dawn.description}
+                                    is_selected={name}
+                                    name={dawn.name}
+                                    theme_name={set_theme}
+                                    background={dawn.editor.background}
+                                    background_complement={dawn.editor.background_complement}
+                                    font={dawn.editor.font}
+                                    background_second_complement={dawn.editor.background_second_complement} />
                             </a>
                             <a href="/settings">
                                 <Show_Theme

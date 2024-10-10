@@ -196,7 +196,7 @@ const record_visitation = async(user_id, last_visit, last_login) => {
             {
                 user_id: user_id,
                 last_visit: last_visit,
-                last_login, last_login
+                last_login: last_login
             }
         )
     }
@@ -207,13 +207,13 @@ const record_visitation = async(user_id, last_visit, last_login) => {
 }
 
 const update_visitation = async(user_id, last_visit, last_login) => {
-
+    
     try{
         const response = await axios.post(
             `http://vault:8080/vault/update_visitation`,
             {
                 last_visit: last_visit,
-                last_login, last_login,
+                last_login: last_login,
                 user_id: user_id,
             }
         )

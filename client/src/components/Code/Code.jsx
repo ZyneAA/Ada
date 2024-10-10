@@ -93,7 +93,8 @@ const Code = () => {
                     "http://localhost:8000/bridge/v1/labyrinth/auth/check",
                     { withCredentials: true }
                 )
-                if (response.data === false) {
+                console.log(response.data)
+                if (response.data == false) {
                     navigate("/login")
                 }
             }
@@ -118,13 +119,14 @@ const Code = () => {
                     },
                     { withCredentials: true }
                 )
+                console.log(record.data)
             }
             catch (err) {
                 console.log(err)
             }
         }
 
-        check()
+        // check()
         update_visit()
 
     }, [])

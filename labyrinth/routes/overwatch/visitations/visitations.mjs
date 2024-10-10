@@ -126,8 +126,6 @@ router.post(
             body
         } = req
 
-        console.log("here")
-
         try{
             const response = await overwatch_db.update_visitation(req.session.passport.user.user_id, body.last_visit, body.last_login)
             res.status(200).json(response)

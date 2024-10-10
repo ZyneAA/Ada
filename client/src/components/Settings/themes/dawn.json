@@ -1,0 +1,37 @@
+{
+    "theme_name": "Eternity Dawn",
+    "name": "dawn",
+    "title": "Bright and Clean Light Mode",
+    "description": "A simple and clean light theme designed for clarity and focus, with soft colors and high readability for everyday coding.",
+    "bg_class": "bg-light",
+    "editor": {
+        "foreground": "#333333",
+        "background": "#FFFFFF",
+        "background_complement": "#F0F0F0",
+        "background_second_complement": "#537FE7",
+        "font": "#434242",
+        "cursor_foregorund": "#FF0000",
+        "line_highlight_background": "#F0F0F0",
+        "line_number_foreground": "#888888",
+        "selection_background": "#b8a3a3",
+        "inactive_selection_background": "#6482AD",
+        "dintinct_color": "#404258",
+        "rules": [
+            {
+                "token": "identifier",
+                "foreground": "#333333",
+                "fontStyle": "normal"
+            },
+            {
+                "token": "keyword",
+                "foreground": "#FF0000",
+                "fontStyle": "bold"
+            },
+            {
+                "token": "string",
+                "foreground": "#008000",
+                "fontStyle": "normal"
+            }
+        ]
+    }
+}

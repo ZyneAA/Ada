@@ -7,11 +7,12 @@ router.get(
     "/auth/check",
     async(req, res) => {
 
-        if(!req.session.hasOwnProperty("passport")){
-            res.status(200).json(false)
+        if(req.session.hasOwnProperty("passport")){
+            console.log(req.session)
+            res.status(200).json(true)
         }
         else{
-            res.status(200).json(true)
+            res.status(200).json(false)
         }
 
     }

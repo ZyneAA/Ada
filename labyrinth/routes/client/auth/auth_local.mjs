@@ -9,6 +9,8 @@ router.post(
     passport.authenticate("local", {failureMessage: "Authentication Failed"}),
     async(req, res) => {
 
+        req.session.visit = true
+        console.log(req.session)
         res.sendStatus(200)
 
     }

@@ -3,6 +3,7 @@ import Cookies from "js-cookie"
 import { BackgroundBeams } from "../animations/Background_Beams"
 import  { useEffect, useState } from "react"
 import { Cover } from "../animations/Cover"
+import axios from "axios"
 
 const Login = () => {
 
@@ -10,6 +11,15 @@ const Login = () => {
     const [loading, set_loading] = useState(true)
 
     useEffect(() => {
+
+        const get_session = () => {
+
+            const ok = axios.get(
+                "http://localhost:8000/bridge/v1/labyrinth/create_session",
+                {withCredentials: true}
+            )
+
+        }
 
         const config = () => {
 
@@ -32,6 +42,7 @@ const Login = () => {
 
         }
 
+        get_session()
         config()
 
     }, [])
@@ -52,7 +63,7 @@ const Login = () => {
                         Welcome Back
                         </h1>
                         <p className="max-w-lg mx-auto my-2 text-sm text-center relative z-10 pt-2 font-space" style={{color: theme.editor.font}}>
-                        Step into your personalized coding environment, designed to empower your creativity and streamline your workflow. Whether you're working on your next big project or refining your skills, our platform is here to provide all the tools you need.
+                        Step into your personalized coding environment, okddsaqodssesigned to empower your creativity and streamline your workflow. Whether you're working on your next big project or refining your skills, our platform is here to provide all the tools you need.
                         </p>
                     </div>
                     <div className="flex h-max xl:w-1/2 justify-center z-30">

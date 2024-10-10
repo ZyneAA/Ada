@@ -133,18 +133,16 @@ services:
         container_name: mysql
         restart: no
         environment:
-            MYSQL_ROOT_PASSWORD: /run/secrets/DB_PASSWORD
+            MYSQL_ROOT_PASSWORD: adapassword
             MYSQL_DATABASE: ada
             MYSQL_USER: user
-            MYSQL_PASSWORD: /run/secrets/DB_PASSWORD
+            MYSQL_PASSWORD: adapassword
         ports:
             - 3306:3306
         volumes:
             - mysql-data:/var/lib/mysql
         networks:
-            - omega
-        secrets:
-            - DB_PASSWORD
+            - omega 
 
 volumes:
     mysql-data:

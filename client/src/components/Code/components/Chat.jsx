@@ -54,11 +54,7 @@ const Chat = ({ is_open, on_close, font_color, background_complement, background
                 },
                 { withCredentials: true }
             )
-            const markdown = `Here is some JavaScript code:
-            ~~~c++
-            std::cout << "hello" <<std::endl;
-            ~~~
-            `
+
             const ai_response = {
                 message: reponse.data,
                 direction: "incoming",
@@ -66,10 +62,16 @@ const Chat = ({ is_open, on_close, font_color, background_complement, background
             }
 
             set_messages((prev_messages) => [...prev_messages, ai_response])
-            console.log(messages)
             set_is_typing(false)
         }
         catch (err) {
+            const ai_response = {
+                message: "Error Generating Response",
+                direction: "incoming",
+                sender: "ChatGPT"
+            }
+            set_messages((prev_messages) => [...prev_messages, ai_response])
+            set_is_typing(false)
             console.log(err)
         }
 

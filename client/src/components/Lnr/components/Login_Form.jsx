@@ -56,24 +56,6 @@ const Login_Form = (props) => {
                 { withCredentials: true }
             )
 
-            console.log(response.data)
-
-            const today = new Date()
-            const month = today.getMonth() + 1
-            const hours = today.getHours()
-            const minutes = today.getMinutes()
-            const seconds = today.getSeconds()
-
-            const record = axios.post(
-                "http://localhost:8000/bridge/v1/labyrinth/update_visitation",
-                {
-                    "username": username,
-                    "last_login": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
-                    "last_visit": today.getFullYear() + "-" + month + "-" + today.getDate() + " " + hours + ":" + minutes + ":" + seconds,
-                },
-                { withCredentials: true }
-            )
-
             navigate("/code")
         }
         catch (err) {
